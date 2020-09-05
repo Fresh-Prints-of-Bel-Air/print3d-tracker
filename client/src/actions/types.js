@@ -1,0 +1,1 @@
+export const PLACEHOLDER_TYPE = 'PLACEHOLDER_TYPE';
