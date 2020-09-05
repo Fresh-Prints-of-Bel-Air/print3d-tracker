@@ -1,0 +1,27 @@
+{
+  "name": "print3d-tracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Fresh-Prints-of-Bel-Air/print3d-tracker.git"
+  },
+  "author": "Daniel Sanchez & Ryan Huculak",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Fresh-Prints-of-Bel-Air/print3d-tracker/issues"
+  },
+  "homepage": "https://github.com/Fresh-Prints-of-Bel-Air/print3d-tracker#readme",
+  "dependencies": {
+    "axios": "^0.20.0",
+    "bcrypt": "^5.0.0",
+    "config": "^3.3.1",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.3"
+  }
+}
