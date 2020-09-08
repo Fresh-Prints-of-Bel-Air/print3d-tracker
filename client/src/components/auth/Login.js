@@ -8,21 +8,40 @@ export const Login = (props) => {
   });
   const { email, password } = user;
 
+  const onChange = (e) => {
+    setUser({
+      ...user,
+      [e.target.name]: e.target.value
+    });
+  }
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    if(email !== '' || password !== ''){
+      login({
+        email,
+        password
+      })
+    } else {
+      // call a setAlert?
+    }
+  }
+
   return (
     <div>
       <h2 className='center-align'>Login</h2>
 
-      <form className='center-align'>
+      <form className='center-align' onSubmit={onSubmit}>
         <div className='row center-align'>
           <div className='input-field col s4 offset-s4'>
-            <input id='email' type='email' className='validate' />
+            <input id='email' type='email' className='validate' onChange={onChange}/>
             <label for='email'>Email</label>
           </div>
         </div>
 
         <div className='row center-align'>
           <div className='input-field col s4 offset-s4'>
-            <input id='password' type='password' className='validate' />
+            <input id='password' type='password' className='validate' onChange={onChange}/>
             <label for='password'>Password</label>
           </div>
         </div>
