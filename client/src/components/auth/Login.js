@@ -28,9 +28,20 @@ export const Login = (props) => {
         </div>
       </form>
       <div className='center-align'>
-        <li>
-          <Link to='/Register'>Need to Register?</Link>
-        </li>
+        <ul>
+          <li style={{ display: 'inline-block', margin: '50px' }}>
+            <Link to='/Register'>
+              <a display='block' class='waves-effect waves-light btn'>
+                Need to register?
+              </a>
+            </Link>
+          </li>
+          <li style={{ display: 'inline-block', margin: '50px' }}>
+            <Link to='/ForgotPassword'>
+              <a class='waves-effect waves-light btn'>Forgot Password?</a>
+            </Link>
+          </li>
+        </ul>
       </div>
     </div>
   );
