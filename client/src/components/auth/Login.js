@@ -27,11 +27,11 @@ export const Login = (props) => {
           </div>
         </div>
       </form>
-      <Fragment>
+      <div className='center-align'>
         <li>
           <Link to='/Register'>Need to Register?</Link>
         </li>
-      </Fragment>
+      </div>
     </div>
   );
 };
