@@ -61,26 +61,27 @@ export const Login = (props) => {
       </form>
       <div className='row'>
         <div className='col s4 offset-s4'>
-          <a
-            class='waves-effect waves-light btn-large'
-            style={{ width: '100%' }}
-            onSubmit={onSubmit}
+          <button
+            class='waves-effect waves-light btn-large col s12 blue darken-1'
+            type='submit'
           >
             Login
-          </a>
+          </button>
         </div>
       </div>
       <div className='row'>
         <div className='col s2 offset-s4'>
           <Link to='/Register'>
-            <a class='waves-effect waves-light btn col s12'>
+            <a class='waves-effect waves-light btn col s12 blue darken-1'>
               Need to register?
             </a>
           </Link>
         </div>
         <div className='col s2'>
           <Link to='/ForgotPassword'>
-            <a class='waves-effect waves-light btn col s12'>Forgot Password?</a>
+            <a class='waves-effect waves-light btn col s12 blue darken-1'>
+              Forgot Password?
+            </a>
           </Link>
         </div>
       </div>
