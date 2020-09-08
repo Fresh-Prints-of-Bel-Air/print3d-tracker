@@ -2,6 +2,8 @@ import React, { Fragment, useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import logo from './logo.svg';
 import './App.css';
+import { Provider } from 'react-redux';
+import store from './store';
 import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css/dist/js/materialize.min.js';
 import Navbar from './components/layout/Navbar';
@@ -12,14 +14,16 @@ function App() {
     M.AutoInit();
   });
   return (
-    <Fragment>
-      <Router>
-        <Navbar />
-        <Switch>
-          <Route exact path='/login' component={Login} />
-        </Switch>
-      </Router>
-    </Fragment>
+    <Provider store={store}>
+      <Fragment>
+        <Router>
+          <Navbar />
+          <Switch>
+            <Route exact path='/login' component={Login} />
+          </Switch>
+        </Router>
+      </Fragment>
+    </Provider>
   );
 }
 

@@ -6,7 +6,7 @@ export const Navbar = () => {
         <nav style={{ marginBottom: '30px' }} className='blue'>
             <div className="nav-wrapper">
                 <ul id="nav-mobile" class="right hide-on-med-and-down">
-                    <li><Link to='login'>Login TEST</Link></li>
+                    <li><Link to='login'>Login</Link></li>
                 </ul>
             </div>
         </nav>

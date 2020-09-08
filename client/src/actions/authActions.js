@@ -2,9 +2,20 @@ import { PLACEHOLDER_TYPE } from './types';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import { FloatingActionButton } from 'materialize-css';
+import {
+    REGISTER_SUCCESS,
+    REGISTER_FAIL,
+    USER_LOADED,
+    AUTH_ERROR,
+    LOGIN_SUCCESS,
+    LOGIN_FAIL,
+    LOGOUT,
+    CLEAR_ERRORS
+} from './types'
+
 
 // Load user
-export const loadUser = async () => {
+export const loadUser = () => async dispatch => {
     if(localStorage.token) {
         setAuthToken(localStorage.token);
     }
@@ -18,7 +29,7 @@ export const loadUser = async () => {
 }
 
 // Register User
-export const register = async (formData) => {
+export const register = (formData) => async dispatch => {
     const config = {
         headers: {
             'Content-Type:': 'application/json'
@@ -40,7 +51,7 @@ export const register = async (formData) => {
 }
 
 // Login user
-export const login = async (formData) => {
+export const login = (formData) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
@@ -62,9 +73,9 @@ export const login = async (formData) => {
 }
 
 // Logout
-export const logout = () => dispatch({ type: LOGOUT })
+export const logout = () => async dispatch => dispatch({ type: LOGOUT })
 
 // Clear Errors
-export const clearErrors = () => dispatch({
+export const clearErrors = () => async dispatch => dispatch({
     type: CLEAR_ERRORS 
 });

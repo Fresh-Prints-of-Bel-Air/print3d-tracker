@@ -1,5 +1,8 @@
 import React, { Fragment, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { login } from '../../actions/authActions';
+
 export const Login = (props) => {
   useEffect(() => {});
   const [user, setUser] = useState({
@@ -46,24 +49,22 @@ export const Login = (props) => {
           </div>
         </div>
       </form>
-      <div className='center-align'>
-        <ul>
-          <li style={{ display: 'inline-block', margin: '50px' }}>
+      <div className='row center-align'>
+          <div className='col s2 offset-s4'>
             <Link to='/Register'>
               <a display='block' class='waves-effect waves-light btn'>
                 Need to register?
               </a>
             </Link>
-          </li>
-          <li style={{ display: 'inline-block', margin: '50px' }}>
+          </div>
+          <div className='col s2'>
             <Link to='/ForgotPassword'>
               <a class='waves-effect waves-light btn'>Forgot Password?</a>
             </Link>
-          </li>
-        </ul>
+          </div>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default connect(null, { login })(Login);
