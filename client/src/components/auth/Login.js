@@ -73,16 +73,14 @@ export const Login = (props) => {
       <div className='row'>
         <div className='col s2 offset-s4'>
           <Link to='/Register'>
-            <a class='waves-effect waves-light btn' style={{ width: '100%' }}>
+            <a class='waves-effect waves-light btn col s12'>
               Need to register?
             </a>
           </Link>
         </div>
         <div className='col s2'>
           <Link to='/ForgotPassword'>
-            <a class='waves-effect waves-light btn' style={{ width: '100%' }}>
-              Forgot Password?
-            </a>
+            <a class='waves-effect waves-light btn col s12'>Forgot Password?</a>
           </Link>
         </div>
       </div>
