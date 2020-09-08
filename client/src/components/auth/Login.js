@@ -14,54 +14,77 @@ export const Login = (props) => {
   const onChange = (e) => {
     setUser({
       ...user,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
-  }
+  };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if(email !== '' || password !== ''){
+    if (email !== '' || password !== '') {
       login({
         email,
-        password
-      })
+        password,
+      });
     } else {
       // call a setAlert?
     }
-  }
+  };
 
   return (
     <div>
       <h2 className='center-align'>Login</h2>
 
       <form className='center-align' onSubmit={onSubmit}>
-        <div className='row center-align'>
+        <div className='row'>
           <div className='input-field col s4 offset-s4'>
-            <input id='email' type='email' className='validate' onChange={onChange}/>
+            <input
+              id='email'
+              type='email'
+              className='validate'
+              onChange={onChange}
+            />
             <label for='email'>Email</label>
           </div>
         </div>
 
-        <div className='row center-align'>
+        <div className='row'>
           <div className='input-field col s4 offset-s4'>
-            <input id='password' type='password' className='validate' onChange={onChange}/>
+            <input
+              id='password'
+              type='password'
+              className='validate'
+              onChange={onChange}
+            />
             <label for='password'>Password</label>
           </div>
         </div>
       </form>
-      <div className='row center-align'>
-          <div className='col s2 offset-s4'>
-            <Link to='/Register'>
-              <a display='block' class='waves-effect waves-light btn'>
-                Need to register?
-              </a>
-            </Link>
-          </div>
-          <div className='col s2'>
-            <Link to='/ForgotPassword'>
-              <a class='waves-effect waves-light btn'>Forgot Password?</a>
-            </Link>
-          </div>
+      <div className='row'>
+        <div className='col s4 offset-s4'>
+          <a
+            class='waves-effect waves-light btn-large'
+            style={{ width: '100%' }}
+            onSubmit={onSubmit}
+          >
+            Login
+          </a>
+        </div>
+      </div>
+      <div className='row'>
+        <div className='col s2 offset-s4'>
+          <Link to='/Register'>
+            <a class='waves-effect waves-light btn' style={{ width: '100%' }}>
+              Need to register?
+            </a>
+          </Link>
+        </div>
+        <div className='col s2'>
+          <Link to='/ForgotPassword'>
+            <a class='waves-effect waves-light btn' style={{ width: '100%' }}>
+              Forgot Password?
+            </a>
+          </Link>
+        </div>
       </div>
     </div>
   );
