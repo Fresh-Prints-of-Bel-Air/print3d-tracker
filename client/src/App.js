@@ -8,17 +8,21 @@ import 'materialize-css/dist/css/materialize.min.css';
 import M from 'materialize-css/dist/js/materialize.min.js';
 import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
+import Home from './components/Home';
+import PrivateRoute from './components/routing/PrivateRoute';
 
 function App() {
   useEffect(() => {
     M.AutoInit();
+    console.log(store.getState());
   });
   return (
     <Provider store={store}>
       <Fragment>
         <Router>
           <Navbar />
-          <Switch>
+          <Switch> 
+            <PrivateRoute exact path='/' component={Home} />
             <Route exact path='/login' component={Login} />
           </Switch>
         </Router>

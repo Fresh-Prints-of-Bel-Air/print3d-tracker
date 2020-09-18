@@ -43,7 +43,7 @@ export const Login = (props) => {
               className='validate'
               onChange={onChange}
             />
-            <label for='email'>Email</label>
+            <label htmlFor='email'>Email</label>
           </div>
         </div>
 
@@ -55,14 +55,14 @@ export const Login = (props) => {
               className='validate'
               onChange={onChange}
             />
-            <label for='password'>Password</label>
+            <label htmlFor='password'>Password</label>
           </div>
         </div>
       </form>
       <div className='row'>
         <div className='col s4 offset-s4'>
           <button
-            class='waves-effect waves-light btn-large col s12 blue darken-1'
+            className='waves-effect waves-light btn-large col s12 blue darken-1'
             type='submit'
           >
             Login
@@ -72,7 +72,7 @@ export const Login = (props) => {
       <div className='row'>
         <div className='col s2 offset-s4'>
           <Link to='/Register'>
-            <a class='waves-effect waves-light btn col s12 blue darken-1'>
+            <a className='waves-effect waves-light btn col s12 blue darken-1'>
               Need to register?
             </a>
           </Link>
