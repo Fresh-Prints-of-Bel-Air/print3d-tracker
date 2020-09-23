@@ -20,7 +20,7 @@ export const Login = (props) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    if (email !== '' || password !== '') {
+    if (email !== '' && password !== '') {
       login({
         email,
         password,
