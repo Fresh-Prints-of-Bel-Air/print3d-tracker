@@ -4,7 +4,7 @@ import buildReducer from './buildReducer';
 import jobReducer from './jobReducer';
 
 export default combineReducers({
-    user: authReducer,
-    build: buildReducer,
-    job: jobReducer
+  user: authReducer,
+  build: buildReducer,
+  job: jobReducer,
 });

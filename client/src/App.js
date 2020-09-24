@@ -9,7 +9,7 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
-import Home from './components/Home';
+import Home from './components/pages/Home';
 import PrivateRoute from './components/routing/PrivateRoute';
 
 function App() {
