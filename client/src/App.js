@@ -21,7 +21,7 @@ function App() {
       <Fragment>
         <Router>
           <Navbar />
-          <Switch> 
+          <Switch>
             <PrivateRoute exact path='/' component={Home} />
             <Route exact path='/login' component={Login} />
           </Switch>

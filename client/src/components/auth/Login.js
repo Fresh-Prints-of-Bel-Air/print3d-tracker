@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
@@ -72,16 +72,16 @@ export const Login = (props) => {
       <div className='row'>
         <div className='col s2 offset-s4'>
           <Link to='/Register'>
-            <a className='waves-effect waves-light btn col s12 blue darken-1'>
+            <i className='waves-effect waves-light btn col s12 blue darken-1'>
               Need to register?
-            </a>
+            </i>
           </Link>
         </div>
         <div className='col s2'>
           <Link to='/ForgotPassword'>
-            <a class='waves-effect waves-light btn col s12 blue darken-1'>
+            <i className='waves-effect waves-light btn col s12 blue darken-1'>
               Forgot Password?
-            </a>
+            </i>
           </Link>
         </div>
       </div>

@@ -4,24 +4,22 @@ import store from '../../store.js';
 import { connect } from 'react-redux';
 
 export const PrivateRoute = ({ component: Component, user, ...rest }) => {
-    
-    return (
-        <Route
-            {...rest}
-            render={props => 
-                !user.isAuthenticated && !user.loading ? (
-                    <Redirect to='/login' />
-                ) : (
-                   <Component {...props} />
-                )
-            }
-        />
-    );
-}
+  return (
+    <Route
+      {...rest}
+      render={(props) =>
+        !user.isAuthenticated && !user.loading ? (
+          <Redirect to='/login' />
+        ) : (
+          <Component {...props} />
+        )
+      }
+    />
+  );
+};
 
-const mapStateToProps = state => ({
-    user: state.user,
+const mapStateToProps = (state) => ({
+  user: state.user,
 });
 
 export default connect(mapStateToProps)(PrivateRoute);
-    
