@@ -3,17 +3,27 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
 
-export const Login = (props) => {
-  useEffect(() => {});
-  const [user, setUser] = useState({
+export const Login = (props, user) => {
+  const { isAuthenticated } = user;
+  useEffect(() => {
+    if(isAuthenticated){
+      props.history.push('/');
+    }
+    // if(error === 'Invalid Credentials') {
+    //   setAlert(error, 'danger');
+    //   clearErrors();
+    // } 
+
+  }, [isAuthenticated, props.history]);
+  const [userFormData, setUserFormData] = useState({
     email: '',
     password: '',
   });
-  const { email, password } = user;
+  const { email, password } = userFormData;
 
   const onChange = (e) => {
-    setUser({
-      ...user,
+    setUserFormData({
+      ...userFormData,
       [e.target.name]: e.target.value,
     });
   };
@@ -58,17 +68,18 @@ export const Login = (props) => {
             <label htmlFor='password'>Password</label>
           </div>
         </div>
-      </form>
-      <div className='row'>
-        <div className='col s4 offset-s4'>
-          <button
-            className='waves-effect waves-light btn-large col s12 blue darken-1'
-            type='submit'
-          >
-            Login
-          </button>
+        <div className='row'>
+          <div className='col s4 offset-s4'>
+            <button
+              className='waves-effect waves-light btn-large col s12 blue darken-1'
+              type='submit'
+            >
+              Login
+            </button>
+          </div>
         </div>
-      </div>
+      </form>
+      
       <div className='row'>
         <div className='col s2 offset-s4'>
           <Link to='/Register'>
@@ -89,4 +100,8 @@ export const Login = (props) => {
   );
 };
 
-export default connect(null, { login })(Login);
+const mapStateToProps = (state) => ({
+  user: state.user
+});
+
+export default connect(mapStateToProps, { login })(Login);

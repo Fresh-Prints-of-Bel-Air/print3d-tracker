@@ -25,8 +25,11 @@ export const Register = (props, user) => {
         ...registerFormData, [e.target.name]: e.target.value 
     });
 
-    const onSubmit = () => {
+    const onSubmit = (e) => {
+        e.preventDefault();
+        console.log('onSubmit called');
         if((name !== '' && email !== '' && password !== '' && password2 !== '') && password === password2){
+            console.log('form data valid');
             register({
                 name,
                 email, 
@@ -93,20 +96,21 @@ export const Register = (props, user) => {
                         <label htmlFor='password2'>Password2</label>
                     </div>
                 </div>
+                <div className='row'>
+                <div className='col s4 offset-s4'>
+                        <button
+                            className='waves-effect waves-light btn-large col s12 blue darken-1'
+                            type='submit'
+                        >
+                            Register
+                        </button>
+                    </div>
+                </div>
             </form>
-            <div className='row'>
-            <div className='col s4 offset-s4'>
-                <button
-                className='waves-effect waves-light btn-large col s12 blue darken-1'
-                type='submit'
-                >
-                Register
-                </button>
-            </div>
-            </div>
+            
             <div className='row'>
                 <div className='col s2 offset-s4'>
-                <Link to='/Register'>
+                <Link to='/Login'>
                     <a className='waves-effect waves-light btn col s12 blue darken-1'>
                     Login
                     </a>
@@ -114,7 +118,7 @@ export const Register = (props, user) => {
                 </div>
                 <div className='col s2'>
                 <Link to='/ForgotPassword'>
-                    <a class='waves-effect waves-light btn col s12 blue darken-1'>
+                    <a className='waves-effect waves-light btn col s12 blue darken-1'>
                     Forgot Password?
                     </a>
                 </Link>
