@@ -9,10 +9,10 @@ const app = express();
 app.use(express.json());
 
 // Define routes
-//app.use('/api/auth', require('./routes/auth'));
-//app.use('/api/users', require('./routes/users'));
-//app.use('/api/jobs', require('./routes/jobs'));
-app.use('/api/builds', require('./routes/builds'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/users', require('./routes/users'));
+// app.use('/api/jobs', require('./routes/jobs'));
+// app.use('/api/builds', require('./routes/builds'));
 
 const PORT = process.env.PORT || 5000;
 

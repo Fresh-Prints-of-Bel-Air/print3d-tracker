@@ -30,9 +30,10 @@ export const loadUser = () => async (dispatch) => {
 
 // Register User
 export const register = (formData) => async (dispatch) => {
+  console.log('register action is being called');
   const config = {
     headers: {
-      'Content-Type:': 'application/json',
+      'Content-Type': 'application/json',
     },
   };
   try {
@@ -43,10 +44,11 @@ export const register = (formData) => async (dispatch) => {
     });
     loadUser();
   } catch (err) {
-    dispatch({
-      type: REGISTER_FAIL,
-      payload: err.response.data.msg,
-    });
+    console.log(err);
+    // dispatch({
+    //   type: REGISTER_FAIL,
+    //   payload: err.response.data.msg,
+    // });
   }
 };
 
