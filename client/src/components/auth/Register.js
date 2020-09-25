@@ -3,15 +3,15 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { register } from '../../actions/authActions';
 
-export const Register = (props, user) => {
+export const Register = ({ register, user, ...rest }) => {
     const { isAuthenticated } = user;
 
     useEffect(() => {
-        console.log(user);
+        // console.log(user);
         if(isAuthenticated) {
-            props.history.push('/');
+            rest.history.push('/');
         }
-    }, [isAuthenticated, props.history]);
+    }, [isAuthenticated, rest.history]);
 
     const [registerFormData, setRegisterFormData] = useState({
         name: '',

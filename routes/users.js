@@ -23,6 +23,7 @@ router.post(
         check('password', 'Please enter 6 or more characters').isLength({ min: 6 })
     ], 
     async (req, res) => {
+        console.log('request begins');
         // contains errors as a result of the check calls
         const errors = validationResult(req);
         // if we have errors, we return a status 400
@@ -82,3 +83,5 @@ router.post(
             res.status(500).send('Server Error');
         }
 })
+
+module.exports = router;

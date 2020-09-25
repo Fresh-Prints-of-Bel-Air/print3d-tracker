@@ -1,4 +1,3 @@
-import { PLACEHOLDER_TYPE } from './types';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
 import { FloatingActionButton } from 'materialize-css';
@@ -30,19 +29,24 @@ export const loadUser = () => async dispatch => {
 
 // Register User
 export const register = (formData) => async dispatch => {
+    console.log("register called");
     const config = {
         headers: {
-            'Content-Type:': 'application/json'
-        }
+            'Content-Type': 'application/json'
+          }
     }
     try {
         const res = await axios.post('/api/users', formData, config);
+        console.log("made it past res");
+        console.log(res);
         dispatch({
             type: REGISTER_SUCCESS,
             payload: res.data
         })
         loadUser();
     } catch (err) {
+        console.log("caught exception");
+        console.log(err);
         dispatch({
             type: REGISTER_FAIL,
             payload: err.response.data.msg
