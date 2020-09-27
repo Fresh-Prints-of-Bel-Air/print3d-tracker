@@ -20,7 +20,7 @@ router.post(
             .not()
             .isEmpty(),
         check('email', 'Please include a valid email').isEmail(),
-        check('password', 'Please enter 6 or more characters').isLength({ min: 6 })
+        check('password', 'Please enter 4 or more characters').isLength({ min: 4 })
     ], 
     async (req, res) => {
         console.log('request begins');
@@ -33,19 +33,22 @@ router.post(
                 errors: errors.array() 
             });
         }
+        console.log("errors is empty");
         // destructuring the fields from the request
         const { name, email, password } = req.body
 
         try {
             // Mongoose call to find a User with that email, to see if it's already been registered
-            let user = User.findOne({ email });
-
+            let user = await User.findOne({ email });
+            console.log("findOne is a function");
             // evaluates to true if a user with that email was found
             if(user) {
+                console.log("user already exists");
                 return res.status(400).json({
                     msg: 'User already exists'
                 });
             }
+            console.log("user doesn't already exist");
             
             // Creates new user object out of the destructured variables from the request
             user = new User({
@@ -82,6 +85,6 @@ router.post(
             console.error(err.message);
             res.status(500).send('Server Error');
         }
-})
+});
 
 module.exports = router;

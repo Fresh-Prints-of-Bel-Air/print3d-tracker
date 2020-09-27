@@ -23,3 +23,5 @@ const UserSchema = mongoose.Schema({
     ref: 'jobs',
   },
 });
+
+module.exports = mongoose.model('User', UserSchema);
