@@ -3,18 +3,17 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../../actions/authActions';
 
-export const Login = (props, user) => {
+export const Login = ({ user, login, ...rest }) => {
   const { isAuthenticated } = user;
   useEffect(() => {
-    if(isAuthenticated){
-      props.history.push('/');
+    if (isAuthenticated) {
+      rest.history.push('/');
     }
     // if(error === 'Invalid Credentials') {
     //   setAlert(error, 'danger');
     //   clearErrors();
-    // } 
-
-  }, [isAuthenticated, props.history]);
+    // }
+  }, [isAuthenticated, rest.history]);
   const [userFormData, setUserFormData] = useState({
     email: '',
     password: '',
@@ -31,6 +30,7 @@ export const Login = (props, user) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (email !== '' && password !== '') {
+      console.log('submit called:' + email + ' ' + password);
       login({
         email,
         password,
@@ -48,6 +48,7 @@ export const Login = (props, user) => {
         <div className='row'>
           <div className='input-field col s4 offset-s4'>
             <input
+              name='email'
               id='email'
               type='email'
               className='validate'
@@ -60,6 +61,7 @@ export const Login = (props, user) => {
         <div className='row'>
           <div className='input-field col s4 offset-s4'>
             <input
+              name='password'
               id='password'
               type='password'
               className='validate'
@@ -79,7 +81,7 @@ export const Login = (props, user) => {
           </div>
         </div>
       </form>
-      
+
       <div className='row'>
         <div className='col s2 offset-s4'>
           <Link to='/Register'>
@@ -101,7 +103,7 @@ export const Login = (props, user) => {
 };
 
 const mapStateToProps = (state) => ({
-  user: state.user
+  user: state.user,
 });
 
 export default connect(mapStateToProps, { login })(Login);

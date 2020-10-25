@@ -7,7 +7,6 @@ export const Register = ({ user, register, ...rest }) => {
   const { isAuthenticated } = user;
 
   useEffect(() => {
-    console.log(user);
     if (isAuthenticated) {
       rest.history.push('/');
     }
@@ -119,16 +118,16 @@ export const Register = ({ user, register, ...rest }) => {
       <div className='row'>
         <div className='col s2 offset-s4'>
           <Link to='/Login'>
-            <a className='waves-effect waves-light btn col s12 blue darken-1'>
+            <i className='waves-effect waves-light btn col s12 blue darken-1'>
               Login
-            </a>
+            </i>
           </Link>
         </div>
         <div className='col s2'>
           <Link to='/ForgotPassword'>
-            <a className='waves-effect waves-light btn col s12 blue darken-1'>
+            <i className='waves-effect waves-light btn col s12 blue darken-1'>
               Forgot Password?
-            </a>
+            </i>
           </Link>
         </div>
       </div>

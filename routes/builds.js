@@ -7,6 +7,7 @@ const { check, validationResult } = require('express-validator/check');
 const config = require('config');
 const auth = require('../middleware/auth');
 const Build = require('../models/Build');
+const { buildSanitizeFunction } = require('express-validator');
 
 //@route POST api/builds
 //@desc Add a build
@@ -15,7 +16,7 @@ router.post(
   '/',
   [
     auth,
-    check('id', 'ID needed').notEmpty(), //the ID of the associated job
+    check('id', 'ID needed').notEmpty(), //the ID of the associated job, mongoose generates IDs
     check(
       ['partsBuilding', 'material', 'resolution'],
       'Please make sure the parts being built, the material, and the build resolution are all supplied'
@@ -34,7 +35,7 @@ router.post(
     )
       .if(check('estPrintTime').exists)
       .isNumeric(),
-    check('status', 'Please enter a status for the build').notEmpty(),
+    check('status', 'Please enter a status for the build').notEmpty(), //make sure it's an enum
     check(
       'buildFileName',
       'Please provide the name of the build file'
@@ -44,7 +45,7 @@ router.post(
       'operators',
       'Please provide the names of the operators for the build'
     ).notEmpty(),
-  ],
+  ], //array of middlewares
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty) {
@@ -65,48 +66,102 @@ router.post(
     }
   }
 );
+//@route PUT api/builds
+//@desc Update a build. Frontend prefills fields with existing values. User may update certain values (not empty).
+//@access Public
+router.put(
+  '/:id', 
+  [ 
+    auth,
+    check(
+      'partsBuilding',
+      'Invalid format for Parts Building'
+    )
+      .notEmpty()
+      .isString(),
+    check(
+      'material',
+      'Invalid format for material'
+    )
+      .notEmpty()
+      .isString(),
+    check(
+      'resolution',
+      'Invalid format for resolution'
+    )
+      .notEmpty()
+      .isString(),
+    check(
+      'dateStarted', 
+      'Please enter the date the build was started'
+    )
+      .notEmpty()
+      .isDate(),
+    check(
+      'dateDelivered', 
+      'Please enter a valid date'
+    )
+      .notEmpty()
+      .isDate(),
+    check(
+      'estPrintTime',
+      'Please enter a numeric value indicating the number of hours to completion for the current build'
+    )
+      .notEmpty()
+      .isNumeric(),
+    check(
+      'status', 
+      'Please enter a status for the build'
+    )
+      .notEmpty()
+      .isString(),
+    check(
+      'buildFileName',
+      'Please provide the name of the build file as a string'
+    )
+      .notEmpty()
+      .isString(),
+    check(
+      'buildFilePath', 
+      'Please enter the build file path'
+    )
+      .notEmpty()
+      .isString(),
+    check(
+      'operators',
+      'Please provide the names of the operators for the build'
+    )
+      .notEmpty()
+      .isString(),
+  ],
+  async (req, res) => {
+    const errors = validationResult(req);
+    if (!errors.isEmpty) {
+      //handle errors
+      return res.status(400).json({ errors: errors.array() });
+    }
 
-// router.put('/:id', auth,
-// check(
-//   'partsBuilding',
-//   'Invalid format for Parts Building'
-// )
-//   .if(check(('partsBuilding').exists)
-//   .isString(),
-// check(
-//   'material',
-//   'Invalid format for material'
-// )
-//   .if(check(('material').exists)
-//   .isString(),
-// check(
-//   'resolution',
-//   'Invalid format for resolution'
-// )
-//   .if(check(('resolution').exists)
-//   .isString(),
-// check('dateStarted', 'Please enter the date the build was started')
-//   .if(check('dateStarted').exists)
-//   .isDate(),
-// check('dateDelivered', 'Please enter a valid date')
-//   .if(check('dateDelivered').exists)
-//   .isDate(),
-// check(
-//   'estPrintTime',
-//   'Please enter a numeric value indicating the number of hours to completion for the current build'
-// )
-//   .if(check('estPrintTime').exists)
-//   .isNumeric(),
-// check('status', 'Please enter a status for the build').if(check('status').exists)
-// .isString(),
-// check(
-//   'buildFileName',
-//   'Please provide the name of the build file as a string'
-// ).if(check('buildFileName').exists,
-// check('buildFilePath', 'Please enter the build file path').notEmpty(),
-// check(
-//   'operators',
-//   'Please provide the names of the operators for the build'
-// ).notEmpty(),)
+    try {
+      const {partsBuilding, material, resolution, dateStarted, dateDelivered, estPrintTime, status, buildFileName, buildFilePath, operators} = req.body;
+      let build = await Build.findByIdAndUpdate(
+        req.params.id, 
+        {
+          partsBuilding, 
+          material, 
+          resolution, 
+          dateStarted, 
+          dateDelivered, 
+          estPrintTime, 
+          status, 
+          buildFileName, 
+          buildFilePath, 
+          operators
+        });
+        res.json(build);
+      } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
 
 module.exports = router;

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
-
 const jwt = require('jsonwebtoken');
 const config = require('config');
 const User = require('../models/User');
@@ -35,7 +34,7 @@ router.post(
 
     try {
       // Mongoose call to find a User with that email, to see if it's already been registered
-      let user = User.findOne({ email });
+      user = await User.findOne({ email: email });
 
       // evaluates to true if a user with that email was found
       if (user) {

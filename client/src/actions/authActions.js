@@ -1,7 +1,6 @@
-import { PLACEHOLDER_TYPE } from './types';
 import axios from 'axios';
 import setAuthToken from '../utils/setAuthToken';
-import { FloatingActionButton } from 'materialize-css';
+//import { FloatingActionButton } from 'materialize-css';
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -45,15 +44,16 @@ export const register = (formData) => async (dispatch) => {
     loadUser();
   } catch (err) {
     console.log(err);
-    // dispatch({
-    //   type: REGISTER_FAIL,
-    //   payload: err.response.data.msg,
-    // });
+    dispatch({
+      type: REGISTER_FAIL,
+      payload: err.response.data.msg,
+    });
   }
 };
 
 // Login user
 export const login = (formData) => async (dispatch) => {
+  console.log('login request');
   const config = {
     headers: {
       'Content-Type': 'application/json',
