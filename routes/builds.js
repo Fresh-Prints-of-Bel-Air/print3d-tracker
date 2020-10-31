@@ -9,6 +9,22 @@ const auth = require('../middleware/auth');
 const Build = require('../models/Build');
 const { buildSanitizeFunction } = require('express-validator');
 
+//@route GET api/builds
+//@desc Get a build
+//@access Public
+router.get(
+  '/:id', 
+  // auth, 
+  async (req, res) => {
+  try {
+      const build = await Build.findById(req.params.id);
+      res.json(build);
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('server error');
+  }
+});
+
 //@route POST api/builds
 //@desc Add a build
 //@access Public
