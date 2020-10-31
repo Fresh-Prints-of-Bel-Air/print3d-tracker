@@ -9,6 +9,22 @@ const auth = require('../middleware/auth');
 const Build = require('../models/Build');
 const { buildSanitizeFunction } = require('express-validator');
 
+//@route GET api/builds
+//@desc Get a build
+//@access Public
+router.get(
+  '/:id', 
+  // auth, 
+  async (req, res) => {
+  try {
+      const build = await Build.findById(req.params.id);
+      res.json(build);
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('server error');
+  }
+});
+
 //@route POST api/builds
 //@desc Add a build
 //@access Public
@@ -142,26 +158,54 @@ router.put(
     }
 
     try {
-      const {partsBuilding, material, resolution, dateStarted, dateDelivered, estPrintTime, status, buildFileName, buildFilePath, operators} = req.body;
+      const {associatedJobs, partsBuilding, material, resolution, dateStarted, dateDelivered, estPrintTime, status, buildFileName, buildFilePath, operators} = req.body;
+      
+      const buildFields = {};
+      if(associatedJobs) buildFields.associatedJobs = associatedJobs;
+      if(partsBuilding) buildFields.partsBuilding = partsBuilding;
+      if(material) buildFields.material = material;
+      if(resolution) buildFields.resolution = resolution;
+      if(dateStarted) buildFields.dateStarted = dateStarted;
+      if(dateDelivered) buildFields.dateDelivered = dateDelivered;
+      if(estPrintTime) buildFields.estPrintTime = estPrintTime;
+      if(status) buildFields.status = status;
+      if(buildFileName) buildFields.buildFileName = buildFileName;
+      if(buildFilePath) buildFields.buildFilePath = buildFilePath;
+      if(operators) buildFields.operators = operators;
+      
       let build = await Build.findByIdAndUpdate(
         req.params.id, 
-        {
-          partsBuilding, 
-          material, 
-          resolution, 
-          dateStarted, 
-          dateDelivered, 
-          estPrintTime, 
-          status, 
-          buildFileName, 
-          buildFilePath, 
-          operators
-        });
+        { $set: buildFields },
+        { new: true });
         res.json(build);
       } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');
     }
   });
+//@route PUT api/builds
+//@desc Delete a build. Only operators associated with the build can delete the build.
+//@access Public
+router.delete('/:id',
+//auth,
+async (req, res) => {
+  try {
+    let build = await Build.findById(req.params.id);
+    if(!build) return res.status(404).json({msg: 'Build not found'});
+    let authorized = false;
+    build.operators.forEach((operator) => {
+      if(operator === req.user)
+        authorized = true;
+    });
+    if(authorized === false)
+      return res.status(401).json({msg: 'Not authorized'});
+    await Build.findByIdAndRemove(req.params.id);
+    
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
 
 module.exports = router;

@@ -1,12 +1,12 @@
 const mongoose = require('mongoose');
 
 const BuildSchema = mongoose.Schema({
-  // associatedJobs: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: 'jobs',
-  //   },
-  // ],
+  associatedJobs: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'jobs',
+    },
+  ],
   partsBuilding: [
     {
       name: String,
