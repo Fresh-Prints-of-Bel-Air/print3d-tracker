@@ -50,7 +50,6 @@ router.get(
       }
     }
   );
-
   //@route PUT api/jobs
   //@desc Update a job. Frontend prefills fields with existing values. User may update certain values (not empty).
   //@access Public
@@ -97,5 +96,25 @@ router.get(
         res.status(500).send('Server Error');
       }
     });
-  
+
+//@route PUT api/jobs
+//@desc Delete a job. Only the job requester can delete the job.
+//@access Public
+router.delete('/:id',
+//auth,
+async (req, res) => {
+  try {
+    let job = await Job.findById(req.params.id);
+    if(!build) return res.status(404).json({msg: 'Job not found'});
+    let authorized = (job.requester === req.user) ? true : false;
+    if(authorized === false)
+      return res.status(401).json({msg: 'Not authorized'});
+    await Job.findByIdAndRemove(req.params.id);
+    
+
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send('Server Error');
+  }
+});
   module.exports = router;
