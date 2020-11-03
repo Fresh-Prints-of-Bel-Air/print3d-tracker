@@ -1,24 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authActions';
 
-export const Navbar = ({ logout }) => {
-
-  const onLogout = () => {
-    logout();
-  }
-
+export const Navbar = ({ user, logout }) => {
+  const onLogout = () => logout();
   return (
     <nav style={{ marginBottom: '30px' }} className='black'>
       <div className='nav-wrapper'>
         <ul id='nav-mobile' className='right hide-on-med-and-down'>
-          <li>
-            { (localStorage.getItem("token")) 
-              ? <Link to='login' onClick={onLogout}>Logout</Link>
-              : <Link to='login' onClick={onLogout}>Test</Link> }
-             
-          </li>
+            { (localStorage.getItem("token") !== null) &&
+              <li>
+                <Link to='login' onClick={onLogout}>Logout</Link>
+              </li>   
+            }
           <li>
             <Link to='build-history'>Build History</Link>
           </li>
@@ -29,7 +24,9 @@ export const Navbar = ({ logout }) => {
 };
 
 const mapStateToProps = (state) => ({
-  logout: state.logout
+  user: state.user,
+  logout: state.logout,
+
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);
