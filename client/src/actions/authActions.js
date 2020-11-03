@@ -65,6 +65,7 @@ export const login = (formData) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
+    console.log(localStorage.getItem('token'));
     loadUser();
   } catch (err) {
     dispatch({
@@ -75,7 +76,10 @@ export const login = (formData) => async (dispatch) => {
 };
 
 // Logout
-export const logout = () => async (dispatch) => dispatch({ type: LOGOUT });
+export const logout = () => async (dispatch) => {
+  dispatch({ type: LOGOUT });
+  console.log(localStorage.getItem("token"));
+}
 
 // Clear Errors
 export const clearErrors = () => async (dispatch) =>

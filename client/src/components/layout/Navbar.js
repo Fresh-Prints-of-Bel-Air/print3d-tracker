@@ -1,13 +1,26 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { logout } from '../../actions/authActions';
 
-export const Navbar = () => {
+export const Navbar = ({ logout }) => {
+
+  const onLogout = () => {
+    logout();
+  }
+
   return (
     <nav style={{ marginBottom: '30px' }} className='black'>
       <div className='nav-wrapper'>
         <ul id='nav-mobile' className='right hide-on-med-and-down'>
           <li>
-            <Link to='login'>Login</Link>
+            { (localStorage.getItem("token")) 
+              ? <Link to='login' onClick={onLogout}>Logout</Link>
+              : <Link to='login' onClick={onLogout}>Test</Link> }
+             
+          </li>
+          <li>
+            <Link to='build-history'>Build History</Link>
           </li>
         </ul>
       </div>
@@ -15,4 +28,8 @@ export const Navbar = () => {
   );
 };
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  logout: state.logout
+});
+
+export default connect(mapStateToProps, { logout })(Navbar);

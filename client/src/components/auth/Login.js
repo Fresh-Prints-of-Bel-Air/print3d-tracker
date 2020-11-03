@@ -104,6 +104,8 @@ export const Login = ({ user, login, ...rest }) => {
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  // some how works without adding this next line?
+  login: state.login
 });
 
 export default connect(mapStateToProps, { login })(Login);
