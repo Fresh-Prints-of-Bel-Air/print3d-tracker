@@ -1,15 +1,15 @@
 const mongoose = require("mongoose");
 
 const JobSchema = mongoose.Schema({
-    requester: { 
+    requester: { //on card
         type: String,
         required: true
     },
-    projectName: {
+    projectName: { //on card
         type: String,
         required: true
     },
-    dateRequested: {
+    dateRequested: { //on card
         type: Date,
         default: Date.now,
         required: true
@@ -30,15 +30,15 @@ const JobSchema = mongoose.Schema({
     resolution: String,
 
     // the "willingness fight someone" over printer time field
-    priority: Number,
+    priority: Number, //on card
     deliverTo: {
         type: String,
         required: true
     },
 
     // completion status of Job, either Accepted, Requested, Complete, Cancelled
-    status: { 
-        type: String,
+    status: { //on card
+        type: String, 
         enum: [
             'Accepted', 
             'Requested', 
@@ -52,7 +52,7 @@ const JobSchema = mongoose.Schema({
     notes: String,
     
     // array of objects with a string for the name and a number for the quantity
-    requestedParts: [{ 
+    requestedParts: [{ //collapsible
         name: String,
         quantity: Number
     }],

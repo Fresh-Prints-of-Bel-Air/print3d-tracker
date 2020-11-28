@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import M from 'materialize-css';
 
-const BuildLogs = ({ builds, ...rest }) => {
+const BuildHistory = ({ builds, ...rest }) => {
   useEffect(() => {
     M.AutoInit();
     //pull builds from API with current filter values
@@ -28,7 +28,7 @@ const BuildLogs = ({ builds, ...rest }) => {
   return (
     <div
       className='grey lighten-2'
-      style={{ position: 'fixed', width: '100%' }}
+      style={{ position: 'fixed', width: '100%' }} //keeps filter options displayed on page
     >
       <div className='row'>
         <div className='input-field col s3'>
@@ -62,10 +62,10 @@ const BuildLogs = ({ builds, ...rest }) => {
   );
 };
 
-export default BuildLogs;
+export default BuildHistory;
 
 // const mapStateToProps = (state) => {
 //   builds: state.builds;
 // };
 
-//export default connect(mapStateToProps, { getLogs })(BuildLogs);
+//export default connect(mapStateToProps, { getLogs })(BuildHistory);

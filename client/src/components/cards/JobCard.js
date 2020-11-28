@@ -9,7 +9,7 @@ export const JobCard = ({ job }) => {
         // var instance = M.Collapsible.init(elem, {
         //     accordion: false
         // });
-    });
+    }, []);
 
     return ( 
         <div class="row">

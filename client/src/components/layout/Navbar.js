@@ -17,6 +17,7 @@ export const Navbar = ({ user, logout }) => {
             }
           <li>
             <Link to='build-history'>Build History</Link>
+            
           </li>
         </ul>
       </div>
