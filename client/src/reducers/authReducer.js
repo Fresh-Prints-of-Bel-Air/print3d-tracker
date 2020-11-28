@@ -51,7 +51,7 @@ export default (state = initialState, action) => {
     case CLEAR_ERRORS:
       return {
         ...state,
-        errors: null,
+        error: null,
       };
     default:
       return state;

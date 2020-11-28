@@ -7,18 +7,28 @@ const { check, validationResult } = require('express-validator/check');
 const config = require('config');
 const auth = require('../middleware/auth');
 const Build = require('../models/Build');
-const { buildSanitizeFunction } = require('express-validator');
+//const { buildSanitizeFunction } = require('express-validator');
 
 //@route GET api/builds
 //@desc Get a build
 //@access Public
 router.get(
-  '/:id', 
-  // auth, 
+  '/', 
+  //auth, 
   async (req, res) => {
   try {
-      const build = await Build.findById(req.params.id);
-      res.json(build);
+      //Filtering options: dateStarted, dateDelivered, projects (name:[string]), operators (name: [string])
+      // let filter = {
+      //   $or: [{dateStarted: {$gte: new Date().toISOString().split('T')[0]}}, {dateDelivered: {$gte: new Date().toISOString().split('T')[0]}} ]
+      // }
+      let filter = {
+        $or: [{dateStarted: {$gte: '2011-04-02'}}, {dateDelivered: {$gte: '2011-04-05'}}]
+      };
+      //const {startedFrom, startedTo, deliveredFrom, deliveredTo, projects, operators} = req.body; //filters
+      const builds = await Build.find(filter);
+      //const build = await Build.findById(req.params.id);
+      console.log(new Date().toISOString().split('T')[0]);
+      res.json(builds);
   } catch (err) {
       console.error(err.message);
       res.status(500).send('server error');
@@ -158,6 +168,10 @@ router.put(
     }
 
     try {
+      //check if build is in the database
+      const build = await Build.findById(req.params.id);
+      if(!build) return res.status(404).json({msg: 'Build not found'});
+ 
       const {associatedJobs, partsBuilding, material, resolution, dateStarted, dateDelivered, estPrintTime, status, buildFileName, buildFilePath, operators} = req.body;
       
       const buildFields = {};
@@ -173,11 +187,11 @@ router.put(
       if(buildFilePath) buildFields.buildFilePath = buildFilePath;
       if(operators) buildFields.operators = operators;
       
-      let build = await Build.findByIdAndUpdate(
+      let updatedBuild = await Build.findByIdAndUpdate(
         req.params.id, 
         { $set: buildFields },
         { new: true });
-        res.json(build);
+        res.json(updatedBuild);
       } catch (err) {
       console.error(err.message);
       res.status(500).send('Server Error');

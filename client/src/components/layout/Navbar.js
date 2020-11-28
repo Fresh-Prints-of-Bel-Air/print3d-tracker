@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authActions';
 
-export const Navbar = ({ logout }) => {
+export const Navbar = ({ logout, isAuthenticated }) => {
 
   const onLogout = () => {
     logout();
@@ -21,6 +21,7 @@ export const Navbar = ({ logout }) => {
           </li>
           <li>
             <Link to='build-history'>Build History</Link>
+            
           </li>
         </ul>
       </div>
@@ -29,7 +30,8 @@ export const Navbar = ({ logout }) => {
 };
 
 const mapStateToProps = (state) => ({
-  logout: state.logout
+  logout: state.logout,
+  isAuthenticated: state.isAuthenticated
 });
 
 export default connect(mapStateToProps, { logout })(Navbar);
