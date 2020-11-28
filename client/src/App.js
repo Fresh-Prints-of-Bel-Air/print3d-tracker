@@ -14,6 +14,7 @@ import PrivateRoute from './components/routing/PrivateRoute';
 function App() {
   useEffect(() => {
     M.AutoInit();
+
     //console.log(store.getState());
   });
   return (

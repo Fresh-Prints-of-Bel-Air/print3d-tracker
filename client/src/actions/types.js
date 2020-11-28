@@ -12,3 +12,4 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 //Build types
 export const ADD_BUILD = 'ADD_BUILD';
 export const UPDATE_BUILD = 'UPDATE_BUILD';
+// Job types

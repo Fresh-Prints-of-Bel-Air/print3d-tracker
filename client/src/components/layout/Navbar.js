@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { logout } from '../../actions/authActions';
 
 export const Navbar = ({ user, logout }) => {
+  // click event function for Logout link
   const onLogout = () => logout();
   return (
     <nav style={{ marginBottom: '30px' }} className='black'>
