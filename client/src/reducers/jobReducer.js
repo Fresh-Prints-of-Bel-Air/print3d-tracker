@@ -1,7 +1,10 @@
 import {
     GET_JOBS,
     JOBS_ERROR,
-    SET_LOADING
+    SET_LOADING,
+    ADD_JOB,
+    UPDATE_JOB,
+    DELETE_JOB,
   } from '../actions/types';
 
 const initialState = {
@@ -29,6 +32,27 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 loading: true
+            }
+        case ADD_JOB:
+            return {
+                ...state,
+                jobs: [...state.jobs, action.payload],
+                loading: false,
+                error: null,
+            }
+        case UPDATE_JOB:
+            return {
+                ...state,
+                jobs: state.jobs.map(job => job.id === action.payload.id ? action.payload : job),
+                loading: false,
+                error: null,
+            }
+        case DELETE_JOB: 
+            return {
+                ...state,
+                jobs: state.jobs.filter(job => job.id !== action.payload),
+                loading: false,
+                error: null,
             }
         default:
             return state;

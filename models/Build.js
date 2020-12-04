@@ -42,7 +42,7 @@ const BuildSchema = mongoose.Schema({
     required: true,
   },
 
-  projects: [String],
+  projects: [String], //a list of projects that this build belongs to
 
   buildFileName: {
     type: String,

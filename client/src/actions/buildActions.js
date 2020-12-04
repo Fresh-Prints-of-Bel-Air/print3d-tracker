@@ -60,7 +60,7 @@ export const deleteBuild = (id) => async (dispatch) => {
 }
 
 //Update a build
-export const updateBuild = async (build) => {
+export const updateBuild = (build) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type' : 'application/json',

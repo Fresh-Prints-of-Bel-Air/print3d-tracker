@@ -23,3 +23,6 @@ export const BUILDS_ERROR = 'BUILDS_ERROR';
 // Job Types
 export const GET_JOBS = 'GET_JOBS';
 export const JOBS_ERROR = 'JOBS_ERROR';
+export const DELETE_JOB = 'DELETE_JOB';
+export const ADD_JOB = 'ADD_JOB';
+export const UPDATE_JOB = 'UPDATE_JOB';

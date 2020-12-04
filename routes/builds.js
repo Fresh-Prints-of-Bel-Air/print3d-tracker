@@ -21,10 +21,60 @@ router.get(
       // let filter = {
       //   $or: [{dateStarted: {$gte: new Date().toISOString().split('T')[0]}}, {dateDelivered: {$gte: new Date().toISOString().split('T')[0]}} ]
       // }
-      let filter = {
-        $or: [{dateStarted: {$gte: '2011-04-02'}}, {dateDelivered: {$gte: '2011-04-05'}}]
+      const filter = {
+        //$or: [{dateStarted: {$gte: '2011-04-02'}}, {dateDelivered: {$gte: '2011-04-05'}}]
+        dateStarted: {$gte: new Date().toISOString().split('T')[0]},
+        dateDelivered: {$gte: new Date().toISOString().split('T')[0]},
       };
-      //const {startedFrom, startedTo, deliveredFrom, deliveredTo, projects, operators} = req.body; //filters
+      const {startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator} = req.body; //filters
+      //Filter date build was started
+      if(startedFrom && startedTo)
+      {
+        filter.dateStarted = {
+          $and: [{dateStarted: {$gte: startedFrom}}, {dateStarted: {$lte: startedTo}}]
+        }
+      }
+      else if(startedFrom)
+      {
+        filter.dateStarted = {
+          $gte: startedFrom
+        }
+      }
+      else if(startedTo)
+      {
+        filter.dateStarted = {
+          $lte: startedTo
+        }
+      }
+      //Filter date of delivery
+      if(deliveredFrom && deliveredTo)
+      {
+        filter.dateDelivered = {
+          $and: [{dateDelivered: {$gte: deliveredFrom}}, {dateDelivered: {$lte: deliveredTo}}]
+        }
+      }
+      else if(deliveredFrom)
+      {
+        filter.dateDelivered = {
+          $gte: deliveredFrom
+        }
+      }
+      else if(deliveredTo)
+      {
+        filter.dateDelivered = {
+          $lte: deliveredTo
+        }
+      }
+      //Filter by project name
+      if(project)
+      {
+        filter.projects = {$elemMatch: {$eq: project}}
+      }
+      //Filter by operator name
+      if(operator)
+      {
+        filter.operators = {$elemmatch : {$eq: operator}}
+      }
       const builds = await Build.find(filter);
       //const build = await Build.findById(req.params.id);
       console.log(new Date().toISOString().split('T')[0]);
@@ -223,3 +273,5 @@ async (req, res) => {
 });
 
 module.exports = router;
+
+
