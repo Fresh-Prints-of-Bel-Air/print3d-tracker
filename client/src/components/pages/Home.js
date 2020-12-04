@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadUser } from '../../actions/authActions';
-import BuildLogs from '../logs/BuildLogs';
+// import BuildLogs from '../logs/BuildLogs';
 import JobCard from '../cards/JobCard';
 import RequestJobModal from '../modals/RequestJobModal';
 import M from 'materialize-css/dist/js/materialize.min.js';
@@ -20,6 +20,12 @@ const Home = ({ user, loadUser }) => {
       <div>
         <ul className="collapsible expandable">
             <li className="active">
+              <div className="collapsible-header">Filter Options</div>
+              <div className="collapsible-body">
+                Filter options
+              </div>
+            </li>
+            <li className="active">
                 <div className="collapsible-header">Job Requests</div>
                 <div className="collapsible-body">
                   <JobCard />   
@@ -28,7 +34,8 @@ const Home = ({ user, loadUser }) => {
             </li>
             <li className="active">
                 <div className="collapsible-header">Accepted Jobs</div>
-                <div className="collapsible-body"><span>Lorem ipsum dolor sit amet.</span>
+                <div className="collapsible-body">
+                  <span>Lorem ipsum dolor sit amet.</span>
                 
                 </div>
             </li>

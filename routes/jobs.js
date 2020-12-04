@@ -9,7 +9,33 @@ const Job = require("../models/Job");
 //@route GET api/jobs
 //@desc Get a job
 //@access Public
+// get by filter
 router.get(
+    // auth,
+    [], 
+    async (req, res) => {
+
+    const filter = {
+        status: { $ne: 'Complete' } // not equals
+    }
+
+    const { requester, status, dateRequested } = req.body;
+
+    if(status) filter.status = { $eq: status};
+    if(requester) filter.requester = { $eq: requester };
+    if(dateRequested) filter.dateRequested = { $eq: dateRequested };
+
+    try {
+        const job = await Job.find(filter);
+        res.json(job);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send('server error');
+    }
+  });
+
+  // get by ID
+  router.get(
     '/:id', 
     // auth,
     [], 
