@@ -17,28 +17,26 @@ router.get(
   //auth, 
   async (req, res) => {
   try {
-      //Filtering options: dateStarted, dateDelivered, projects (name:[string]), operators (name: [string])
-      // let filter = {
-      //   $or: [{dateStarted: {$gte: new Date().toISOString().split('T')[0]}}, {dateDelivered: {$gte: new Date().toISOString().split('T')[0]}} ]
-      // }
-      const filter = {
-        //$or: [{dateStarted: {$gte: '2011-04-02'}}, {dateDelivered: {$gte: '2011-04-05'}}]
-        dateStarted: {$gte: new Date().toISOString().split('T')[0]},
-        dateDelivered: {$gte: new Date().toISOString().split('T')[0]},
-      };
-      const {startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator} = req.body; //filters
-      //Filter date build was started
+      // Filtering options: dateStarted, dateDelivered, projects (name:[string]), operators (name: [string])
+      const filter = {};
+
+      const { startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = req.body; // filters
+
+      // Filter date build was started
       if(startedFrom && startedTo)
       {
-        filter.dateStarted = {
-          $and: [{dateStarted: {$gte: startedFrom}}, {dateStarted: {$lte: startedTo}}]
-        }
+        filter.$and = [
+          { dateStarted: { $gte: startedFrom } }, 
+          { dateStarted: { $lte: startedTo } }
+        ];
       }
       else if(startedFrom)
       {
+        console.log("startedFrom: " + startedFrom);
         filter.dateStarted = {
           $gte: startedFrom
         }
+        console.log("filter: " + filter.dateStarted.$gte);
       }
       else if(startedTo)
       {
@@ -46,12 +44,14 @@ router.get(
           $lte: startedTo
         }
       }
+      // NOTE: THIS SET OF IFs IS NOT CONNECTED, DEFAULT FILTER WON'T WORK AS EXPECTED
       //Filter date of delivery
       if(deliveredFrom && deliveredTo)
       {
-        filter.dateDelivered = {
-          $and: [{dateDelivered: {$gte: deliveredFrom}}, {dateDelivered: {$lte: deliveredTo}}]
-        }
+        filter.$and = [
+          { dateDelivered: { $gte: deliveredFrom } }, 
+          { dateDelivered: { $lte: deliveredTo } }
+        ]
       }
       else if(deliveredFrom)
       {
@@ -75,6 +75,18 @@ router.get(
       {
         filter.operators = {$elemmatch : {$eq: operator}}
       }
+
+      function isEmpty(object) { for(let i in object) { return false; } return true; } // 
+
+      if(isEmpty(filter))
+      {
+        console.log("filter is empty, do default stuff");
+        filter.$or = [
+          { dateStarted: { $gte: new Date().toISOString().split('T')[0] } }, 
+          { dateDelivered: { $gte: new Date().toISOString().split('T')[0] } } 
+        ];
+      }
+
       const builds = await Build.find(filter);
       //const build = await Build.findById(req.params.id);
       console.log(new Date().toISOString().split('T')[0]);
@@ -91,7 +103,7 @@ router.get(
 router.post(
   '/',
   [
-    auth,
+    // auth,
     check('id', 'ID needed').notEmpty(), //the ID of the associated job, mongoose generates IDs
     check(
       ['partsBuilding', 'material', 'resolution'],
