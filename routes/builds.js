@@ -7,7 +7,8 @@ const { check, validationResult } = require('express-validator/check');
 const config = require('config');
 const auth = require('../middleware/auth');
 const Build = require('../models/Build');
-//const { buildSanitizeFunction } = require('express-validator');
+
+function isEmpty(object) { for(let i in object) { return false; } return true; } //used to check if filters are empty or not
 
 //@route GET api/builds
 //@desc Get a build
@@ -73,10 +74,10 @@ router.get(
       //Filter by operator name
       if(operator)
       {
-        filter.operators = {$elemmatch : {$eq: operator}}
+        filter.operators = {$elemMatch : {$eq: operator}}
       }
 
-      function isEmpty(object) { for(let i in object) { return false; } return true; } // 
+      
 
       if(isEmpty(filter))
       {
@@ -160,7 +161,7 @@ router.post(
 router.put(
   '/:id', 
   [ 
-    auth,
+    //auth,
     check(
       'partsBuilding',
       'Invalid format for Parts Building'
