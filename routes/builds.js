@@ -73,7 +73,7 @@ router.get(
       //Filter by operator name
       if(operator)
       {
-        filter.operators = {$elemmatch : {$eq: operator}}
+        filter.operators = {$elemMatch : {$eq: operator}}
       }
 
       function isEmpty(object) { for(let i in object) { return false; } return true; } // 
