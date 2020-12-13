@@ -1,4 +1,4 @@
-import axios from './axios';
+import axios from 'axios';
 import {
   GET_BUILDS,
   ADD_BUILD,
@@ -17,6 +17,7 @@ export const getBuilds = (filter) => async (dispatch) => {
     dispatch({
       type: GET_BUILDS, 
       payload: res.data});
+    console.log(res.data);
   }
   catch (err) {
     dispatch({
@@ -82,10 +83,8 @@ export const updateBuild = (build) => async (dispatch) => {
   }
 }
 
-export const setLoading = () => {
-  return {
+export const setLoading = () => async(dispatch) => {
     dispatch({
       type: SET_LOADING,
     });
-  };
 };

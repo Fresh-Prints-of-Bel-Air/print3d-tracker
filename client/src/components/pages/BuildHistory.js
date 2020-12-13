@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
+import {getBuilds} from '../../actions/buildActions';
 import M from 'materialize-css';
 
-const BuildHistory = ({ builds, ...rest }) => {
+const BuildHistory = ({ build: {builds}, getBuilds }) => {
   useEffect(() => {
     M.AutoInit();
     //pull builds from API with current filter values
@@ -11,19 +12,28 @@ const BuildHistory = ({ builds, ...rest }) => {
   //const statusText = useRef('');
 
   const [userFormData, setUserFormData] = useState({
-    status: '',
-    startDate: new Date().toISOString().split('T')[0],
-    endDate: new Date().toISOString().split('T')[0],
+    status: null,
+    buildFrom: null,
+    buildTo: null,
+    deliveredFrom: null,
+    deliveredTo: null,
+    operator: null,
+    project: null,
   });
-  const { status, startDate, endDate } = userFormData;
-
+  const { status, buildFrom, buildTo, deliveredFrom, deliveredTo, operator, project } = userFormData;
+  
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log("onSubmit called");
+    console.log(userFormData);
+    getBuilds(userFormData);
+  }
   const onChange = (e) => {
     setUserFormData({
       ...userFormData,
       [e.target.name]: e.target.value,
     });
-    //const sampleDate = new Date(e.target.value.replace('-', '/'));
-    //console.log(sampleDate);
+    console.log(e.target.value);
   };
   return (
     <div
@@ -31,8 +41,9 @@ const BuildHistory = ({ builds, ...rest }) => {
       style={{ position: 'fixed', width: '100%' }} //keeps filter options displayed on page
     >
       <div className='row'>
-        <div className='input-field col s3'>
-          <select name='status' value={status} onChange={onChange}>
+        <div className='col s1'>
+          <label htmlFor='status' style={{"font-weight": "bold", "color" : "black" }}>Status:</label>
+          <select name='status' onChange={onChange}>
             <option value='' disabled>
               Select
             </option>
@@ -42,30 +53,56 @@ const BuildHistory = ({ builds, ...rest }) => {
             <option value='Build Post-Processed'>Build Post-Processed</option>
             <option value='Build Delivered'>Build Delivered</option>
           </select>
-          <label>Status</label>
+          
         </div>
-        <div className='col s2'>
-          <label htmlFor='startDate'>From</label>
+        <div className='col s1'>
+          <label htmlFor='buildFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Started From: </label>
           <input
-            name='startDate'
-            id='startDate'
+            name='buildFrom'
+            id='buildFrom'
             type='date'
             onChange={onChange}
           />
         </div>
+        <div className='col s1'>
+          <label htmlFor='buildTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
+          <input name='buildTo' id='buildTo' type='date' onChange={onChange} />
+        </div>
+        <div className='col s1'>
+        <label htmlFor='deliveredFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Delivered From: </label>
+          <input
+            name='deliveredFrom'
+            id='deliveredFrom'
+            type='date'
+            onChange={onChange}
+          />
+        </div>
+        <div className='col s1'>
+          <label htmlFor='deliveredTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
+          <input name='deliveredTo' id='deliveredTo' type='date' onChange={onChange} />
+        </div>
         <div className='col s2'>
-          <label htmlFor='endDate'>To</label>
-          <input name='endDate' id='endDate' type='date' onChange={onChange} />
+            <label htmlFor='operatorName' style={{"font-weight": "bold", "color" : "black" }}>Operator Name:</label>
+            <input name='operator' placeholder="Enter the operator name" type="text" id="operatorName" onChange={onChange}/>
+        </div>
+        <div className='col s2'>
+            <label name='project' htmlFor='projectName' style={{"font-weight": "bold", "color" : "black" }} onChange={onChange}>Project Name:</label>
+            <input placeholder="Enter the project name" type="text" id="projectName" />
+        </div>
+        <div className="col s1">
+        <button style={{'margin': '20px'}} className="btn waves-effect waves-light" type="submit" name="submit" onClick={onSubmit}>Submit
+          <i className="material-icons right">send</i>
+        </button>
         </div>
       </div>
     </div>
   );
 };
 
-export default BuildHistory;
+//export default BuildHistory;
 
-// const mapStateToProps = (state) => {
-//   builds: state.builds;
-// };
+const mapStateToProps = (state) => ({
+  build: state.build
+});
 
-//export default connect(mapStateToProps, { getLogs })(BuildHistory);
+export default connect(mapStateToProps, {getBuilds})(BuildHistory);
