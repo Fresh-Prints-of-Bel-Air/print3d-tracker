@@ -30,6 +30,13 @@ export default (state = initialState, action) => {
         loading: false,
         error: null,
       }
+    case UPDATE_BUILD:
+      return {
+        ...state,
+        builds: state.builds.map((build) => build.id === action.payload ? action.payload : build),
+        loading: false,
+        error: null,
+      }
     case ADD_BUILD:
       return {
         ...state,
