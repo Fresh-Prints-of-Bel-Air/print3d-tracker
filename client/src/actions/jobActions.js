@@ -50,7 +50,7 @@ export const deleteJob = (id) => async (dispatch) => {
     }
 }
 
-export const updateJob = (job) => {
+export const updateJob = (job) => async (dispatch) => {
     setLoading();
 
     try{
