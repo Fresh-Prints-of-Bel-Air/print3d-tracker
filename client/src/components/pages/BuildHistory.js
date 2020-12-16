@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
+import {getBuilds} from '../../actions/buildActions';
 import M from 'materialize-css';
 
-const BuildHistory = ({ builds, ...rest }) => {
+const BuildHistory = ({ build: {builds}, getBuilds }) => {
   useEffect(() => {
     M.AutoInit();
     //pull builds from API with current filter values
@@ -21,8 +22,11 @@ const BuildHistory = ({ builds, ...rest }) => {
   });
   const { status, buildFrom, buildTo, deliveredFrom, deliveredTo, operator, project } = userFormData;
   
-  const onSubmit = () => {
-
+  const onSubmit = (e) => {
+    e.preventDefault();
+    console.log("onSubmit called");
+    console.log(userFormData);
+    getBuilds(userFormData);
   }
   const onChange = (e) => {
     setUserFormData({
@@ -86,7 +90,7 @@ const BuildHistory = ({ builds, ...rest }) => {
             <input placeholder="Enter the project name" type="text" id="projectName" />
         </div>
         <div className="col s1">
-        <button style={{'margin': '20px'}} className="btn waves-effect waves-light" type="submit" name="action">Submit
+        <button style={{'margin': '20px'}} className="btn waves-effect waves-light" type="submit" name="submit" onClick={onSubmit}>Submit
           <i className="material-icons right">send</i>
         </button>
         </div>
@@ -95,4 +99,10 @@ const BuildHistory = ({ builds, ...rest }) => {
   );
 };
 
-export default BuildHistory;
+//export default BuildHistory;
+
+const mapStateToProps = (state) => ({
+  build: state.build
+});
+
+export default connect(mapStateToProps, {getBuilds})(BuildHistory);

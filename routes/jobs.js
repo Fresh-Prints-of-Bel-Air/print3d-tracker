@@ -18,7 +18,7 @@ router.get(
     const filter = {
         status: { $ne: 'Complete' } // not equals
     }
-
+    
     const { requester, status, dateRequested } = req.body;
 
     if(status) filter.status = { $eq: status};

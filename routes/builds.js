@@ -20,7 +20,7 @@ router.get(
   try {
       // Filtering options: dateStarted, dateDelivered, projects (name:[string]), operators (name: [string])
       const filter = {};
-
+      console.log(req.body);
       const { startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = req.body; // filters
 
       // Filter date build was started

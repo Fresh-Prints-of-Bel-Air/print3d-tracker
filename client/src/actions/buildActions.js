@@ -1,4 +1,4 @@
-import axios from './axios';
+import axios from 'axios';
 import {
   GET_BUILDS,
   ADD_BUILD,
@@ -12,11 +12,14 @@ import {
 //"filter" param will be a json object with filters
 export const getBuilds = (filter) => async (dispatch) => {
   setLoading();
+  console.log("getBuilds called");
+  console.log("filter passed into getBuilds:" + filter.operator);
   try {
     const res = await axios.get('/api/builds', filter); 
     dispatch({
       type: GET_BUILDS, 
       payload: res.data});
+    console.log(res.data);
   }
   catch (err) {
     dispatch({
@@ -82,10 +85,8 @@ export const updateBuild = (build) => async (dispatch) => {
   }
 }
 
-export const setLoading = () => {
-  return {
+export const setLoading = () => async(dispatch) => {
     dispatch({
       type: SET_LOADING,
     });
-  };
 };

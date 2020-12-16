@@ -7,7 +7,7 @@ export const Navbar = ({ user, logout }) => {
   // click event function for Logout link
   const onLogout = () => logout();
   return (
-    <nav style={{ marginBottom: '30px' }} className='black'>
+    <nav className='black'>
       <div className='nav-wrapper'>
         <ul id='nav-mobile' className='right hide-on-med-and-down'>
             { (localStorage.getItem("token") !== null) &&
