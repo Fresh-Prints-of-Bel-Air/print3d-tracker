@@ -13,15 +13,15 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
 
   const [userFormData, setUserFormData] = useState({
     status: null,
-    buildFrom: null,
-    buildTo: null,
+    startedFrom: null,
+    startedTo: null,
     deliveredFrom: null,
     deliveredTo: null,
     operator: null,
     project: null,
   });
-  const { status, buildFrom, buildTo, deliveredFrom, deliveredTo, operator, project } = userFormData;
-  
+  const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
+
   const onSubmit = (e) => {
     e.preventDefault();
     console.log("onSubmit called");
@@ -56,17 +56,17 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
           
         </div>
         <div className='col s1'>
-          <label htmlFor='buildFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Started From: </label>
+          <label htmlFor='startedFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Started From: </label>
           <input
-            name='buildFrom'
-            id='buildFrom'
+            name='startedFrom'
+            id='startedFrom'
             type='date'
             onChange={onChange}
           />
         </div>
         <div className='col s1'>
-          <label htmlFor='buildTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
-          <input name='buildTo' id='buildTo' type='date' onChange={onChange} />
+          <label htmlFor='startedTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
+          <input name='startedTo' id='startedTo' type='date' onChange={onChange} />
         </div>
         <div className='col s1'>
         <label htmlFor='deliveredFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Delivered From: </label>
