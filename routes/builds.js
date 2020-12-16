@@ -8,7 +8,7 @@ const config = require('config');
 const auth = require('../middleware/auth');
 const Build = require('../models/Build');
 
-function isEmpty(object) { for(let i in object) { return false; } return true; } //used to check if filters are empty or not
+const isEmpty = (object) => { for(let i in object) { return false; } return true; } //used to check if filters are empty or not
 
 //@route GET api/builds
 //@desc Get a build
@@ -19,10 +19,13 @@ router.get(
   async (req, res) => {
   try {
       // Filtering options: dateStarted, dateDelivered, projects (name:[string]), operators (name: [string])
+      
+      console.log("routes builds get");
+
       const filter = {};
 
-      const { startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = req.body; // filters
-
+      const {status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = req.params; // filters
+      
       // Filter date build was started
       if(startedFrom && startedTo)
       {
@@ -76,7 +79,10 @@ router.get(
       {
         filter.operators = {$elemMatch : {$eq: operator}}
       }
-
+      if(status)
+      {
+        filter.status = {$eq: status};
+      }
       
 
       if(isEmpty(filter))

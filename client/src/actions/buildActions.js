@@ -13,16 +13,23 @@ import {
 export const getBuilds = (filter) => async (dispatch) => {
   setLoading();
   try {
-    const res = await axios.get('/api/builds', filter); 
+    console.log(filter);
+    const config = {
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    };
+    const res = await axios.get('/api/builds', filter, config); 
     dispatch({
       type: GET_BUILDS, 
       payload: res.data});
+    console.log("YO");
     console.log(res.data);
   }
   catch (err) {
     dispatch({
       type: BUILDS_ERROR, 
-      payload: err.response.msg});
+      payload: err});
   }
 }
 
@@ -44,7 +51,7 @@ export const addBuild = (build) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: BUILDS_ERROR,
-      payload: err.response.msg
+      payload: err.response.data.msg
     });
   }
 }
@@ -56,7 +63,7 @@ export const deleteBuild = (id) => async (dispatch) => {
     await axios.delete(`/api/builds/${id}`);
     dispatch({type: DELETE_BUILD, payload: id});
   } catch (err) {
-    dispatch({type: BUILDS_ERROR, payload: err.response.msg});
+    dispatch({type: BUILDS_ERROR, payload: err.response.data.msg});
   }
 }
 
@@ -78,7 +85,7 @@ export const updateBuild = (build) => async (dispatch) => {
   } catch (err) {
     dispatch({
       type: BUILDS_ERROR,
-      payload: err.response.msg
+      payload: err.response.data.msg
     });
   }
 }
