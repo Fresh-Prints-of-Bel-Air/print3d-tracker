@@ -8,7 +8,7 @@ export const Navbar = ({ user, logout }) => {
   const onLogout = () => logout();
   return (
     <nav className='black'>
-      <div className='nav-wrapper'>
+      <div className='nav-wrapper' style={{ position: 'fixed', width: '100%' }}>
         <ul id='nav-mobile' className='right hide-on-med-and-down'>
             { (localStorage.getItem("token") !== null) &&
               <li>

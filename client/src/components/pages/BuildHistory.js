@@ -41,7 +41,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
       style={{ position: 'fixed', width: '100%' }} //keeps filter options displayed on page
     >
       <div className='row'>
-        <div className='col s1'>
+        <div className='col s2'>
           <label htmlFor='status' style={{"font-weight": "bold", "color" : "black" }}>Status:</label>
           <select name='status' onChange={onChange}>
             <option value='' disabled>
@@ -55,7 +55,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
           </select>
           
         </div>
-        <div className='col s1'>
+        <div className='col s2'>
           <label htmlFor='startedFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Started From: </label>
           <input
             name='startedFrom'
@@ -68,7 +68,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
           <label htmlFor='startedTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
           <input name='startedTo' id='startedTo' type='date' onChange={onChange} />
         </div>
-        <div className='col s1'>
+        <div className='col s2'>
         <label htmlFor='deliveredFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Delivered From: </label>
           <input
             name='deliveredFrom'
@@ -81,9 +81,9 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
           <label htmlFor='deliveredTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
           <input name='deliveredTo' id='deliveredTo' type='date' onChange={onChange} />
         </div>
-        <div className='col s2'>
+        <div className='col s1'>
             <label htmlFor='operatorName' style={{"font-weight": "bold", "color" : "black" }}>Operator Name:</label>
-            <input name='operator' placeholder="Enter the operator name" type="text" id="operatorName" onChange={onChange}/>
+            <input name='operator' placeholder="First/Last" type="text" id="operatorName" onChange={onChange}/>
         </div>
         <div className='col s2'>
             <label name='project' htmlFor='projectName' style={{"font-weight": "bold", "color" : "black" }} onChange={onChange}>Project Name:</label>

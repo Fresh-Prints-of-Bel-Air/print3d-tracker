@@ -13,7 +13,8 @@ import {
 export const getBuilds = (filter) => async (dispatch) => {
   setLoading();
   console.log("getBuilds called");
-  console.log("filter.status passed into getBuilds:" + filter.status);
+  //console.log("filter.status passed into getBuilds:" + filter.status);
+  console.log("filter.startedFrom passed into getBuilds:" + filter.startedFrom);
   try {
     console.log(filter);
     

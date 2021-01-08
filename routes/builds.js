@@ -26,7 +26,7 @@ router.get(
 
       const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = req.query; // filters
       console.log(req.query);
-      console.log("req.query: " + req.query.operator);
+      console.log("req.query.startedFrom: " + req.query.startedFrom);
       // Filter date build was started
       if(startedFrom && startedTo)
       {
@@ -41,7 +41,6 @@ router.get(
         filter.dateStarted = {
           $gte: startedFrom
         }
-        console.log("filter: " + filter.dateStarted.$gte);
       }
       else if(startedTo)
       {
@@ -89,9 +88,14 @@ router.get(
       if(isEmpty(filter))
       {
         console.log("filter is empty, do default stuff");
+        let today = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles'}).split(',')[0]; //ex 12/28/2020, need to change to 2020-12-18
+        today = today.split('/');
+        today = today[2] + '-' + today[0] + '-' + today[1]; //2020-12-18
+        
+        
         filter.$or = [
-          { dateStarted: { $gte: new Date().toISOString().split('T')[0] } }, 
-          { dateDelivered: { $gte: new Date().toISOString().split('T')[0] } } 
+          { dateStarted: { $gte: today } }, 
+          { dateDelivered: { $gte: today } } 
         ];
       }
 
