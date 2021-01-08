@@ -86,18 +86,37 @@ router.get(
       }
       
 
+      // if(isEmpty(filter))
+      // {
+      //   console.log("filter is empty, do default stuff");
+      //   let dateStr = new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"});
+      //   dateStr = dateStr[0]
+
+      //   filter.$or = [
+      //     { dateStarted: { $gte: new Date().toISOString().split('T')[0] } }, 
+      //     { dateDelivered: { $gte: new Date().toISOString().split('T')[0] } } 
+      //   ];
+      // }
+
       if(isEmpty(filter))
       {
         console.log("filter is empty, do default stuff");
+        let today = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles'}).split(',')[0]; //ex 12/28/2020, need to change to 2020-12-18
+        today = today.split('/');
+        today = today[2] + '-' + today[0] + '-' + today[1]; //2020-12-18
+
+
         filter.$or = [
-          { dateStarted: { $gte: new Date().toISOString().split('T')[0] } }, 
-          { dateDelivered: { $gte: new Date().toISOString().split('T')[0] } } 
+          { dateStarted: { $gte: today } }, 
+          { dateDelivered: { $gte: today } } 
         ];
       }
 
       const builds = await Build.find(filter);
       //const build = await Build.findById(req.params.id);
       console.log(new Date().toISOString().split('T')[0]);
+      console.log(new Date().toISOString().split('T')[0].toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
+      console.log(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
       res.json(builds);
   } catch (err) {
       console.error(err.message);

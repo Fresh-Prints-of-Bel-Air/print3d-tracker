@@ -1,6 +1,8 @@
 const mongoose = require('mongoose');
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const BuildSchema = mongoose.Schema({
+  build_number: {type: Number, default: 0},
   associatedJobs: [
     {
       type: mongoose.Schema.Types.ObjectId,
@@ -55,5 +57,8 @@ const BuildSchema = mongoose.Schema({
   },
   operators: [String],
 });
+
+BuildSchema.plugin(AutoIncrement, { inc_field: "build_number" });
+
 
 module.exports = mongoose.model('build', BuildSchema);
