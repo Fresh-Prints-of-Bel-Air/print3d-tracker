@@ -20,6 +20,7 @@ export default (state = initialState, action) => {
     case GET_BUILDS: //also used for search builds
       return {
         ...state,
+        builds: action.payload,
         loading: false,
         error: null,
       };

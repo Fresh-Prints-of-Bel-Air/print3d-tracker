@@ -2,12 +2,15 @@ import React, { useEffect, useState, useRef } from 'react';
 import { connect } from 'react-redux';
 import {getBuilds} from '../../actions/buildActions';
 import M from 'materialize-css';
+import BuildItem from '../cards/BuildItem';
 
 const BuildHistory = ({ build: {builds}, getBuilds }) => {
   useEffect(() => {
     M.AutoInit();
     //pull builds from API with current filter values
   });
+
+
 
   //const statusText = useRef('');
 
@@ -35,13 +38,29 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
     });
     console.log(e.target.value);
   };
+
+  // copies the contents of the builds state into a table on the clipboard
+  // separated by tabs and newlines
+  const copyHistory = () => {
+    let billingSheet = "";
+    // each row will have the format
+    // buildFileName  dateStarted material  projects
+    builds.forEach((build) => {
+      billingSheet += build.buildFileName 
+        + '\t' + build.dateStarted.split('T')[0]
+        + '\t' + build.material
+        + '\t' + build.projects + '\n';
+    })
+    navigator.clipboard.writeText(billingSheet);
+  }
+
   return (
     <div
       className='grey lighten-2'
       style={{ position: 'fixed', width: '100%' }} //keeps filter options displayed on page
     >
       <div className='row'>
-        <div className='col s1'>
+        <div className='col s2'>
           <label htmlFor='status' style={{"font-weight": "bold", "color" : "black" }}>Status:</label>
           <select name='status' onChange={onChange}>
             <option value='' disabled>
@@ -55,7 +74,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
           </select>
           
         </div>
-        <div className='col s1'>
+        <div className='col s2'>
           <label htmlFor='startedFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Started From: </label>
           <input
             name='startedFrom'
@@ -68,7 +87,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
           <label htmlFor='startedTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
           <input name='startedTo' id='startedTo' type='date' onChange={onChange} />
         </div>
-        <div className='col s1'>
+        <div className='col s2'>
         <label htmlFor='deliveredFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Delivered From: </label>
           <input
             name='deliveredFrom'
@@ -81,20 +100,24 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
           <label htmlFor='deliveredTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
           <input name='deliveredTo' id='deliveredTo' type='date' onChange={onChange} />
         </div>
-        <div className='col s2'>
+        <div className='col s1'>
             <label htmlFor='operatorName' style={{"font-weight": "bold", "color" : "black" }}>Operator Name:</label>
-            <input name='operator' placeholder="Enter the operator name" type="text" id="operatorName" onChange={onChange}/>
+            <input name='operator' placeholder="First/Last" type="text" id="operatorName" onChange={onChange}/>
         </div>
         <div className='col s2'>
             <label name='project' htmlFor='projectName' style={{"font-weight": "bold", "color" : "black" }} onChange={onChange}>Project Name:</label>
             <input placeholder="Enter the project name" type="text" id="projectName" />
         </div>
         <div className="col s1">
-        <button style={{'margin': '20px'}} className="btn waves-effect waves-light" type="submit" name="submit" onClick={onSubmit}>Submit
-          <i className="material-icons right">send</i>
-        </button>
+          <button style={{'margin': '20px'}} className="btn waves-effect waves-light" type="submit" name="submit" onClick={onSubmit}>Submit
+            <i className="material-icons right">send</i>
+          </button>
+          <button style={{'margin': '20px'}} className="btn waves-effect waves-light" type="submit" name="submit" onClick={copyHistory}>Copy
+            <i className="material-icons right">content_copy</i>
+          </button>
         </div>
       </div>
+      
     </div>
   );
 };
