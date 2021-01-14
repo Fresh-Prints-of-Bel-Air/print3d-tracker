@@ -75,7 +75,6 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
                 <option value='Build Post-Processed'>Build Post-Processed</option>
                 <option value='Build Delivered'>Build Delivered</option>
               </select>
-              
             </div>
             <div className='col s2'>
               <label htmlFor='startedFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Started From: </label>
@@ -130,7 +129,6 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
             builds.map((build) => <BuildItem build={build} key={build.id} />)
           )}
       </div>
-      
     </div>
     
   );
