@@ -27,8 +27,8 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log("onSubmit called");
-    console.log(userFormData);
+    //console.log("onSubmit called");
+    //console.log(userFormData);
     getBuilds(userFormData);
   }
   const onChange = (e) => {
@@ -133,8 +133,6 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
     
   );
 };
-
-//export default BuildHistory;
 
 const mapStateToProps = (state) => ({
   build: state.build
