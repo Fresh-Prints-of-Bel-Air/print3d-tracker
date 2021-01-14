@@ -122,7 +122,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
           
         </div>
       </div>
-      <div>
+      <div style={{ backgroundImage: "url(/images/blue_mountain_background.jpg"}}>
           {builds.length === 0 ? (
             <p className='center'>No builds to show...</p>
           ) : (
