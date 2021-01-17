@@ -85,7 +85,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
                 onChange={onChange}
               />
             </div>
-            <div className='col s1'>
+            <div className='col s2'>
               <label htmlFor='startedTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
               <input name='startedTo' id='startedTo' type='date' onChange={onChange} />
             </div>
@@ -98,7 +98,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
                 onChange={onChange}
               />
             </div>
-            <div className='col s1'>
+            <div className='col s2'>
               <label htmlFor='deliveredTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
               <input name='deliveredTo' id='deliveredTo' type='date' onChange={onChange} />
             </div>
@@ -106,25 +106,23 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
                 <label htmlFor='operatorName' style={{"font-weight": "bold", "color" : "black" }}>Operator Name:</label>
                 <input name='operator' placeholder="First/Last" type="text" id="operatorName" onChange={onChange}/>
             </div>
-            <div className='col s2'>
+            <div className='col s1'>
                 <label name='project' htmlFor='projectName' style={{"font-weight": "bold", "color" : "black" }} onChange={onChange}>Project Name:</label>
-                <input placeholder="Enter the project name" type="text" id="projectName" />
+                <input placeholder="" type="text" id="projectName" />
             </div>
-            <div className="col s1">
-              <button style={{'margin': '20px'}} className="btn waves-effect waves-light" type="submit" name="submit" onClick={onSubmit}>Submit
+            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
                 <i className="material-icons right">send</i>
-              </button>
-              <button style={{'margin': '20px'}} className="btn waves-effect waves-light" type="submit" name="submit" onClick={copyHistory}>Copy
+            </button>
+            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={copyHistory}>Copy
                 <i className="material-icons right">content_copy</i>
-              </button>
-            </div>
+            </button>
           </div>
           
         </div>
       </div>
       <div style={{ backgroundImage: "url(/images/blue_mountain_background.jpg"}}>
           {builds.length === 0 ? (
-            <p className='center'>No builds to show...</p>
+            <p className='center' style={{backgroundColor: 'white', opacity: '1.0'}}>No builds to show...</p>
           ) : (
             builds.map((build) => <BuildItem build={build} key={build.id} />)
           )}

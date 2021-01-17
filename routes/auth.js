@@ -49,6 +49,7 @@ router.post(
       let user = await User.findOne({ email });
 
       if (!user) {
+        console.log('User does not exist.');
         return res.status(400).json({ msg: 'Invalid Credentials' });
       }
       // checks if the password is correct via bcrypt calling compare with the hashed password and the entered in password
@@ -56,8 +57,9 @@ router.post(
 
       // returns error message if the password doesn't match
       if (!isMatch) {
+        console.log('Password is wrong');
         return res.status(400).json({ msg: 'Invalid Credentials' });
-      }
+     }
 
       // signing and returning a jwt
       const payload = {
