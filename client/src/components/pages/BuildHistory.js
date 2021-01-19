@@ -124,7 +124,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
           {builds.length === 0 ? (
             <p className='center' style={{backgroundColor: 'white', opacity: '1.0'}}>No builds to show...</p>
           ) : (
-            builds.map((build) => <BuildItem build={build} key={build.id} />)
+            builds.map((buildEntry) => <BuildItem build={buildEntry} key={buildEntry.id} />)
           )}
       </div>
     </div>
