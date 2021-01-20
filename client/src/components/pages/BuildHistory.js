@@ -59,11 +59,7 @@ const BuildHistory = ({ build: {builds}, getBuilds }) => {
       <div style={{width: '100%', height: '150px' }}>
         <div
           className='grey lighten-2'
-<<<<<<< HEAD
-          style={{ position: 'fixed', width: '100%', height: '150px'}} //keeps filter options displayed on page
-=======
           style={{ position: 'fixed', width: '100%', height: '150px', zIndex: '1' }} //keeps filter options displayed on page
->>>>>>> 615c1acb34b114fc5f7caff9a8f86cc0471ad37e
           
         >
           <div className='row'>

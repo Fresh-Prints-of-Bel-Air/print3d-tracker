@@ -1,10 +1,6 @@
 import React from 'react'
 
-<<<<<<< HEAD
-export const BuildItem = ({ build }) => {
-=======
 export const BuildItem = ( { build } ) => {
->>>>>>> 615c1acb34b114fc5f7caff9a8f86cc0471ad37e
     const { build_number, buildFileName, dateStarted, status, projects, associatedJobs, material, resolution, estPrintTime, operators, buildFilePath, dateDelivered, partsBuilding } = build;
 
     // building a comma separated string of the projects associated with a build, of at most length 3
@@ -18,27 +14,18 @@ export const BuildItem = ( { build } ) => {
         <div>
             <ul class="collapsible" style={{ margin: '0px'}}>
                 <li>
-                <div class="collapsible-header" style={{opacity: '.9'}}>
-<<<<<<< HEAD
-                    <i class="material-icons">filter_drama</i>
-                    {build_number}
-                    <i class="material-icons" style={{marginTop: '25'}}>insert_drive_file</i> 
-                    {buildFileName}
-=======
-                    
-                        # 
-                        {build_number}
-                    
+                <div class="collapsible-header row" style={{opacity: '.9', marginBottom: '0px'}}>
+                    <p class="col s2" style={{fontSize: 'large'}}>#{build_number}</p>   
                         <i 
-                            class="material-icons tooltipped" 
+                            class="material-icons tooltipped col s1" 
                             data-position="top" 
                             data-tooltip="Project Name"
                             style={{marginLeft: '30px'}}
                         > build </i>
-                        {projectsString}
+                        <p class="col s2">{projectsString}</p>
 
                         <i  
-                            class="material-icons tooltipped"
+                            class="material-icons tooltipped col s1"
                             data-position="top" 
                             data-tooltip="Build Filename"
                             style={{marginLeft: '30px'}}
@@ -46,7 +33,7 @@ export const BuildItem = ( { build } ) => {
                         {buildFileName}  
         
                         <i 
-                            class="material-icons tooltipped" 
+                            class="material-icons tooltipped col s1" 
                             data-position="top" 
                             data-tooltip="Date Started"
                             style={{marginLeft: '30px'}}
@@ -54,13 +41,13 @@ export const BuildItem = ( { build } ) => {
                         {dateStarted.split('T')[0]}
 
                         {status === 'Build Delivered' ? 
-                                <i class="material-icons tooltipped" 
+                                <i class="material-icons tooltipped col s1" 
                                     data-position="top" 
                                     data-tooltip="Status"
                                     style={{marginLeft: '30px'}}
                                 >done</i> 
                             : 
-                                <i class="material-icons tooltipped" 
+                                <i class="material-icons tooltipped col s1" 
                                     data-position="top" 
                                     data-tooltip="Status"
                                     style={{marginLeft: '30px'}}
@@ -68,9 +55,65 @@ export const BuildItem = ( { build } ) => {
                         }
                         {status}
 
->>>>>>> 615c1acb34b114fc5f7caff9a8f86cc0471ad37e
                 </div>
-                <div class="collapsible-body" style={{ backgroundColor: 'white', opacity: '.7'}}><span>Lorem ipsum dolor sit amet.</span></div>
+                <div class="collapsible-body" style={{ backgroundColor: 'white', opacity: '.7', marginBottom: '0px'}}>
+                    <div class="row">
+                        <div className="col s2">
+                            <a class='dropdown-trigger btn blue' href='#' data-target='dropdown1'>Drop Me!</a>
+                            <ul id='dropdown1' class='dropdown-content'>
+                                <li><a href="#!">one</a></li>
+                                <li><a href="#!">two</a></li>
+                                <li class="divider" tabindex="-1"></li>
+                                <li><a href="#!">three</a></li>
+                                <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                                <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+                            </ul>
+                        </div>
+                        <div className="col s1">
+                            <i class="material-icons tooltipped" data-position="top" data-tooltip="Build File Path">folder</i>
+                        </div>
+                        <div className="col s2">              
+                            {buildFilePath}
+                        </div>
+                        <div className="col s1">
+                            <i className="material-icons tooltipped" data-position="top" data-tooltip="Material">layers</i>
+                        </div>
+                        <div className="col s2">
+                            {material}
+                        </div>
+                        <div className="col s1">
+                            <i className="material-icons tooltipped" data-position="top" data-tooltip="Resolution">line_weight</i>
+                        </div>
+                        <div className="col s2">
+                            {resolution}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div className="col s2">
+                            <a class='dropdown-trigger btn blue' href='#' data-target='dropdown1'>Drop Me!</a>
+                            <ul id='dropdown1' class='dropdown-content'>
+                                <li><a href="#!">one</a></li>
+                                <li><a href="#!">two</a></li>
+                                <li class="divider" tabindex="-1"></li>
+                                <li><a href="#!">three</a></li>
+                                <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
+                                <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
+                            </ul>
+                        </div>
+                        <div className="col s1">
+                            <i class="material-icons tooltipped" data-position="top" data-tooltip="Estimated Print Time">access_time</i>
+                        </div>
+                        <div className="col s2">              
+                            {estPrintTime}
+                        </div>
+                        <div className="col s1">
+                            <i className="material-icons tooltipped" data-position="top" data-tooltip="Date Delivered">local_shipping</i>
+                        </div>
+                        <div className="col s2">
+                            {dateDelivered.split('T')[0]}
+                        </div>
+                    </div>
+                </div>
                 </li>
             </ul>
         </div>
