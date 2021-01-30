@@ -29,6 +29,35 @@ export const BuildItem = ( { build } ) => {
         }
     }   
 
+    // for scalability (after modification)
+    // const COLUMNS = 5;
+    // const partTable = [[]];
+    // let i = 0;
+    // while(i < partsBuilding.length && i < COLUMNS){
+    //     partTable[0].push(partsBuilding[i]);
+    //     i++;
+    // }
+    // const remaining = partsBuilding.length - COLUMNS;
+    // if(remaining > 0){
+    //     let j = 0;
+    //     while(j < remaining && j < COLUMNS){
+    //         partTable[1].push(partsBuilding[j+i]);
+    //         j++;
+    //     }
+    // }
+    
+    const partsRow1 = [];
+    const partsRow2 = [];
+    const MAX_TABLE_SIZE = 10;
+    let i = 0;
+    while(i < partsBuilding.length && i < MAX_TABLE_SIZE){
+        if(i < MAX_TABLE_SIZE / 2)
+            partsRow1.push(<td>{partsBuilding[i].name}</td>);
+        else
+            partsRow2.push(<td>{partsBuilding[i].name}</td>);
+        i++;
+    }
+
     return (
         <div><strong>
             <ul class="collapsible" style={{ margin: '0px'}}>
@@ -82,19 +111,11 @@ export const BuildItem = ( { build } ) => {
                     </div>
                     <div class="collapsible-body" style={{ backgroundColor: 'white', opacity: '.7', marginBottom: '0px'}}>
                         <div class="row">  
-                            <div className="col s2" style={{marginLeft: '50px'}}>
-                                <a class='dropdown-trigger btn blue' href='#' data-target='dropdown1'>Builds</a>
-                                <ul id='dropdown1' class='dropdown-content'>
-                                    <li><a href="#!">one</a></li>
-                                    <li><a href="#!">two</a></li>
-                                    <li class="divider" tabindex="-1"></li>
-                                    <li><a href="#!">three</a></li>
-                                    <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-                                    <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-                                </ul>
+                            <div className="col s1" style={{marginLeft: '50px'}}>
+
                             </div>
                             <div className="col s1">
-                                <i class="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Build File Path">folder</i>
+                                <i class="material-icons tooltipped" data-position="top" data-tooltip="Build File Path">folder</i>
                             </div>
                             <div className="col s2">              
                                 <strong>{buildFilePath}</strong>
@@ -113,19 +134,11 @@ export const BuildItem = ( { build } ) => {
                             </div>
                         </div>
                         <div class="row">
-                            <div className="col s2" style={{marginLeft: '50px'}}>
-                                <a class='dropdown-trigger btn blue' href='#' data-target='dropdown2'>Operators</a>
-                                <ul id='dropdown2' class='dropdown-content'>
-                                    <li><a href="#!">one</a></li>
-                                    <li><a href="#!">two</a></li>
-                                    <li class="divider" tabindex="-1"></li>
-                                    <li><a href="#!">three</a></li>
-                                    <li><a href="#!"><i class="material-icons">view_module</i>four</a></li>
-                                    <li><a href="#!"><i class="material-icons">cloud</i>five</a></li>
-                                </ul>
+                            <div className="col s1" style={{marginLeft: '50px'}}>
+                               
                             </div>
                             <div className="col s1">
-                                <i class="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Estimated Print Time">access_time</i>
+                                <i class="material-icons tooltipped" data-position="top" data-tooltip="Estimated Print Time">access_time</i>
                             </div>
                             <div className="col s2">              
                                 {estPrintTime}
@@ -136,6 +149,34 @@ export const BuildItem = ( { build } ) => {
                             <div className="col s2">
                                 {dateDelivered.split('T')[0]}
                             </div>
+                        </div>
+                        <div className="row">
+                            <div className="col s1" style={{marginLeft: '50px'}}>
+                                
+                            </div>
+                            <div className="col s5">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Parts</th>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            {partsRow1}
+                                        </tr>
+                                        <tr>
+                                            {partsRow2}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div className="col s5">
+                                <p>Operators</p>
+                                {operators.map((operator) => <div class="chip">{operator}</div>)}
+                            </div>
+
                         </div>
                     </div>
                 </li>
