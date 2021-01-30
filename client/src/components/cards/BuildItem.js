@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, componentDidMount } from 'react';
 import M from 'materialize-css';
 
 export const BuildItem = ( { build } ) => {
