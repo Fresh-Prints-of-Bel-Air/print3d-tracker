@@ -112,7 +112,7 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
             <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
                 <i className="material-icons right">send</i>
             </button>
-            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={copyHistory}>Copy
+            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
                 <i className="material-icons right">content_copy</i>
             </button>
           </div>
