@@ -52,9 +52,9 @@ export const BuildItem = ( { build } ) => {
     let i = 0;
     while(i < partsBuilding.length && i < MAX_TABLE_SIZE){
         if(i < MAX_TABLE_SIZE / 2)
-            partsRow1.push(<td>{partsBuilding[i].name}</td>);
+            partsRow1.push(<td key={i}>{partsBuilding[i].name}</td>);
         else
-            partsRow2.push(<td>{partsBuilding[i].name}</td>);
+            partsRow2.push(<td key={i}>{partsBuilding[i].name}</td>);
         i++;
     }
 
@@ -174,7 +174,7 @@ export const BuildItem = ( { build } ) => {
                             </div>
                             <div className="col s5">
                                 <p>Operators</p>
-                                {operators.map((operator) => <div class="chip">{operator}</div>)}
+                                {operators.map((operator, index) => <div class="chip" key={index}>{operator}</div>)}
                             </div>
 
                         </div>

@@ -2,11 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import {getBuilds} from '../../actions/buildActions';
 import M from 'materialize-css';
+import { set } from 'mongoose';
 
 
 const BuildSearch= ({build: {builds}, getBuilds}) => {
   useEffect(() => {
     M.AutoInit();
+    console.log("UseEffect called");
     //pull builds from API with current filter values
   },[]);
 
@@ -50,8 +52,21 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
         + '\t' + build.dateStarted.split('T')[0]
         + '\t' + build.material
         + '\t' + build.projects + '\n';
-    })
+    });
     navigator.clipboard.writeText(billingSheet);
+  }
+  const clearSearch = () => {
+    setUserFormData({
+      ...userFormData,
+      status: null,
+      startedFrom: null,
+      startedTo: null,
+      deliveredFrom: null,
+      deliveredTo: null,
+      operator: null,
+      project: null,
+    });
+    console.log(userFormData);
   }
 
   return (
@@ -65,7 +80,7 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
             <div className='col s2'>
               <label htmlFor='status' style={{"font-weight": "bold", "color" : "black" }}>Status:</label>
               <select name='status' onChange={onChange}>
-                <option value='' disabled>
+                <option value='' disabled selected>
                   Select
                 </option>
                 <option value='Build File Ready'>Build File Ready</option>
@@ -114,6 +129,9 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
             </button>
             <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
                 <i className="material-icons right">content_copy</i>
+            </button>
+            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearSearch}>Clear
+                <i className="material-icons right">clear</i>
             </button>
           </div>
           
