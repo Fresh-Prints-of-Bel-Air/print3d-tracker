@@ -1,29 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import {getBuilds} from '../../actions/buildActions';
 import M from 'materialize-css';
-import { set } from 'mongoose';
+
 
 
 const BuildSearch= ({build: {builds}, getBuilds}) => {
   useEffect(() => {
     M.AutoInit();
-    console.log("UseEffect called");
+    console.log("UseEffect called, state is: ");
     //pull builds from API with current filter values
   },[]);
 
-
-
-  //const statusText = useRef('');
-
+ 
   const [userFormData, setUserFormData] = useState({
-    status: null,
-    startedFrom: null,
-    startedTo: null,
-    deliveredFrom: null,
-    deliveredTo: null,
-    operator: null,
-    project: null,
+    status: '',
+    startedFrom: '',
+    startedTo: '',
+    deliveredFrom: '',
+    deliveredTo: '',
+    operator: '',
+    project: '',
   });
   const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
 
@@ -58,15 +55,14 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
   const clearSearch = () => {
     setUserFormData({
       ...userFormData,
-      status: null,
-      startedFrom: null,
-      startedTo: null,
-      deliveredFrom: null,
-      deliveredTo: null,
-      operator: null,
-      project: null,
+      status: '',
+      startedFrom: '',
+      startedTo: '',
+      deliveredFrom: '',
+      deliveredTo: '',
+      operator: '',
+      project: '',
     });
-    console.log(userFormData);
   }
 
   return (
@@ -110,6 +106,7 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
                 id='deliveredFrom'
                 type='date'
                 onChange={onChange}
+                value={userFormData.deliveredFrom}
               />
             </div>
             <div className='col s2'>
@@ -118,7 +115,7 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
             </div>
             <div className='col s1'>
                 <label htmlFor='operatorName' style={{"font-weight": "bold", "color" : "black" }}>Operator Name:</label>
-                <input name='operator' placeholder="First/Last" type="text" id="operatorName" onChange={onChange}/>
+                <input name='operator' placeholder="First/Last" type="text" id="operatorName" value={userFormData.operator} onChange={onChange}/>
             </div>
             <div className='col s1'>
                 <label name='project' htmlFor='projectName' style={{"font-weight": "bold", "color" : "black" }} onChange={onChange}>Project Name:</label>
