@@ -1,31 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState} from 'react';
 import { connect } from 'react-redux';
 import {getBuilds} from '../../actions/buildActions';
 import M from 'materialize-css';
-import { set } from 'mongoose';
-
 
 const BuildSearch= ({build: {builds}, getBuilds}) => {
-  useEffect(() => {
-    M.AutoInit();
-    console.log("UseEffect called");
-    //pull builds from API with current filter values
-  },[]);
-
-
-
-  //const statusText = useRef('');
-
   const [userFormData, setUserFormData] = useState({
-    status: "",
-    startedFrom: "",
-    startedTo: "",
-    deliveredFrom: "",
-    deliveredTo: "",
-    operator: "",
-    project: "",
+    status: '',
+    startedFrom: '',
+    startedTo: '',
+    deliveredFrom: '',
+    deliveredTo: '',
+    operator: '',
+    project: '',
   });
   const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
+
+  useEffect(() => {
+    M.AutoInit();
+    console.log("UseEffect called, state is: ");
+    //pull builds from API with current filter values
+  },[status]);
 
   const onSubmit = (e) => {
     e.preventDefault();
@@ -58,15 +52,14 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
   const clearSearch = (e) => {
     setUserFormData({
       ...userFormData,
-      status: "",
-      startedFrom: "",
-      startedTo: "",
-      deliveredFrom: "",
-      deliveredTo: "",
-      operator: "",
-      project: "",
+      status: '',
+      startedFrom: '',
+      startedTo: '',
+      deliveredFrom: '',
+      deliveredTo: '',
+      operator: '',
+      project: '',
     });
-    console.log(userFormData);
   }
 
   return (
@@ -79,10 +72,12 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
           <div className='row'>
             <div className='col s2'>
               <label htmlFor='status' style={{"font-weight": "bold", "color" : "black" }}>Status:</label>
-              <select name='status' onChange={onChange}>
-                <option value='' disabled selected>
-                  Select
-                </option>
+              <select 
+                name='status' 
+                value={status} 
+                onChange={onChange}
+              >
+                <option value='' disabled selected>Select</option>
                 <option value='Build File Ready'>Build File Ready</option>
                 <option value='Build Started'>Build Started</option>
                 <option value='Build Complete'>Build Complete</option>
@@ -97,11 +92,12 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
                 id='startedFrom'
                 type='date'
                 onChange={onChange}
+                value={startedFrom}
               />
             </div>
             <div className='col s2'>
               <label htmlFor='startedTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
-              <input name='startedTo' id='startedTo' type='date' onChange={onChange} />
+              <input name='startedTo' id='startedTo' type='date' value={startedTo} onChange={onChange} />
             </div>
             <div className='col s2'>
             <label htmlFor='deliveredFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Delivered From: </label>
@@ -110,19 +106,20 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
                 id='deliveredFrom'
                 type='date'
                 onChange={onChange}
+                value={deliveredFrom}
               />
             </div>
             <div className='col s2'>
               <label htmlFor='deliveredTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
-              <input name='deliveredTo' id='deliveredTo' type='date' onChange={onChange} />
+              <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={onChange} />
             </div>
             <div className='col s1'>
                 <label htmlFor='operatorName' style={{"font-weight": "bold", "color" : "black" }}>Operator Name:</label>
-                <input name='operator' placeholder="First/Last" type="text" id="operatorName" onChange={onChange}/>
+                <input name='operator' placeholder="First/Last" id="operatorName" type="text" value={operator} onChange={onChange}/>
             </div>
             <div className='col s1'>
-                <label name='project' htmlFor='projectName' style={{"font-weight": "bold", "color" : "black" }} onChange={onChange}>Project Name:</label>
-                <input placeholder="" type="text" id="projectName" />
+                <label htmlFor='projectName' style={{"font-weight": "bold", "color" : "black" }}>Project Name:</label>
+                <input placeholder="" type="text" id="project" name='project' value={project} onChange={onChange}/>
             </div>
             <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
                 <i className="material-icons right">send</i>
