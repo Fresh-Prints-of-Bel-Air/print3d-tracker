@@ -17,13 +17,13 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
   //const statusText = useRef('');
 
   const [userFormData, setUserFormData] = useState({
-    status: null,
-    startedFrom: null,
-    startedTo: null,
-    deliveredFrom: null,
-    deliveredTo: null,
-    operator: null,
-    project: null,
+    status: "",
+    startedFrom: "",
+    startedTo: "",
+    deliveredFrom: "",
+    deliveredTo: "",
+    operator: "",
+    project: "",
   });
   const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
 
@@ -55,16 +55,16 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
     });
     navigator.clipboard.writeText(billingSheet);
   }
-  const clearSearch = () => {
+  const clearSearch = (e) => {
     setUserFormData({
       ...userFormData,
-      status: null,
-      startedFrom: null,
-      startedTo: null,
-      deliveredFrom: null,
-      deliveredTo: null,
-      operator: null,
-      project: null,
+      status: "",
+      startedFrom: "",
+      startedTo: "",
+      deliveredFrom: "",
+      deliveredTo: "",
+      operator: "",
+      project: "",
     });
     console.log(userFormData);
   }
