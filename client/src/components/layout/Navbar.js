@@ -17,9 +17,11 @@ export const Navbar = ({ user, logout }) => {
                 </li>   
              }
             <li>
-              <Link to='build-history'>Build History</Link>
-            
+              <Link to='/'>Home</Link>
             </li>
+            <li>
+              <Link to='build-history'>Build History</Link>
+             </li>
           </ul>
         </div>
       </nav>

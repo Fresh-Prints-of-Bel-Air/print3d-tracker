@@ -36,7 +36,7 @@ export const RequestJobModal = () => {
 
     return (
         <div>
-            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Modal</a>
+            <a class="waves-effect waves-light btn modal-trigger" href="#modal1">Create Job</a>
       
             <div id="modal1" class="modal">
                 <div class="modal-content">

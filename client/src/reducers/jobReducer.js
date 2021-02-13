@@ -5,12 +5,14 @@ import {
     ADD_JOB,
     UPDATE_JOB,
     DELETE_JOB,
+    SET_VIEW
   } from '../actions/types';
 
 const initialState = {
     loading: true,
     error: null,
     jobs: [],
+    view: 'Engineer',
 }
 
 export default (state = initialState, action) => {
@@ -51,6 +53,13 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 jobs: state.jobs.filter(job => job.id !== action.payload),
+                loading: false,
+                error: null,
+            }
+        case SET_VIEW:
+            return {
+                ...state,
+                view: action.payload,
                 loading: false,
                 error: null,
             }

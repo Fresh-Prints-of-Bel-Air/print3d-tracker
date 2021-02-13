@@ -24,7 +24,7 @@ function App() {
         <Router>
           <Navbar />
           <Switch>
-            <PrivateRoute exact path='/' component={Home} />
+            <PrivateRoute exact path='/' component={Home}/>
             <PrivateRoute exact path='/build-history' component={BuildHistory} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />

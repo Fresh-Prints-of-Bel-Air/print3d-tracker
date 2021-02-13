@@ -26,3 +26,4 @@ export const JOBS_ERROR = 'JOBS_ERROR';
 export const DELETE_JOB = 'DELETE_JOB';
 export const ADD_JOB = 'ADD_JOB';
 export const UPDATE_JOB = 'UPDATE_JOB';
+export const SET_VIEW = 'SET_VIEW';

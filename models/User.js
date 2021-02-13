@@ -5,6 +5,15 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
+  preferredView: {
+    type: String,
+    enum: [
+      'Engineer',
+      'Printer'
+    ],
+    required: true,
+    default: 'Engineer'
+  },
   email: {
     type: String,
     required: true,
