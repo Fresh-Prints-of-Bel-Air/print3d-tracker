@@ -4,6 +4,7 @@ import { loadUser } from '../../actions/authActions';
 // import BuildLogs from '../logs/BuildLogs';
 import JobCard from '../cards/JobCard';
 import JobNav from '../layout/JobNav';
+import JobQueueItem from '../cards/JobQueueItem';
 import RequestJobModal from '../modals/RequestJobModal';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
@@ -16,8 +17,9 @@ const Home = ({ user, loadUser }) => {
   }, []);
   return (
     <div>
+      
       <JobNav/>
-        <div style={{display: 'flex'}}>
+        <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
             <ul className="collapsible expandable">
                 <li className="active">
@@ -44,83 +46,16 @@ const Home = ({ user, loadUser }) => {
           </div>
           <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
             My Job Requests
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Card Title</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
-              </div>
-              <div class="card-action">
-                <a href="#">This is a link</a>
-                <a href="#">This is a link</a>
-              </div>
-            </div>
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Card Title</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
-              </div>
-              <div class="card-action">
-                <a href="#">This is a link</a>
-                <a href="#">This is a link</a>
-              </div>
-            </div>
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Card Title</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
-              </div>
-              <div class="card-action">
-                <a href="#">This is a link</a>
-                <a href="#">This is a link</a>
-              </div>
-            </div>
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Card Title</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
-              </div>
-              <div class="card-action">
-                <a href="#">This is a link</a>
-                <a href="#">This is a link</a>
-              </div>
-            </div>
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Card Title</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
-              </div>
-              <div class="card-action">
-                <a href="#">This is a link</a>
-                <a href="#">This is a link</a>
-              </div>
-            </div>
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Card Title</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
-              </div>
-              <div class="card-action">
-                <a href="#">This is a link</a>
-                <a href="#">This is a link</a>
-              </div>
-            </div>
-            <div class="card blue-grey darken-1">
-              <div class="card-content white-text">
-                <span class="card-title">Card Title</span>
-                <p>I am a very simple card. I am good at containing small bits of information.
-                I am convenient because I require little markup to use effectively.</p>
-              </div>
-              <div class="card-action">
-                <a href="#">This is a link</a>
-                <a href="#">This is a link</a>
-              </div>
-            </div>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            
           </div>
         </div>
           

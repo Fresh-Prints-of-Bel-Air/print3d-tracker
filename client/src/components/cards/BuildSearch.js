@@ -71,7 +71,7 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
         >
           <div className='row'>
             <div className='col s2'>
-              <label htmlFor='status' style={{"font-weight": "bold", "color" : "black" }}>Status:</label>
+              <label htmlFor='status'>Status:</label>
               <select 
                 name='status' 
                 value={status} 
@@ -86,7 +86,7 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
               </select>
             </div>
             <div className='col s2'>
-              <label htmlFor='startedFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Started From: </label>
+              <label htmlFor='startedFrom'>Builds Started From: </label>
               <input
                 name='startedFrom'
                 id='startedFrom'
@@ -96,11 +96,11 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
               />
             </div>
             <div className='col s2'>
-              <label htmlFor='startedTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
+              <label htmlFor='startedTo'>...To:</label>
               <input name='startedTo' id='startedTo' type='date' value={startedTo} onChange={onChange} />
             </div>
             <div className='col s2'>
-            <label htmlFor='deliveredFrom' style={{"font-weight": "bold", "color" : "black" }}>Builds Delivered From: </label>
+            <label htmlFor='deliveredFrom'>Builds Delivered From: </label>
               <input
                 name='deliveredFrom'
                 id='deliveredFrom'
@@ -110,15 +110,15 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
               />
             </div>
             <div className='col s2'>
-              <label htmlFor='deliveredTo' style={{"font-weight": "bold", "color" : "black" }}>...To:</label>
+              <label htmlFor='deliveredTo'>...To:</label>
               <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={onChange} />
             </div>
             <div className='col s1'>
-                <label htmlFor='operatorName' style={{"font-weight": "bold", "color" : "black" }}>Operator Name:</label>
+                <label htmlFor='operatorName'>Operator Name:</label>
                 <input name='operator' placeholder="First/Last" id="operatorName" type="text" value={operator} onChange={onChange}/>
             </div>
             <div className='col s1'>
-                <label htmlFor='projectName' style={{"font-weight": "bold", "color" : "black" }}>Project Name:</label>
+                <label htmlFor='projectName'>Project Name:</label>
                 <input placeholder="" type="text" id="project" name='project' value={project} onChange={onChange}/>
             </div>
             <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
@@ -136,7 +136,7 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
       </div>
     </div>
     
-  );
+  ); // style={{"font-weight": "bold", "color" : "black" }}
 };
 
 const mapStateToProps = (state) => ({

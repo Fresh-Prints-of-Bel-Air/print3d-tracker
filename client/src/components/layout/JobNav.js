@@ -7,9 +7,9 @@ const JobNav = () => {
       <div class="navbar-fixed">
         <nav className="white">
           <div class="nav-wrapper">
-            <ul className="left hide-on-med-and-down">
+            <ul className="left">
               <li>
-                <RequestJobModal/>
+              <a href="#modal1" className="waves-effect waves-light btn blue modal-trigger">Create Job</a>
               </li>
             </ul>
             <ul class="right hide-on-med-and-down">
@@ -27,6 +27,7 @@ const JobNav = () => {
           </div>
         </nav>
       </div>
+      <RequestJobModal/>
     </div>
   )
 }
