@@ -4,7 +4,6 @@ import BuildItem from './BuildItem';
 
 const BuildList = ({build: {builds}}) => {
   builds.forEach((build) => console.log(build._id));
-  //console.log("derp");
   return (
     <div style={{ backgroundImage: "url(/images/mountain_low_contrast.jpg"}}>
           {builds.length === 0 ? (

@@ -131,7 +131,6 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
                 <i className="material-icons right">clear</i>
             </button>
           </div>
-          
         </div>
       </div>
     </div>
