@@ -41,26 +41,24 @@ export const RequestJobModal = () => {
 
     return (
         <div>
-            <div id="modal1" className="modal">
+            <div id="modal1" className="modal modal-fixed-footer">
                 <div className="modal-content">
                     <h4 className="center">Create Print Job Request</h4>
                     <div className='row'>
-                    <div className='col s12'>
-                            <div className="input-field">
-                                <input 
-                                    type='text'     
-                                    name='requestedParts' 
-                                    value={requestedParts} 
-                                    onChange={e => setRequestedParts(e.target.value)} 
-                                />
-                                <label htmlFor="requestedParts" className="active">
-                                    Part Picker PlaceHolder
-                                </label>
+                        <div className='col s12'>
+                            <div className="file-field input-field">
+                                <div className="btn waves-effect blue" name="Select Files">
+                                    <span>Select Files</span>
+                                    <input type="file" multiple/>
+                                </div>
+                                <div className="file-path-wrapper">
+                                    <input className="file-path validate" type="text" placeholder="Upload one or more files"/>
+                                </div>
                             </div>
                         </div>
                     </div>
                     <div className='row'>
-                        <div className='col s6'>
+                        <div className='col s12'>
                             <div className="input-field">
                                 <input 
                                     type='text'     
@@ -69,26 +67,13 @@ export const RequestJobModal = () => {
                                     onChange={e => setFolderLocation(e.target.value)} 
                                 />
                                 <label htmlFor="folderLocation" className="active">
-                                Part Folder Location
-                                </label>
-                            </div>
-                        </div>
-                        <div className='col s6'>
-                            <div className="input-field">
-                                <input 
-                                    type='text'     
-                                    name='projectName' 
-                                    value={projectName} 
-                                    onChange={e => setProjectName(e.target.value)} 
-                                />
-                                <label htmlFor="projectName" className="active">
-                                    Project Name
+                                    Part Folder Location (File Path)
                                 </label>
                             </div>
                         </div>
                     </div>  
                     <div className='row'>
-                        <div className='col s6'>
+                        <div className='col s4'>
                             <div className="input-field">
                                 <input 
                                     type='date'     
@@ -101,52 +86,20 @@ export const RequestJobModal = () => {
                                 </label>
                             </div>
                         </div>
-                        <div className='col s6'>
+                        <div className='col s4'>
                             <div className="input-field">
                                 <select 
                                     name='status' 
                                     value={status} 
                                     onChange={e => setPriority(e.target.value)}
                                 >
-                                    <option value='' disabled selected>Priority 2</option>
                                     <option value='1'>Priority 1</option>
-                                    <option value='2'>Priority 2</option>
+                                    <option value='2' selected>Priority 2</option>
                                     <option value='3'>Priority 3</option>
                                 </select>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div className='row'>
-                        <div className='col s6'>
-                            <div className="input-field">
-                                <input 
-                                    type='text'     
-                                    name='resolution' 
-                                    value={resolution} 
-                                    onChange={e => setResolution(e.target.value)} 
-                                />
-                                <label htmlFor="resolution" className="active">
-                                    Resolution
-                                </label>
-                            </div>
-                        </div>
-                        <div className='col s6'>
-                            <div className="input-field">
-                                <input 
-                                    type='text'     
-                                    name='material' 
-                                    value={material} 
-                                    onChange={e => setMaterial(e.target.value)} 
-                                />
-                                <label htmlFor="material" className="active">
-                                Material
-                                </label>
-                            </div>
-                        </div>  
-                    </div>
-                    <div className='row'>
-                        <div className='col s6'>
+                        <div className='col s4'>
                             <div className="input-field">
                                 <input 
                                     type='text'
@@ -159,17 +112,60 @@ export const RequestJobModal = () => {
                                 </label>
                             </div>
                         </div>
-                        <button style={{'margin': '9px'}} className="btn waves-effect waves-light blue left" type="reset" name="clear">
+                    </div>
+                    <div className='row'>
+                        <div className='col s4'>
+                            <div className="input-field">
+                                <input 
+                                    type='text'     
+                                    name='projectName' 
+                                    value={projectName} 
+                                    onChange={e => setProjectName(e.target.value)} 
+                                />
+                                <label htmlFor="projectName" className="active">
+                                    Project Name
+                                </label>
+                            </div>
+                        </div>
+                        <div className='col s4'>
+                            <div className="input-field">
+                                <input 
+                                    type='text'     
+                                    name='material' 
+                                    value={material} 
+                                    onChange={e => setMaterial(e.target.value)} 
+                                />
+                                <label htmlFor="material" className="active">
+                                Material
+                                </label>
+                            </div>
+                        </div>  
+                        <div className='col s4'>
+                            <div className="input-field">
+                                <input 
+                                    type='text'     
+                                    name='resolution' 
+                                    value={resolution} 
+                                    onChange={e => setResolution(e.target.value)} 
+                                />
+                                <label htmlFor="resolution" className="active">
+                                    Resolution
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div className='modal-footer'>
+                        <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
                             Clear<i className="material-icons right">clear</i>
                         </button>
-                        <button style={{'margin': '9px'}} className="btn waves-effect waves-light blue center" type="reset" name="clear">
+                        <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
                             Refill<i className="material-icons right">format_color_fill</i>
                         </button>
-                        <button style={{'margin': '9px'}} className="modal-close s1 waves-effect btn blue right">
+                        <button style={{margin: '10px'}} className="modal-close waves-effect btn blue">
                             Submit<i className="material-icons right">send</i>
                         </button>
                     </div>
-                </div>
             </div>
         </div>
     )
