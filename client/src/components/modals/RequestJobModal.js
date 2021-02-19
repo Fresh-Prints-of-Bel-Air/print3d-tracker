@@ -7,7 +7,17 @@ export const RequestJobModal = () => {
         M.AutoInit();
     }, [])
 
-    const [requester, setRequester] = useState();
+    const [requestJobFormData, setRequestJobFormData] = useState({
+
+    });
+
+    const [partsQuantityFormsJSX, setPartsQuantityFormsJSX]  = useState(); // JSX object
+    const [partsQuantityForm, setPartsQuantityForm] = useState([{
+        name: '',
+        quantity: ''
+    }]);
+
+    //const [requester, setRequester] = useState();
     const [projectName, setProjectName] = useState();
     // const [dateRequested, setDateRequested] = useState();
     const [dateNeeded, setDateNeeded] = useState();
@@ -17,13 +27,13 @@ export const RequestJobModal = () => {
     const [resolution, setResolution] = useState();
     const [priority, setPriority] = useState();
     const [deliverTo, setDeliverTo] = useState();
-    const [status, setStatus] = useState();
+    //const [status, setStatus] = useState();
     const [notes, setNotes] = useState();
-    const [requestedParts, setRequestedParts] = useState();
+    const [requestedPartsList, setRequestedPartsList] = useState();
     // const [builds, setBuilds] = useState();
 
     const newJob = {
-        requester,
+        // requester,
         projectName,
         // dateRequested,
         dateNeeded,
@@ -33,10 +43,51 @@ export const RequestJobModal = () => {
         resolution,
         priority,
         deliverTo,
-        status,
+        // status,
         notes,
-        requestedParts,
+        // requestedParts,
         // builds
+    }
+
+    const partsFormOnChange = (e) => {
+        setRequestedPartsList(e.target.files);
+        console.log(e.target.value);
+        [...e.target.files].forEach((file, index) => {
+            setPartsQuantityForm([...partsQuantityForm, { partName: file.name, quantity: 0 }]);
+            
+            //console.log(e.target.files);
+        })
+        console.log(partsQuantityForm);
+
+        setPartsQuantityFormsJSX(
+            [...e.target.files].map((file, index) => (
+                <div className="row" key={index}>
+                    <div className="col s11">
+                        {file.name} {index}
+                    </div>
+                    <div className="col s1 right">
+                        <div className="input-field">
+                            <input 
+                                type='text'
+                                name={`quantity-${index}`} 
+                                value={partsQuantityForm[index]}
+                                onChange= { 
+                                    (e) => {
+                                        const newArr = [...partsQuantityForm];
+                                        newArr[0].quantity = e.target.value;
+                                        setPartsQuantityForm(newArr);
+                                    }
+                                }
+                            />
+                            <label htmlFor={`quantity-${index}`} className="active">
+                                Quantity
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            ))
+        )
+
     }
 
     return (
@@ -49,29 +100,35 @@ export const RequestJobModal = () => {
                             <div className="file-field input-field">
                                 <div className="btn waves-effect blue" name="Select Files">
                                     <span>Select Files</span>
-                                    <input type="file" multiple/>
+                                    <input type="file" multiple
+                                        onChange={partsFormOnChange}/>
                                 </div>
                                 <div className="file-path-wrapper">
-                                    <input className="file-path validate" type="text" placeholder="Upload one or more files"/>
+                                    <input 
+                                        className="file-path validate"
+                                        type="text"
+                                        placeholder="Upload one or more files"
+                                    />
                                 </div>
                             </div>
                         </div>
                     </div>
+                    {partsQuantityFormsJSX}
                     <div className='row'>
                         <div className='col s12'>
                             <div className="input-field">
-                                <input 
-                                    type='text'     
-                                    name='folderLocation' 
-                                    value={folderLocation} 
-                                    onChange={e => setFolderLocation(e.target.value)} 
+                                <input
+                                    type='text'
+                                    name='folderLocation'
+                                    value={folderLocation}
+                                    onChange={e => setFolderLocation(e.target.value)}
                                 />
                                 <label htmlFor="folderLocation" className="active">
                                     Part Folder Location (File Path)
                                 </label>
                             </div>
                         </div>
-                    </div>  
+                    </div>
                     <div className='row'>
                         <div className='col s4'>
                             <div className="input-field">
@@ -89,8 +146,8 @@ export const RequestJobModal = () => {
                         <div className='col s4'>
                             <div className="input-field">
                                 <select 
-                                    name='status' 
-                                    value={status} 
+                                    name='priority' 
+                                    value={priority} 
                                     onChange={e => setPriority(e.target.value)}
                                 >
                                     <option value='1'>Priority 1</option>
@@ -154,18 +211,34 @@ export const RequestJobModal = () => {
                             </div>
                         </div>
                     </div>
+                    <div className="row">
+                        <div className='col s12'>
+                            <div className="input-field">
+                                <textarea 
+                                    id="notes" 
+                                    name="notes"
+                                    className="materialize-textarea"
+                                    value={notes}
+                                    onChange={e => setNotes(e.target.value)} 
+                                ></textarea>
+                                <label htmlFor="notes" className="active">
+                                    Notes
+                                </label>
+                            </div>
+                        </div>  
+                    </div>
                 </div>
                 <div className='modal-footer'>
-                        <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
-                            Clear<i className="material-icons right">clear</i>
-                        </button>
-                        <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
-                            Refill<i className="material-icons right">format_color_fill</i>
-                        </button>
-                        <button style={{margin: '10px'}} className="modal-close waves-effect btn blue">
-                            Submit<i className="material-icons right">send</i>
-                        </button>
-                    </div>
+                    <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
+                        Clear<i className="material-icons right">clear</i>
+                    </button>
+                    <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
+                        Refill<i className="material-icons right">format_color_fill</i>
+                    </button>
+                    <button style={{margin: '10px'}} className="modal-close waves-effect btn blue">
+                        Submit<i className="material-icons right">send</i>
+                    </button>
+                </div>
             </div>
         </div>
     )
