@@ -10,6 +10,9 @@ export const Navbar = ({ user, logout }) => {
     <div class="navbar-fixed">
       <nav className='black'>
         <div className='nav-wrapper'>
+          <ul id='nav-mobile' className='left hide-on-med-and-down'>
+            <img src="/images/AltaViz.jpg" style={{maxWidth:'30%', maxHeight:'100%', filter: 'brightness(180%)'}}></img>
+          </ul>
           <ul id='nav-mobile' className='right hide-on-med-and-down'>
               { (localStorage.getItem("token") !== null) &&
                 <li>
