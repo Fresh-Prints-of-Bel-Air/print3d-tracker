@@ -3,9 +3,7 @@ import M from 'materialize-css';
 
 export const RequestJobModal = () => {
 
-    useEffect(() => {
-        M.AutoInit();
-    }, [])
+    
 
     const [requestJobFormData, setRequestJobFormData] = useState({
 
@@ -13,9 +11,17 @@ export const RequestJobModal = () => {
 
     const [partsQuantityFormsJSX, setPartsQuantityFormsJSX]  = useState(); // JSX object
     const [partsQuantityForm, setPartsQuantityForm] = useState([{
-        name: '',
+        partName: '',
         quantity: ''
     }]);
+
+    const partsQuantityDummy = [];
+
+    // useEffect(() => {
+    //     M.AutoInit();
+    //     console.log("useEffect call");
+    //     console.log(partsQuantityForm)
+    // }, [partsQuantityForm]);
 
     //const [requester, setRequester] = useState();
     const [projectName, setProjectName] = useState();
@@ -49,15 +55,27 @@ export const RequestJobModal = () => {
         // builds
     }
 
+    const formSubmit = (e) => {
+        //e.preventDefault();
+        console.log("formSubmit call");
+        //console.log(partsQuantityForm);
+        setPartsQuantityForm(partsQuantityDummy);
+    }
+
     const partsFormOnChange = (e) => {
         setRequestedPartsList(e.target.files);
         console.log(e.target.value);
         [...e.target.files].forEach((file, index) => {
-            setPartsQuantityForm([...partsQuantityForm, { partName: file.name, quantity: 0 }]);
-            
+            //partsQuantityDummy.push({ partName: file.name, quantity: 0 });
+            //const newArr = [...partsQuantityForm];
+            //newArr[index] = { partName: file.name, quantity: 0 };
+            //setPartsQuantityForm(newArr);
+            //setPartsQuantityForm([...partsQuantityForm, { partName: file.name, quantity: 0 }]);
             //console.log(e.target.files);
         })
         console.log(partsQuantityForm);
+
+        
 
         setPartsQuantityFormsJSX(
             [...e.target.files].map((file, index) => (
@@ -70,12 +88,13 @@ export const RequestJobModal = () => {
                             <input 
                                 type='text'
                                 name={`quantity-${index}`} 
-                                value={partsQuantityForm[index]}
+                                
                                 onChange= { 
                                     (e) => {
-                                        const newArr = [...partsQuantityForm];
-                                        newArr[0].quantity = e.target.value;
-                                        setPartsQuantityForm(newArr);
+                                        partsQuantityDummy.push({ partName: file.name, quantity: e.target.value });
+                                        //const newArr = [...partsQuantityForm];
+                                        //newArr[index] = { partName: file.name, quantity: e.target.value };
+                                        //setPartsQuantityForm(newArr);
                                     }
                                 }
                             />
@@ -232,10 +251,10 @@ export const RequestJobModal = () => {
                     <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
                         Clear<i className="material-icons right">clear</i>
                     </button>
-                    <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
+                    <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={formSubmit}>
                         Refill<i className="material-icons right">format_color_fill</i>
                     </button>
-                    <button style={{margin: '10px'}} className="modal-close waves-effect btn blue">
+                    <button style={{margin: '10px'}} className="waves-effect btn blue" onClick={formSubmit}>
                         Submit<i className="material-icons right">send</i>
                     </button>
                 </div>
