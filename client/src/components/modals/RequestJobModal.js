@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import M from 'materialize-css';
 
-import QuantityFields from './QuantityFields';
-
 export const RequestJobModal = () => {
     
     //const partsQuantityDummy = [];
