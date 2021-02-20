@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import M from 'materialize-css';
 
+import QuantityFields from './QuantityFields';
+
 export const RequestJobModal = () => {
-
     
-
-    const [requestJobFormData, setRequestJobFormData] = useState({
-
-    });
-
+    //const partsQuantityDummy = [];
+    //const [filesUploadedBool, setFilesUploadedBool] = useState(false); 
     const [partsQuantityFormsJSX, setPartsQuantityFormsJSX]  = useState(); // JSX object
-    const [partsQuantityForm, setPartsQuantityForm] = useState([{
-        partName: '',
-        quantity: ''
-    }]);
+    const [partsQuantities, setPartsQuantities] = useState([]);
+    const [requestedPartsList, setRequestedPartsList] = useState([]);
 
-    const partsQuantityDummy = [];
-
-    // useEffect(() => {
-    //     M.AutoInit();
-    //     console.log("useEffect call");
-    //     console.log(partsQuantityForm)
-    // }, [partsQuantityForm]);
+    useEffect(() => {
+        M.AutoInit();
+        console.log("useEffect call");
+        console.log("partsQuantities useEffect");
+        console.log(partsQuantities);
+    }, []);
 
     //const [requester, setRequester] = useState();
     const [projectName, setProjectName] = useState();
@@ -35,37 +30,79 @@ export const RequestJobModal = () => {
     const [deliverTo, setDeliverTo] = useState();
     //const [status, setStatus] = useState();
     const [notes, setNotes] = useState();
-    const [requestedPartsList, setRequestedPartsList] = useState();
     // const [builds, setBuilds] = useState();
-
-    const newJob = {
-        // requester,
-        projectName,
-        // dateRequested,
-        dateNeeded,
-        // completionDate,
-        folderLocation,
-        material,
-        resolution,
-        priority,
-        deliverTo,
-        // status,
-        notes,
-        // requestedParts,
-        // builds
-    }
 
     const formSubmit = (e) => {
         //e.preventDefault();
-        console.log("formSubmit call");
+        console.log("formSubmit call ----------------------");
+        // For some reason partsFileNames is now empty??
+        //partFileNames.forEach((fileName) => console.log(fileName)); 
+        console.log(requestedPartsList);
+        //requestedPartsList.forEach((fileName) => console.log(fileName));
+
+        //console.log("partsQuantityDummy");
+        // Also now empty
+        //console.log(partsQuantityDummy);
+        //partsQuantityDummy.forEach((quantity) => console.log(quantity));
+
+        console.log("partsQuantities state");
+        console.log(partsQuantities);
+        partsQuantities.forEach((quantity) => console.log(quantity));
+        
         //console.log(partsQuantityForm);
-        setPartsQuantityForm(partsQuantityDummy);
+        //setPartsQuantityForm(partsQuantityDummy);
+        let requestedParts = [];
+        requestedPartsList.forEach((fileName, index) => {
+            console.log(index);
+            console.log(partsQuantities[index]);
+            requestedParts.push({ 
+                name: fileName, 
+                quantity: partsQuantities[index] });
+        });
+        const newJob = {
+            requester: "Test",
+            projectName,
+            dateRequested: Date.now,
+            dateNeeded,
+            completionDate: Date.now,
+            folderLocation,
+            material,
+            resolution,
+            priority,
+            deliverTo,
+            status: "Requested",
+            notes,
+            requestedParts
+            // builds
+        }
+        console.log("final requested parts/quantity array of objects to be sent to the server:")
+        console.log(requestedParts);
+    }
+
+    const handleQuantityChange = (e) => {
+        let vals = partsQuantities;
+        console.log("handleQuantityChange call---------------------");
+        console.log("parts quantities state");
+        console.log(partsQuantities);
+        console.log([...partsQuantities]);
+        vals[e.target.name] = e.target.value;
+        console.log(`form index: ${e.target.name}`);
+        console.log(`form value: ${e.target.value}`)
+        console.log(`form value put into setPartQuantities: ${vals[e.target.name]}`);
+        setPartsQuantities(vals);
+
+        //partsQuantityDummy[e.target.name] = e.target.value;
+        //console.log("partsQuantityDummy");
+        //console.log(partsQuantityDummy);
     }
 
     const partsFormOnChange = (e) => {
-        setRequestedPartsList(e.target.files);
-        console.log(e.target.value);
+        let partFileNames = [];
+        console.log("partsFormOnChange");
+        console.log(e.target.files);
         [...e.target.files].forEach((file, index) => {
+            console.log(file);
+            partFileNames.push(file.name);
             //partsQuantityDummy.push({ partName: file.name, quantity: 0 });
             //const newArr = [...partsQuantityForm];
             //newArr[index] = { partName: file.name, quantity: 0 };
@@ -73,32 +110,22 @@ export const RequestJobModal = () => {
             //setPartsQuantityForm([...partsQuantityForm, { partName: file.name, quantity: 0 }]);
             //console.log(e.target.files);
         })
-        console.log(partsQuantityForm);
-
-        
-
+        partFileNames.forEach((fileName) => console.log(fileName));
+        setRequestedPartsList(partFileNames);
         setPartsQuantityFormsJSX(
-            [...e.target.files].map((file, index) => (
+            partFileNames.map((fileName, index) => (
                 <div className="row" key={index}>
                     <div className="col s11">
-                        {file.name} {index}
+                        {fileName}
                     </div>
                     <div className="col s1 right">
                         <div className="input-field">
                             <input 
                                 type='text'
-                                name={`quantity-${index}`} 
-                                
-                                onChange= { 
-                                    (e) => {
-                                        partsQuantityDummy.push({ partName: file.name, quantity: e.target.value });
-                                        //const newArr = [...partsQuantityForm];
-                                        //newArr[index] = { partName: file.name, quantity: e.target.value };
-                                        //setPartsQuantityForm(newArr);
-                                    }
-                                }
+                                name={index} 
+                                onChange= {handleQuantityChange}
                             />
-                            <label htmlFor={`quantity-${index}`} className="active">
+                            <label htmlFor={index} className="active">
                                 Quantity
                             </label>
                         </div>
