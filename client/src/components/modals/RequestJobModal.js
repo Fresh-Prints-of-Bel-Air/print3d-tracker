@@ -2,18 +2,12 @@ import React, { useState, useEffect } from 'react';
 import M from 'materialize-css';
 
 export const RequestJobModal = () => {
-    
-    //const partsQuantityDummy = [];
-    //const [filesUploadedBool, setFilesUploadedBool] = useState(false); 
-    const [partsQuantityFormsJSX, setPartsQuantityFormsJSX]  = useState(); // JSX object
+    const [partsQuantityFormsJSX, setPartsQuantityFormsJSX]  = useState();
     const [partsQuantities, setPartsQuantities] = useState([]);
     const [requestedPartsList, setRequestedPartsList] = useState([]);
 
     useEffect(() => {
         M.AutoInit();
-        console.log("useEffect call");
-        console.log("partsQuantities useEffect");
-        console.log(partsQuantities);
     }, []);
 
     //const [requester, setRequester] = useState();
@@ -32,27 +26,9 @@ export const RequestJobModal = () => {
 
     const formSubmit = (e) => {
         //e.preventDefault();
-        console.log("formSubmit call ----------------------");
-        // For some reason partsFileNames is now empty??
-        //partFileNames.forEach((fileName) => console.log(fileName)); 
-        console.log(requestedPartsList);
-        //requestedPartsList.forEach((fileName) => console.log(fileName));
-
-        //console.log("partsQuantityDummy");
-        // Also now empty
-        //console.log(partsQuantityDummy);
-        //partsQuantityDummy.forEach((quantity) => console.log(quantity));
-
-        console.log("partsQuantities state");
-        console.log(partsQuantities);
-        partsQuantities.forEach((quantity) => console.log(quantity));
         
-        //console.log(partsQuantityForm);
-        //setPartsQuantityForm(partsQuantityDummy);
         let requestedParts = [];
         requestedPartsList.forEach((fileName, index) => {
-            console.log(index);
-            console.log(partsQuantities[index]);
             requestedParts.push({ 
                 name: fileName, 
                 quantity: partsQuantities[index] });
@@ -79,49 +55,26 @@ export const RequestJobModal = () => {
 
     const handleQuantityChange = (e) => {
         let vals = partsQuantities;
-        console.log("handleQuantityChange call---------------------");
-        console.log("parts quantities state");
-        console.log(partsQuantities);
-        console.log([...partsQuantities]);
         vals[e.target.name] = e.target.value;
-        console.log(`form index: ${e.target.name}`);
-        console.log(`form value: ${e.target.value}`)
-        console.log(`form value put into setPartQuantities: ${vals[e.target.name]}`);
         setPartsQuantities(vals);
-
-        //partsQuantityDummy[e.target.name] = e.target.value;
-        //console.log("partsQuantityDummy");
-        //console.log(partsQuantityDummy);
     }
 
     const partsFormOnChange = (e) => {
-        let partFileNames = [];
-        console.log("partsFormOnChange");
-        console.log(e.target.files);
-        [...e.target.files].forEach((file, index) => {
-            console.log(file);
-            partFileNames.push(file.name);
-            //partsQuantityDummy.push({ partName: file.name, quantity: 0 });
-            //const newArr = [...partsQuantityForm];
-            //newArr[index] = { partName: file.name, quantity: 0 };
-            //setPartsQuantityForm(newArr);
-            //setPartsQuantityForm([...partsQuantityForm, { partName: file.name, quantity: 0 }]);
-            //console.log(e.target.files);
-        })
-        partFileNames.forEach((fileName) => console.log(fileName));
+        const partFileNames = [];
+        [...e.target.files].forEach((file, index) => partFileNames.push(file.name));
         setRequestedPartsList(partFileNames);
         setPartsQuantityFormsJSX(
             partFileNames.map((fileName, index) => (
                 <div className="row" key={index}>
-                    <div className="col s11">
+                    <div className="col s6">
                         {fileName}
                     </div>
-                    <div className="col s1 right">
+                    <div className="col s1">
                         <div className="input-field">
                             <input 
                                 type='text'
                                 name={index} 
-                                onChange= {handleQuantityChange}
+                                onChange={handleQuantityChange}
                             />
                             <label htmlFor={index} className="active">
                                 Quantity
@@ -131,7 +84,6 @@ export const RequestJobModal = () => {
                 </div>
             ))
         )
-
     }
 
     return (
@@ -279,7 +231,7 @@ export const RequestJobModal = () => {
                     <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={formSubmit}>
                         Refill<i className="material-icons right">format_color_fill</i>
                     </button>
-                    <button style={{margin: '10px'}} className="waves-effect btn blue" onClick={formSubmit}>
+                    <button style={{margin: '10px'}} className="waves-effect btn blue" type="submit" onClick={formSubmit}>
                         Submit<i className="material-icons right">send</i>
                     </button>
                 </div>
