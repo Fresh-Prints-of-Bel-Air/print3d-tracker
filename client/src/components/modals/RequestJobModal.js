@@ -2,7 +2,8 @@ import React, {useState, useEffect} from 'react';
 import QuantityForm from './QuantityForm';
 import M from 'materialize-css';
 
-
+//DB methods: POST (add build), GET (load last request)
+//Redux
 const RequestJobModal = () => {
 
   const [jobForm, setJobForm] = useState({

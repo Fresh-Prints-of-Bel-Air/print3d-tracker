@@ -7,6 +7,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
+  UPDATE_USER,
 } from '../actions/types';
 
 const initialState = {
@@ -53,6 +54,13 @@ export default (state = initialState, action) => {
         ...state,
         error: null,
       };
+    case UPDATE_USER:
+      return {
+        ...state,
+        user: action.payload,
+        loading: false,
+        error: null,
+      }
     default:
       return state;
   }

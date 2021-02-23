@@ -86,4 +86,9 @@ router.post(
   }
 );
 
+// @route   PUT api/users
+// @desc    Update a user
+// @access
+router.put()
+
 module.exports = router;

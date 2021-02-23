@@ -31,6 +31,12 @@ const UserSchema = mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'jobs',
   },
+
+  lastJobRequest: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'jobs',
+
+  }
 });
 
 module.exports = mongoose.model('User', UserSchema);

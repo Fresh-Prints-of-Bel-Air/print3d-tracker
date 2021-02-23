@@ -10,6 +10,7 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   CLEAR_ERRORS,
+  UPDATE_USER,
 } from './types';
 
 // Load user
@@ -26,6 +27,22 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: AUTH_ERROR });
   }
 };
+
+//Update User
+
+export const updateUser = (user) => async (dispatch) => {
+  console.log('updateUser is being called');
+
+  try{
+    const res = await axios.put('/api/users'); 
+    dispatch({type: UPDATE_USER, payload: res.data});
+  } catch (err) {
+    dispatch({type: AUTH_ERROR});
+  }
+
+
+}
+
 
 // Register User
 export const register = (formData) => async (dispatch) => {
