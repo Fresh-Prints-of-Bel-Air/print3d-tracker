@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authActions';
@@ -7,11 +7,11 @@ export const Navbar = ({ user, logout }) => {
   // click event function for Logout link
   const onLogout = () => logout();
   return (
-    <div class="navbar-fixed">
+    <div className="navbar-fixed">
       <nav className='black'>
         <div className='nav-wrapper'>
           <ul id='nav-mobile' className='left hide-on-med-and-down'>
-            <img src="/images/AltaViz.jpg" style={{maxWidth:'30%', maxHeight:'100%', filter: 'brightness(180%)'}}></img>
+            <img alt="Altaviz" src="/images/AltaViz.jpg" style={{maxWidth:'30%', maxHeight:'100%', filter: 'brightness(180%)'}}></img>
           </ul>
           <ul id='nav-mobile' className='right hide-on-med-and-down'>
               { (localStorage.getItem("token") !== null) &&

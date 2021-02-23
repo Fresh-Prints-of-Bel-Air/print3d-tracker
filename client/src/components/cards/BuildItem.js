@@ -1,4 +1,4 @@
-import React, { useEffect, useState, componentDidMount } from 'react';
+import React, { useEffect, useState } from 'react';
 import M from 'materialize-css';
 
 export const BuildItem = ( { build } ) => {
@@ -51,9 +51,9 @@ export const BuildItem = ( { build } ) => {
     const MAX_TABLE_SIZE = 10;
     let i = 0;
     while(i < partsBuilding.length && i < MAX_TABLE_SIZE){
-        if(i < MAX_TABLE_SIZE / 2)
+        if(i < MAX_TABLE_SIZE / 2) //half the loop runs here
             partsRow1.push(<td key={i}>{partsBuilding[i].name}</td>);
-        else
+        else //half the loop runs here
             partsRow2.push(<td key={i}>{partsBuilding[i].name}</td>);
         i++;
     }

@@ -5,7 +5,6 @@ import { loadUser } from '../../actions/authActions';
 import JobCard from '../cards/JobCard';
 import JobNav from '../layout/JobNav';
 import JobQueueItem from '../cards/JobQueueItem';
-import RequestJobModal from '../modals/RequestJobModal';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 const Home = ({ user, loadUser }) => {
