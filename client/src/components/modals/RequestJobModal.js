@@ -1,12 +1,27 @@
 import React, {useState, useEffect} from 'react';
+import Select from 'react-select';
 import QuantityForm from './QuantityForm';
-import addJob from '../../actions/jobActions';
-import updateUser from '../../actions/authActions';
+import { addJob } from '../../actions/jobActions';
+import { updateUser } from '../../actions/authActions';
 import M from 'materialize-css';
 
 //DB methods: POST (add build), GET (load last request)
 //Redux
 const RequestJobModal = ({user}) => {
+
+  const onPriorityChange = (name, event) => {
+      setJobForm({
+          ...jobForm,
+          priority: event.value
+      })
+  }
+
+
+  const prioritySelectOptions = [
+      { label: "Priority 1", value: "1"},
+      { label: "Priority 2", value: "2"},
+      { label: "Priority 3", value: "3"}
+  ]
 
   const [jobForm, setJobForm] = useState({
     projectName: '',
@@ -19,6 +34,22 @@ const RequestJobModal = ({user}) => {
     notes: '',
     requestedPartsList: [],
   });
+
+  const clearJobForm = () => {
+      setJobForm({
+        ...jobForm,
+        projectName: '',
+        dateNeeded: '',
+        folderLocation: '',
+        material: '',
+        resolution: '',
+        priority: '2', //needs to match the default value
+        deliverTo: '',
+        notes: '',
+        requestedPartsList: [],
+      })
+  }
+
 
   const {projectName, dateNeeded, folderLocation, material, resolution, priority, deliverTo, notes, requestedPartsList} = jobForm;
   
@@ -35,6 +66,10 @@ const RequestJobModal = ({user}) => {
       console.log("formSubmit call");
   }
 
+  const refillForm = () => {
+
+  }
+
   const onChange = (e) => {
         if(e.target.name === 'files'){
           setJobForm({
@@ -48,11 +83,11 @@ const RequestJobModal = ({user}) => {
           })
         }
         else{
-        setJobForm({
-          ...jobForm,
-          [e.target.name]: e.target.value
-        });
-      }
+            setJobForm({
+            ...jobForm,
+            [e.target.name]: e.target.value
+            });
+        }
     }
 
   const handleQuantityChange = (e) => { 
@@ -82,6 +117,7 @@ const RequestJobModal = ({user}) => {
                                       className="file-path validate"
                                       type="text"
                                       placeholder="Upload one or more files"
+                                      value={requestedPartsList.length === 0 ? '' : 'error'} // error should never happen, in fact all I need to do is say value='' but just to make it clear we're clearing the field when clearJobForm sets the parts list to empty
                                   />
                               </div>
                           </div>
@@ -119,17 +155,24 @@ const RequestJobModal = ({user}) => {
                           </div>
                       </div>
                       <div className='col s4'>
-                          <div className="input-field">
+                            {/* <label htmlFor='priority'>Status:</label>
                               <select 
                                   name='priority' 
                                   value={priority} 
                                   onChange={onChange}
                               >
+                                  <option value='' disabled selected>Priority 2</option>
                                   <option value='1'>Priority 1</option>
-                                  <option value='2' selected>Priority 2</option>
                                   <option value='3'>Priority 3</option>
-                              </select>
-                          </div>
+                              </select> */}
+                              <Select 
+                                name="priority"
+                                options={prioritySelectOptions} 
+                                value={priority} 
+                                
+                                onChange={event => onPriorityChange("priority", event)}
+                              />
+                          
                       </div>
                       <div className='col s4'>
                           <div className="input-field">
@@ -204,10 +247,10 @@ const RequestJobModal = ({user}) => {
                   </div>
               </div>
               <div className='modal-footer'>
-                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
+                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearJobForm}>
                       Clear<i className="material-icons right">clear</i>
                   </button>
-                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={formSubmit}>
+                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
                       Refill<i className="material-icons right">format_color_fill</i>
                   </button>
                   <button type='submit' style={{margin: '10px'}} className="waves-effect btn blue" onClick={formSubmit}>
