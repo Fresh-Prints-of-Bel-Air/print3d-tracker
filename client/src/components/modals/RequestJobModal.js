@@ -1,10 +1,12 @@
 import React, {useState, useEffect} from 'react';
 import QuantityForm from './QuantityForm';
+import addJob from '../../actions/jobActions';
+import updateUser from '../../actions/authActions';
 import M from 'materialize-css';
 
 //DB methods: POST (add build), GET (load last request)
 //Redux
-const RequestJobModal = () => {
+const RequestJobModal = ({user}) => {
 
   const [jobForm, setJobForm] = useState({
     projectName: '',
@@ -28,6 +30,8 @@ const RequestJobModal = () => {
       //e.preventDefault();
       console.log("Jobform is: ");
       console.log(jobForm);
+      addJob(jobForm);
+      updateUser({...user, lastJobRequest: jobForm});
       console.log("formSubmit call");
   }
 
