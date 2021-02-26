@@ -60,6 +60,21 @@ const RequestJobModal = () => {
       });
   }
 
+  const clearJobForm = () => {
+        setJobForm({
+            ...jobForm,
+            projectName: '',
+            dateNeeded: '',
+            folderLocation: '',
+            material: '',
+            resolution: '',
+            priority: '', //needs to match the default value
+            deliverTo: '',
+            notes: '',
+            requestedPartsList: [],
+        })
+  }
+
   return (
       <div>
           <div id="modal1" className="modal modal-fixed-footer ">
@@ -78,6 +93,7 @@ const RequestJobModal = () => {
                                       className="file-path validate"
                                       type="text"
                                       placeholder="Upload one or more files"
+                                      value='' // needed for the Clear button to work on the part text field
                                   />
                               </div>
                           </div>
@@ -116,9 +132,9 @@ const RequestJobModal = () => {
                       </div>
                       <div className='col s4'>
                           <div className="input-field">
-                              <select 
-                                  name='priority' 
-                                  value={priority} 
+                              <select
+                                  name='priority'
+                                  value={(priority !== '') ? priority : '2'}
                                   onChange={onChange}
                               >
                                   <option value='1'>Priority 1</option>
@@ -200,7 +216,7 @@ const RequestJobModal = () => {
                   </div>
               </div>
               <div className='modal-footer'>
-                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
+                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearJobForm}>
                       Clear<i className="material-icons right">clear</i>
                   </button>
                   <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={formSubmit}>
