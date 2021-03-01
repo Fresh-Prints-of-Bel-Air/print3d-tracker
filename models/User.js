@@ -33,9 +33,7 @@ const UserSchema = mongoose.Schema({
   },
 
   lastJobRequest: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: 'jobs',
-
+    type: Object,
   }
 });
 

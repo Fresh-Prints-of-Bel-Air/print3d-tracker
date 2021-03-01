@@ -21,7 +21,9 @@ export const loadUser = () => async (dispatch) => {
   }
 
   try {
+    console.log('getting logged in user...');
     const res = await axios.get('/api/auth'); // todo: make sure default route paths are set up properly
+    console.log(res.data);
     dispatch({ type: USER_LOADED, payload: res.data });
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
@@ -82,6 +84,7 @@ export const login = (formData) => async (dispatch) => {
       type: LOGIN_SUCCESS,
       payload: res.data,
     });
+    console.log("token is: ");
     console.log(localStorage.getItem('token'));
     loadUser();
   } catch (err) {

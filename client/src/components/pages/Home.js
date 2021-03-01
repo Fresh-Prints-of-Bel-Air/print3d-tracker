@@ -2,18 +2,22 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadUser } from '../../actions/authActions';
 // import BuildLogs from '../logs/BuildLogs';
+import Preloader from '../layout/Preloader';
 import JobCard from '../cards/JobCard';
 import JobNav from '../layout/JobNav';
 import JobQueueItem from '../cards/JobQueueItem';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
-const Home = ({ user, loadUser }) => {
+const Home = ({ user: {user, loading}, loadUser }) => {
   useEffect(() => {
     M.AutoInit();
     console.log('Home component mounted');
     loadUser();
     //eslint-disable-next-line
   }, []);
+  if(user === null || loading) {
+    return <Preloader/>;
+  }
   return (
     <div>
       

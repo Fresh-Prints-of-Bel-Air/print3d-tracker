@@ -1,15 +1,16 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
 import QuantityForm from './QuantityForm';
+import { connect } from 'react-redux';
 import { addJob } from '../../actions/jobActions';
 import { updateUser } from '../../actions/authActions';
 import M from 'materialize-css';
 
 //DB methods: POST (add build), GET (load last request)
 //Redux
-const RequestJobModal = ({user}) => {
-
-  const onPriorityChange = (option) => {
+const RequestJobModal = ({user: {user, loading}, addJob, updateUser}) => {
+  
+    const onPriorityChange = (option) => {
       setJobForm({
           ...jobForm,
           priority: option.value
@@ -32,7 +33,7 @@ const RequestJobModal = ({user}) => {
     priority: '2', //needs to match the default value
     deliverTo: '',
     notes: '',
-    requestedPartsList: [],
+    requestedParts: [],
   });
 
   const selectOptions = [
@@ -41,11 +42,13 @@ const RequestJobModal = ({user}) => {
       {value: '3', label: "Priority 3"},
     ];
 
-  const {projectName, dateNeeded, folderLocation, material, resolution, priority, deliverTo, notes, requestedPartsList} = jobForm;
+  const {projectName, dateNeeded, folderLocation, material, resolution, priority, deliverTo, notes, requestedParts} = jobForm;
   
   useEffect(() => {
+      console.log("User is: ");
+      console.log(user);
       M.AutoInit();
-  }, []);
+  }, [user]);
 
   const formSubmit = (e) => { //Redux & Back-end updates
       //e.preventDefault();
@@ -61,7 +64,7 @@ const RequestJobModal = ({user}) => {
         if(e.target.name === 'files'){
           setJobForm({
             ...jobForm,
-            requestedPartsList: [...e.target.files].map((file) => //take file list and map to new array containing objects with quantities
+            requestedParts: [...e.target.files].map((file) => //take file list and map to new array containing objects with quantities
               ({
                 name: file.name,
                 quantity: 0
@@ -78,11 +81,11 @@ const RequestJobModal = ({user}) => {
     }
 
   const handleQuantityChange = (e) => { 
-      let copyArray = requestedPartsList;
+      let copyArray = requestedParts;
       copyArray[e.target.name].quantity = e.target.value; //e.target.name is the index given to the component as a name. RequestedPartsList is an array of objects. 
       setJobForm({ //Can't edit one index of a useState array. Must completely overwrite array
         ...jobForm,
-        requestedPartsList: copyArray
+        requestedParts: copyArray
       });
   }
 
@@ -96,10 +99,11 @@ const RequestJobModal = ({user}) => {
         priority: '2', //needs to match the default value
         deliverTo: '',
         notes: '',
-        requestedPartsList: [],
+        requestedParts: [],
       });
   }
 
+ 
 
   return (
       <div>
@@ -119,13 +123,13 @@ const RequestJobModal = ({user}) => {
                                       className="file-path validate"
                                       type="text"
                                       placeholder="Upload one or more files"
-                                      value={requestedPartsList.length === 0 ? '' : requestedPartsList.map((part) => part.name).join(', ')} 
+                                      value={(requestedParts === undefined || requestedParts.length === 0) ? '' : requestedParts.map((part) => part.name).join(', ')} 
                                   />
                               </div>
                           </div>
                       </div>
                   </div>
-                  {requestedPartsList.map((part, index) => <QuantityForm key={index} part={part} index={index} handleQuantityChange={handleQuantityChange}/>)}
+                  {requestedParts.map((part, index) => <QuantityForm key={index} part={part} index={index} handleQuantityChange={handleQuantityChange}/>)}
                   <div className='row'>
                       <div className='col s12'>
                           <div className="input-field">
@@ -246,5 +250,8 @@ const RequestJobModal = ({user}) => {
       </div>
   )
 }
+const mapStateToProps = (state) => ({
+    user: state.user,
+});
 
-export default RequestJobModal;
+export default connect(mapStateToProps, {addJob, updateUser})(RequestJobModal);

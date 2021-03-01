@@ -15,9 +15,9 @@ router.post(
   // this parameter contains the middleware,
   // check calls from express-validator/check
   [
-    check('name', 'Please add name').not().isEmpty(),
+    check('name', 'Please add name').not().isEmpty().isString(),
     check('email', 'Please include a valid email').isEmail(),
-    check('password', 'Please enter 6 or more characters').isLength({ min: 6 }),
+    check('password', 'Please enter 6 or more characters').isLength({ min: 6 }).isString(),
   ],
   async (req, res) => {
     // contains errors as a result of the check calls
@@ -89,6 +89,44 @@ router.post(
 // @route   PUT api/users
 // @desc    Update a user
 // @access
-//router.put()
+router.put(
+  '/:id', 
+  [ 
+    //auth,
+    //add checks?
+  ],
+  async (req, res) => {
+    //const errors = validationResult(req);
+    // if (!errors.isEmpty) {
+    //   //handle errors
+    //   return res.status(400).json({ errors: errors.array() });
+    // }
+
+    try {
+      //check if build is in the database
+      const user = await User.findById(req.params.id);
+      if(!user) return res.status(404).json({msg: 'User not found'});
+ 
+      const {name, preferredView, email, password, jobQueue, requestedJobs, lastJobRequest} = req.body;
+      
+      const userFields = {};
+      if(name) userFields.name = name;
+      if(preferredView) userFields.preferredView = preferredView;
+      if(email) userFields.email = email;
+      if(password) userFields.password = password;
+      if(jobQueue) userFields.jobQueue = jobQueue;
+      if(requestedJobs) userFields.requestedJobs = requestedJobs;
+      if(lastJobRequest) userFields.lastJobRequest = lastJobRequest;
+      
+      let updatedUser = await User.findByIdAndUpdate(
+        req.params.id, 
+        { $set: userFields },
+        { new: true });
+        res.json(updatedUser);
+      } catch (err) {
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
 
 module.exports = router;
