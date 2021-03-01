@@ -89,6 +89,6 @@ router.post(
 // @route   PUT api/users
 // @desc    Update a user
 // @access
-router.put()
+//router.put()
 
 module.exports = router;

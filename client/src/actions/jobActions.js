@@ -7,9 +7,9 @@ import {
     UPDATE_JOB,
     GET_JOBS,
     JOBS_ERROR,
-    UPDATE_MOST_RECENT_JOB_REQUEST,
 } from './types';
-export const setLoading = () => {
+
+export const setLoading = (dispatch) => {
     dispatch({
         type: SET_LOADING // case is in buildReducer
     });

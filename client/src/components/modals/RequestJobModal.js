@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from 'react';
+import Select from 'react-select';
 import QuantityForm from './QuantityForm';
-import addJob from '../../actions/jobActions';
-import updateUser from '../../actions/authActions';
+import { addJob } from '../../actions/jobActions';
+import { updateUser } from '../../actions/authActions';
 import M from 'materialize-css';
 
 //DB methods: POST (add build), GET (load last request)
@@ -19,6 +20,12 @@ const RequestJobModal = ({user}) => {
     notes: '',
     requestedPartsList: [],
   });
+
+  const selectOptions = [
+      {value: '1', label: "Priority 1"},
+      {value: '2', label: "Priority 2"},
+      {value: '3', label: "Priority 3"},
+    ];
 
   const {projectName, dateNeeded, folderLocation, material, resolution, priority, deliverTo, notes, requestedPartsList} = jobForm;
   
@@ -54,6 +61,13 @@ const RequestJobModal = ({user}) => {
         });
       }
     }
+  const onSelectChange = (option) => {
+      console.log(option.value);
+      setJobForm({
+          ...jobForm,
+          priority: option.value, 
+      });
+  }
 
   const handleQuantityChange = (e) => { 
       let copyArray = requestedPartsList;
@@ -63,6 +77,24 @@ const RequestJobModal = ({user}) => {
         requestedPartsList: copyArray
       });
   }
+
+  const autoFillLastJobRequest = () => {
+      setJobForm(user.lastJobRequest);
+  }
+  const clearForm = () => {
+      setJobForm({
+        projectName: '',
+        dateNeeded: '',
+        folderLocation: '',
+        material: '',
+        resolution: '',
+        priority: '2', //needs to match the default value
+        deliverTo: '',
+        notes: '',
+        requestedPartsList: [],
+      });
+  }
+
 
   return (
       <div>
@@ -82,6 +114,7 @@ const RequestJobModal = ({user}) => {
                                       className="file-path validate"
                                       type="text"
                                       placeholder="Upload one or more files"
+                                      value=''
                                   />
                               </div>
                           </div>
@@ -119,17 +152,7 @@ const RequestJobModal = ({user}) => {
                           </div>
                       </div>
                       <div className='col s4'>
-                          <div className="input-field">
-                              <select 
-                                  name='priority' 
-                                  value={priority} 
-                                  onChange={onChange}
-                              >
-                                  <option value='1'>Priority 1</option>
-                                  <option value='2' selected>Priority 2</option>
-                                  <option value='3'>Priority 3</option>
-                              </select>
-                          </div>
+                          <Select options={selectOptions} onChange={onSelectChange} value={{label: `Priority ${priority}`, value: priority}}/>
                       </div>
                       <div className='col s4'>
                           <div className="input-field">
@@ -204,10 +227,10 @@ const RequestJobModal = ({user}) => {
                   </div>
               </div>
               <div className='modal-footer'>
-                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear">
+                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearForm}>
                       Clear<i className="material-icons right">clear</i>
                   </button>
-                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={formSubmit}>
+                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={autoFillLastJobRequest}>
                       Refill<i className="material-icons right">format_color_fill</i>
                   </button>
                   <button type='submit' style={{margin: '10px'}} className="waves-effect btn blue" onClick={formSubmit}>
