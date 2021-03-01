@@ -9,6 +9,20 @@ import M from 'materialize-css';
 //Redux
 const RequestJobModal = ({user}) => {
 
+  const onPriorityChange = (option) => {
+      setJobForm({
+          ...jobForm,
+          priority: option.value
+      })
+  }
+
+
+  const prioritySelectOptions = [
+      { label: "Priority 1", value: "1"},
+      { label: "Priority 2", value: "2"},
+      { label: "Priority 3", value: "3"}
+  ]
+
   const [jobForm, setJobForm] = useState({
     projectName: '',
     dateNeeded: '',
@@ -42,6 +56,7 @@ const RequestJobModal = ({user}) => {
       console.log("formSubmit call");
   }
 
+
   const onChange = (e) => {
         if(e.target.name === 'files'){
           setJobForm({
@@ -55,19 +70,12 @@ const RequestJobModal = ({user}) => {
           })
         }
         else{
-        setJobForm({
-          ...jobForm,
-          [e.target.name]: e.target.value
-        });
-      }
+            setJobForm({
+            ...jobForm,
+            [e.target.name]: e.target.value
+            });
+        }
     }
-  const onSelectChange = (option) => {
-      console.log(option.value);
-      setJobForm({
-          ...jobForm,
-          priority: option.value, 
-      });
-  }
 
   const handleQuantityChange = (e) => { 
       let copyArray = requestedPartsList;
@@ -78,9 +86,6 @@ const RequestJobModal = ({user}) => {
       });
   }
 
-  const autoFillLastJobRequest = () => {
-      setJobForm(user.lastJobRequest);
-  }
   const clearForm = () => {
       setJobForm({
         projectName: '',
@@ -114,7 +119,7 @@ const RequestJobModal = ({user}) => {
                                       className="file-path validate"
                                       type="text"
                                       placeholder="Upload one or more files"
-                                      value=''
+                                      value={requestedPartsList.length === 0 ? '' : requestedPartsList.map((part) => part.name).join(', ')} 
                                   />
                               </div>
                           </div>
@@ -152,7 +157,7 @@ const RequestJobModal = ({user}) => {
                           </div>
                       </div>
                       <div className='col s4'>
-                          <Select options={selectOptions} onChange={onSelectChange} value={{label: `Priority ${priority}`, value: priority}}/>
+                          <Select options={selectOptions} onChange={onPriorityChange} value={{label: `Priority ${priority}`, value: priority}} isSearchable={false}/>
                       </div>
                       <div className='col s4'>
                           <div className="input-field">
@@ -230,7 +235,7 @@ const RequestJobModal = ({user}) => {
                   <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearForm}>
                       Clear<i className="material-icons right">clear</i>
                   </button>
-                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={autoFillLastJobRequest}>
+                  <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
                       Refill<i className="material-icons right">format_color_fill</i>
                   </button>
                   <button type='submit' style={{margin: '10px'}} className="waves-effect btn blue" onClick={formSubmit}>

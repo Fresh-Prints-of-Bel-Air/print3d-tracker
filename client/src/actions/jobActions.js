@@ -8,7 +8,6 @@ import {
     GET_JOBS,
     JOBS_ERROR,
 } from './types';
-
 export const setLoading = (dispatch) => {
     dispatch({
         type: SET_LOADING // case is in buildReducer
