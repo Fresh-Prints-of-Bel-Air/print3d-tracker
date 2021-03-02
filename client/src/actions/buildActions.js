@@ -99,7 +99,7 @@ export const updateBuild = (build) => async (dispatch) => {
   }
 }
 
-export const setLoading = () => async(dispatch) => {
+export const setLoading = () => async (dispatch) => {
     dispatch({
       type: SET_LOADING,
     });

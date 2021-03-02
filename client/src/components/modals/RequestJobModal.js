@@ -93,7 +93,7 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
         //e.preventDefault();
         console.log("Jobform is: ");
         console.log(jobForm);
-        addJob(jobForm);
+        addJob({ ...jobForm, requester: user.name, status: "Requested" });
         updateUser({...user, lastJobRequest: jobForm});
         console.log("formSubmit call");
     }
@@ -229,13 +229,13 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
                     </div>
                 </div>
                 <div className='modal-footer'>
-                    <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearForm}>
+                    <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={clearForm}>
                         Clear<i className="material-icons right">clear</i>
                     </button>
-                    <button style={{margin: '10px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
+                    <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
                         Refill<i className="material-icons right">format_color_fill</i>
                     </button>
-                    <button type='submit' style={{margin: '10px'}} className="waves-effect btn blue" onClick={formSubmit}>
+                    <button type='submit' style={{margin: '10px'}} className="btn blue" onClick={formSubmit}>
                         Submit<i className="material-icons right">send</i>
                     </button>
                 </div>
@@ -243,7 +243,7 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
         </div>
     )
 }
-
+ 
 const mapStateToProps = (state) => ({
     user: state.user,
 });

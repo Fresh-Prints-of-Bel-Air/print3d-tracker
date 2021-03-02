@@ -106,7 +106,8 @@ router.put(
       //check if build is in the database
       const user = await User.findById(req.params.id);
       if(!user) return res.status(404).json({msg: 'User not found'});
- 
+      console.log("updating user with the object: ");
+      console.log(req.body);
       const {name, preferredView, email, password, jobQueue, requestedJobs, lastJobRequest} = req.body;
       
       const userFields = {};
