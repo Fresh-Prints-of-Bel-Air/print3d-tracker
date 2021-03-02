@@ -25,19 +25,12 @@ const UserSchema = mongoose.Schema({
   },
   jobQueue: {
     type: mongoose.Schema.Types.ObjectId,
-    
   },
   requestedJobs: {
     type: mongoose.Schema.Types.ObjectId,
-    
   },
   lastJobRequest: {
-<<<<<<< HEAD
-    type: mongoose.Schema.Types.ObjectId,
-    
-=======
     type: Object,
->>>>>>> e62d749ce510a5c42162a03bb38964b09a364aa9
   }
 });
 

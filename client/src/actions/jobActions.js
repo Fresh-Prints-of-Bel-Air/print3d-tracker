@@ -69,6 +69,7 @@ export const updateJob = (job) => async (dispatch) => {
 }
 
 export const addJob = (job) => async (dispatch) => {
+    console.log("entered addJob");
     setLoading();
 
     try{

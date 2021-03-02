@@ -1,7 +1,6 @@
 import React from 'react'
 import RequestJobModal from '../modals/RequestJobModal';
 
-
 const JobNav = () => {
   return (
     <div>
