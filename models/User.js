@@ -25,17 +25,15 @@ const UserSchema = mongoose.Schema({
   },
   jobQueue: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'jobs',
+    
   },
   requestedJobs: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'jobs',
+    
   },
-
   lastJobRequest: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'jobs',
-
+    
   }
 });
 
