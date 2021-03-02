@@ -32,8 +32,12 @@ const UserSchema = mongoose.Schema({
     
   },
   lastJobRequest: {
+<<<<<<< HEAD
     type: mongoose.Schema.Types.ObjectId,
     
+=======
+    type: Object,
+>>>>>>> e62d749ce510a5c42162a03bb38964b09a364aa9
   }
 });
 
