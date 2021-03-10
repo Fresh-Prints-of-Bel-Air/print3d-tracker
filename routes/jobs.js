@@ -14,12 +14,13 @@ router.get(
     // auth,
     [], 
     async (req, res) => {
-
+    
+    console.log("routes jobs get");
     const filter = {
         status: { $ne: 'Complete' } // not equals
     }
     
-    const { requester, status, dateRequested } = req.body;
+    const { requester, status, dateRequested } = req.query;
 
     if(status) filter.status = { $eq: status};
     if(requester) filter.requester = { $eq: requester };

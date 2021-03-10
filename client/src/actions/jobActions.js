@@ -17,7 +17,7 @@ export const setLoading = () => async (dispatch) => {
 export const getJobs = (filter) => async (dispatch) => {
     setLoading();
     try {
-        const res = await axios.get('/api/jobs', filter);
+        const res = await axios.get('/api/jobs', { params: filter });
         dispatch({
             type: GET_JOBS,
             payload: res.data

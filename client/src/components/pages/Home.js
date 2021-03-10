@@ -50,14 +50,7 @@ const Home = ({ user: {user, loading}, loadUser }) => {
           <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
             My Job Requests
             <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
+
             
           </div>
         </div>
