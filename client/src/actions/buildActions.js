@@ -23,7 +23,7 @@ export const getBuilds = (filter) => async (dispatch) => {
     dispatch({
       type: GET_BUILDS, 
       payload: res.data});
-    console.log("dispatched");
+    console.log("GET_BUILDS dispatched");
     console.log(res.data);
   }
   catch (err) {

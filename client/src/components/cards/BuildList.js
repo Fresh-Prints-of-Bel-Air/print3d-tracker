@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import BuildItem from './BuildItem';
 
 const BuildList = ({build: {builds}}) => {
+  console.log("build IDs in the list:");
   builds.forEach((build) => console.log(build._id));
   return (
     <div style={{ backgroundImage: "url(/images/mountain_low_contrast.jpg"}}>

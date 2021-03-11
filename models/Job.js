@@ -1,6 +1,8 @@
 const mongoose = require("mongoose");
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const JobSchema = mongoose.Schema({
+    job_number: {type: Number, default: 0},
     requester: { //on card
         type: String,
         required: true
@@ -64,5 +66,7 @@ const JobSchema = mongoose.Schema({
     }] 
     
 })
+
+BuildSchema.plugin(AutoIncrement, { inc_field: "job_number" });
 
 module.exports = mongoose.model('Job', JobSchema);

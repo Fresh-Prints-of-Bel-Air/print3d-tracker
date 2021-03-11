@@ -69,9 +69,7 @@ export const updateJob = (job) => async (dispatch) => {
 }
 
 export const addJob = (job) => async (dispatch) => {
-    console.log("entered addJob");
     setLoading();
-    console.log("got past the set loading");
     try{
         const res = await axios.post('/api/jobs', job);
         dispatch({

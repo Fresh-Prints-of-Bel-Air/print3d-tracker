@@ -1,28 +1,11 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { loadUser } from '../../actions/authActions';
-// import BuildLogs from '../logs/BuildLogs';
-import Preloader from '../layout/Preloader';
+import React from 'react';
 import JobCard from '../cards/JobCard';
-import JobNav from '../layout/JobNav';
-import JobQueue from '../cards/JobQueue';
-import M from 'materialize-css/dist/js/materialize.min.js';
+import JobQueueItem from '../cards/JobQueueItem';
 
-const Home = ({ user: {user, loading}, loadUser }) => {
-  useEffect(() => {
-    M.AutoInit();
-    console.log('Home component mounted');
-    loadUser();
-    //eslint-disable-next-line
-  }, []);
-  if(user === null || loading) {
-    return <Preloader/>;
-  }
+const EngineerHome = () => {
   return (
     <div>
-      
-      <JobNav/>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+       <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
             <ul className="collapsible expandable">
                 <li className="active">
@@ -49,18 +32,20 @@ const Home = ({ user: {user, loading}, loadUser }) => {
           </div>
           <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
             My Job Requests
-            <JobQueue/>
-
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
+            <JobQueueItem/>
             
           </div>
         </div>
-          
     </div>
-  );
-};
+  )
+}
 
-const mapStateToProps = (state) => ({
-  user: state.user,
-});
-
-export default connect(mapStateToProps, { loadUser })(Home);
+export default EngineerHome;
