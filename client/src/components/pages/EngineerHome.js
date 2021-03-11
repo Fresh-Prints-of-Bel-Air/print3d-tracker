@@ -1,6 +1,6 @@
 import React from 'react';
 import JobCard from '../cards/JobCard';
-import JobQueueItem from '../cards/JobQueueItem';
+import JobQueue from '../cards/JobQueue';
 
 const EngineerHome = () => {
   return (
@@ -32,15 +32,8 @@ const EngineerHome = () => {
           </div>
           <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
             My Job Requests
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
-            <JobQueueItem/>
+            <JobQueue/>
+
             
           </div>
         </div>

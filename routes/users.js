@@ -111,7 +111,7 @@ router.put(
       const {name, preferredView, email, password, jobQueue, requestedJobs, lastJobRequest} = req.body;
       
       const userFields = {};
-      if(name) userFields.name = name;
+      if(name) userFields.name = 'Boe Jiden';
       if(preferredView) userFields.preferredView = preferredView;
       if(email) userFields.email = email;
       if(password) userFields.password = password;

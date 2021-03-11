@@ -39,10 +39,11 @@ export const updateUser = (user) => async (dispatch) => {
       'Content-Type' : 'application/json',
     }
   }
-
   try{
-    const res = await axios.put(`/api/users/${user._id}`, user, config);
-    console.log("past the axios call");  
+    
+    const res = await axios.put(`/api/users/${user._id}`, user, config); 
+    console.log('updated user is: ');
+    console.log(res);
     dispatch({type: UPDATE_USER, payload: res.data});
   } catch (err) {
     dispatch({type: AUTH_ERROR});
