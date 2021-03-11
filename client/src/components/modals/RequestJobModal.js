@@ -235,11 +235,7 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
                     <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
                         Refill<i className="material-icons right">format_color_fill</i>
                     </button>
-<<<<<<< Updated upstream
-                    <button type='submit' style={{margin: '10px'}} className="btn blue" onClick={formSubmit}>
-=======
                     <button type='submit' style={{margin: '10px'}} className=" btn blue" onClick={formSubmit}>
->>>>>>> Stashed changes
                         Submit<i className="material-icons right">send</i>
                     </button>
                 </div>

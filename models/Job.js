@@ -67,6 +67,6 @@ const JobSchema = mongoose.Schema({
     
 })
 
-BuildSchema.plugin(AutoIncrement, { inc_field: "job_number" });
+JobSchema.plugin(AutoIncrement, { inc_field: "job_number" });
 
 module.exports = mongoose.model('Job', JobSchema);
