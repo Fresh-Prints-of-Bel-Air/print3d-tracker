@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { loadUser } from '../../actions/authActions';
-// import BuildLogs from '../logs/BuildLogs';
 import Preloader from '../layout/Preloader';
-import JobCard from '../cards/JobCard';
 import JobNav from '../layout/JobNav';
-import JobQueue from '../cards/JobQueue';
+import EngineerHome from './EngineerHome';
+import OperatorHome from './OperatorHome';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 const Home = ({ user: {user, loading}, loadUser }) => {
@@ -20,41 +19,8 @@ const Home = ({ user: {user, loading}, loadUser }) => {
   }
   return (
     <div>
-      
       <JobNav/>
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
-          <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
-            <ul className="collapsible expandable">
-                <li className="active">
-                  <div className="collapsible-header">Filter Options</div>
-                  <div className="collapsible-body">
-                    Filter options
-                  </div>
-                </li>
-                <li className="active">
-                    <div className="collapsible-header">Job Requests</div>
-                    <div className="collapsible-body">
-                      <JobCard />   
-                      <JobCard />
-                    </div>
-                </li>
-                <li className="active">
-                    <div className="collapsible-header">Accepted Jobs</div>
-                    <div className="collapsible-body">
-                      <span>Lorem ipsum dolor sit amet.</span>
-                    
-                    </div>
-                </li>
-            </ul>
-          </div>
-          <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
-            My Job Requests
-            <JobQueue/>
-
-            
-          </div>
-        </div>
-          
+      {user.preferredView === 'Operator' ? <OperatorHome/> : <EngineerHome/>}
     </div>
   );
 };

@@ -9,7 +9,7 @@ const UserSchema = mongoose.Schema({
     type: String,
     enum: [
       'Engineer',
-      'Printer'
+      'Operator'
     ],
     required: true,
     default: 'Engineer'

@@ -106,7 +106,7 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
                     <div className='row'>
                         <div className='col s12'>
                             <div className="file-field input-field">
-                                <div className="btn waves-effect blue" name="Select Files">
+                                <div className="btn blue" name="Select Files">
                                     <span>Select Files</span>
                                     <input type="file" name="files" multiple
                                         onChange={onChange}/>
@@ -235,7 +235,11 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
                     <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
                         Refill<i className="material-icons right">format_color_fill</i>
                     </button>
+<<<<<<< Updated upstream
                     <button type='submit' style={{margin: '10px'}} className="btn blue" onClick={formSubmit}>
+=======
+                    <button type='submit' style={{margin: '10px'}} className=" btn blue" onClick={formSubmit}>
+>>>>>>> Stashed changes
                         Submit<i className="material-icons right">send</i>
                     </button>
                 </div>

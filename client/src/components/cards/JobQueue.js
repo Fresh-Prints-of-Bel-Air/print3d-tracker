@@ -5,10 +5,10 @@ import JobQueueItem from './JobQueueItem';
 
 export const JobQueue = ({ job: { jobs }, getJobs }) => {
     
-    getJobs({});
+    //getJobs({});
 
     useEffect(() => {
-        //getJobs({});
+        getJobs({});
         console.log("Jobqueue useEffect called");
         //jobs.forEach((job) => console.log(job));
     }, []);
