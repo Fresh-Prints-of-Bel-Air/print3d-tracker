@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const JobSchema = mongoose.Schema({
+    job_number: {type: Number, default: 0},
     requester: { //on card
         type: String,
         required: true

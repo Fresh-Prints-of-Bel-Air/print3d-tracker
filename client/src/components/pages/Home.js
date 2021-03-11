@@ -5,7 +5,7 @@ import { loadUser } from '../../actions/authActions';
 import Preloader from '../layout/Preloader';
 import JobCard from '../cards/JobCard';
 import JobNav from '../layout/JobNav';
-import JobQueueItem from '../cards/JobQueueItem';
+import JobQueue from '../cards/JobQueue';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 const Home = ({ user: {user, loading}, loadUser }) => {
@@ -49,7 +49,7 @@ const Home = ({ user: {user, loading}, loadUser }) => {
           </div>
           <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
             My Job Requests
-            <JobQueueItem/>
+            <JobQueue/>
 
             
           </div>
