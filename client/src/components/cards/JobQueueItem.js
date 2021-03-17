@@ -7,16 +7,16 @@ export const JobQueueItem = ({ job }) => {
         <div className="card" style={{ backgroundColor: '#323840' }}>
               <div className="card-content white-text" style={{ padding: 0 }}>
                 <div className="row grey darken-3" style={{ margin: 0 }}>
-                  <div className="col s1 grey darken-2" style={{ padding: 2 }}>
+                  <div className="col s1 grey darken-4">
                     #{job_number}
                   </div>
-                  <div className="col s2">
+                  <div className="col s2 grey darken-2 center">
                     {projectName}
                   </div>
-                  <div className="col s6">
+                  <div className="col s6 center">
                     Requested By {requester} on {dateRequested.split('T')[0]}
                   </div>
-                  <div className="col s3 grey darken-2">
+                  <div className="col s3 center grey darken-2">
                     STATUS: {status}
                   </div>
                 </div>
@@ -25,13 +25,13 @@ export const JobQueueItem = ({ job }) => {
                   <div className="col s1" style={{ padding: 2 }}>
                     
                   </div>
-                  <div className="col s2">
-                    Folder:
+                  <div className="col s2 grey darken-2">
+                    
                   </div>
-                  <div className="col s6">
-                    {folderLocation}
+                  <div className="col s6 center">
+                    in {folderLocation}
                   </div>
-                  <div className="col s3 grey darken-2">
+                  <div className="col s3 center grey darken-2">
                     PRIORITY: {priority}
                   </div>
                 </div>
@@ -61,23 +61,37 @@ export const JobQueueItem = ({ job }) => {
 
                 <div className="row"></div>
                 
-                <div className="row grey darken-3">
+                <div className="row grey darken-3" style={{ margin: 0 }}>
                   <div className="col s1" style={{ padding: 2 }}>
                     
                   </div>
-                  <div className="col s3">
-                    Material: {material}
+                  <div className="col s3 center">
+                    Material:
                   </div>
-                  <div className="col s3 grey darken-2">
-                    Resolution: {resolution}
+                  <div className="col s3 center grey darken-2">
+                    Resolution:
                   </div>
-                  <div className="col s3">
-                    Needed by: {dateNeeded.split('T')[0]}
+                  <div className="col s4 center">
+                    Needed by:
+                  </div>
+                </div>
+                <div className="row grey darken-3" style={{ margin: 0 }}>
+                  <div className="col s1" style={{ padding: 2 }}>
+                    
+                  </div>
+                  <div className="col s3 center">
+                    {material}
+                  </div>
+                  <div className="col s3 center grey darken-2">
+                    {resolution} 
+                  </div>
+                  <div className="col s4 center">
+                    {dateNeeded.split('T')[0]}
                   </div>
                 </div>
                 
-                <div className="row center">
-                  notes: {notes}
+                <div className="row center" style={{ margin: 0 }}>
+                  NOTE: {notes}
                 </div>
               </div>
               
