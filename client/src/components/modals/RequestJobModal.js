@@ -50,7 +50,8 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
                 requestedParts: [...e.target.files].map((file) => ({ 
                     name: file.name,
                     // make sure to do error checking on the submit to make sure the quantity values are integers > 0 
-                    quantity: '' 
+                    quantity: '',
+                    building: '',
                 })
                 )
             })
@@ -66,7 +67,8 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
     const handleQuantityChange = (e) => { 
         let copyArray = requestedParts;
         // e.target.name is the index given to the component as a name. RequestedPartsList is an array of objects.
-        copyArray[e.target.name].quantity = e.target.value; 
+        copyArray[e.target.name].quantity = e.target.value;
+        copyArray[e.target.name].remaining = e.target.value; 
         // Can't edit one index of a useState array. Must completely overwrite array 
         setJobForm({ 
             ...jobForm,
@@ -93,16 +95,16 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
         //e.preventDefault();
         console.log("Jobform is: ");
         console.log(jobForm);
-        addJob({ ...jobForm, requester: user.name, status: "Requested" });
+        addJob({ ...jobForm, requester: user.name, status: "Requested"});
         updateUser({...user, lastJobRequest: jobForm});
         console.log("formSubmit call");
     }
 
     return (
         <div>
-            <div id="modal1" className="modal modal-fixed-footer ">
+            <div id="jobModal" className="modal modal-fixed-footer ">
                 <div className="modal-content">
-                    <h4 className="center">Create Print Job Request</h4>
+                    <h4 className="">Create Print Job Request</h4>
                     <div className='row'>
                         <div className='col s12'>
                             <div className="file-field input-field">
@@ -235,7 +237,7 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
                     <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
                         Refill<i className="material-icons right">format_color_fill</i>
                     </button>
-                    <button type='submit' style={{margin: '10px'}} className=" btn blue" onClick={formSubmit}>
+                    <button type='submit' style={{margin: '10px'}} className="btn blue" onClick={formSubmit}>
                         Submit<i className="material-icons right">send</i>
                     </button>
                 </div>
