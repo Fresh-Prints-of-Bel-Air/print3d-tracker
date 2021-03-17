@@ -11,10 +11,10 @@ export const JobQueueItem = ({ job }) => {
                     #{job_number}
                   </div>
                   <div className="col s2 grey darken-2 center">
-                    {projectName}
+                    {dateRequested.split('T')[0]}
                   </div>
                   <div className="col s6 center">
-                    Requested By {requester} on {dateRequested.split('T')[0]}
+                    Requested By {requester}
                   </div>
                   <div className="col s3 center grey darken-2">
                     STATUS: {status}
@@ -22,16 +22,13 @@ export const JobQueueItem = ({ job }) => {
                 </div>
 
                 <div className="row grey darken-3">
-                  <div className="col s1" style={{ padding: 2 }}>
-                    
+                  <div className="col s3 center">
+                    {projectName}
                   </div>
-                  <div className="col s2 grey darken-2">
-                    
+                  <div className="col s6 center grey darken-2">
+                    {folderLocation}
                   </div>
-                  <div className="col s6 center">
-                    in {folderLocation}
-                  </div>
-                  <div className="col s3 center grey darken-2">
+                  <div className="col s3 center">
                     PRIORITY: {priority}
                   </div>
                 </div>
