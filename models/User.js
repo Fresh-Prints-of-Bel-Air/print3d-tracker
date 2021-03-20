@@ -23,12 +23,12 @@ const UserSchema = mongoose.Schema({
     type: String,
     required: true,
   },
-  jobQueue: {
+  jobQueue: [{
     type: mongoose.Schema.Types.ObjectId,
-  },
-  requestedJobs: {
+  }],
+  requestedJobs: [{
     type: mongoose.Schema.Types.ObjectId,
-  },
+  }],
   lastJobRequest: {
     type: Object,
   }

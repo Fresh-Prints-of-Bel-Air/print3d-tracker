@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
-import QuantityForm from './QuantityForm';
+import JobQuantityForm from './JobQuantityForm';
 import { connect } from 'react-redux';
 import { addJob } from '../../actions/jobActions';
 import { updateUser } from '../../actions/authActions';
@@ -8,7 +8,7 @@ import M from 'materialize-css';
 
 // DB methods: POST (add build), GET (load last request)
 
-const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
+const RequestJobModal = ({ user: { user }, addJob, updateUser }) => {
     useEffect(() => {
         console.log("User is: ");
         console.log(user);
@@ -96,7 +96,12 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
         console.log("Jobform is: ");
         console.log(jobForm);
         addJob({ ...jobForm, requester: user.name, status: "Requested"});
-        updateUser({...user, lastJobRequest: jobForm});
+        let userRequestedJobs = [...user.requestedJobs, jobForm];
+        updateUser({
+            ...user, 
+            lastJobRequest: jobForm, 
+            requestedJobs: userRequestedJobs,
+        });
         console.log("formSubmit call");
     }
 

@@ -12,6 +12,8 @@ const BuildSchema = mongoose.Schema({
   partsBuilding: [
     {
       name: String,
+      quantity: Number,
+      job: String
     },
   ],
   material: {
