@@ -94,7 +94,7 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
         console.log("Jobform is: ");
         console.log(jobForm);
         addJob({ ...jobForm, requester: user.name, status: "Requested" });
-        updateUser({...user, lastJobRequest: jobForm});
+        updateUser({...user, lastJobRequest: jobForm, requestedJobs: [...user.requestedJobs, jobForm]});
         console.log("formSubmit call");
     }
 
