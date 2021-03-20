@@ -1,6 +1,6 @@
 import React from 'react';
 
-const QuantityForm = ({part, index, handleQuantityChange}) => {
+const JobQuantityForm = ({part, index, handleQuantityChange}) => {
   return (
         <div className="row">
             <div className="col s6">
@@ -23,4 +23,4 @@ const QuantityForm = ({part, index, handleQuantityChange}) => {
     )
 }
 
-export default QuantityForm;
+export default JobQuantityForm;

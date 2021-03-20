@@ -1,4 +1,5 @@
 import {
+    //GET_USER_JOBS,
     GET_JOBS,
     JOBS_ERROR,
     SET_LOADING,
@@ -24,6 +25,10 @@ export default (state = initialState, action) => {
                 loading: false,
                 error: null
             }
+        // case GET_USER_JOBS: 
+        // {
+        //     return
+        // }
         case JOBS_ERROR:
             return {
                 ...state,

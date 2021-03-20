@@ -52,9 +52,13 @@ export const deleteJob = (id) => async (dispatch) => {
 
 export const updateJob = (job) => async (dispatch) => {
     setLoading();
-
+    const config = {
+        headers: {
+          'Content-Type' : 'application/json',
+        }
+    }
     try{
-        const res = await axios.put(`/api/jobs/${job.id}`, job);
+        const res = await axios.put(`/api/jobs/${job.id}`, job, config);
         dispatch({
             type: UPDATE_JOB,
             payload: job
@@ -70,8 +74,13 @@ export const updateJob = (job) => async (dispatch) => {
 
 export const addJob = (job) => async (dispatch) => {
     setLoading();
+    const config = {
+        headers: {
+          'Content-Type' : 'application/json',
+        }
+    }
     try{
-        const res = await axios.post('/api/jobs', job);
+        const res = await axios.post('/api/jobs', job, config);
         dispatch({
             type: ADD_JOB,
             payload: job,
@@ -85,3 +94,5 @@ export const addJob = (job) => async (dispatch) => {
         console.error('Job add error.');
     }
 }
+
+ 

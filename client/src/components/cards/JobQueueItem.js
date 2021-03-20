@@ -11,7 +11,7 @@ export const JobQueueItem = ({ job }) => {
                     #{job_number}
                   </div>
                   <div className="col s2 grey darken-2 center">
-                    {dateRequested.split('T')[0]}
+                    {dateRequested && dateRequested.split('T')[0]}
                   </div>
                   <div className="col s6 center">
                     Requested By {requester}

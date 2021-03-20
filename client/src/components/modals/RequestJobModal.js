@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import Select from 'react-select';
-import QuantityForm from './QuantityForm';
+import JobQuantityForm from './JobQuantityForm';
 import { connect } from 'react-redux';
 import { addJob } from '../../actions/jobActions';
 import { updateUser } from '../../actions/authActions';
@@ -8,7 +8,7 @@ import M from 'materialize-css';
 
 // DB methods: POST (add build), GET (load last request)
 
-const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
+const RequestJobModal = ({ user: { user }, addJob, updateUser }) => {
     useEffect(() => {
         console.log("User is: ");
         console.log(user);
@@ -50,7 +50,8 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
                 requestedParts: [...e.target.files].map((file) => ({ 
                     name: file.name,
                     // make sure to do error checking on the submit to make sure the quantity values are integers > 0 
-                    quantity: '' 
+                    quantity: '',
+                    building: '',
                 })
                 )
             })
@@ -66,7 +67,8 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
     const handleQuantityChange = (e) => { 
         let copyArray = requestedParts;
         // e.target.name is the index given to the component as a name. RequestedPartsList is an array of objects.
-        copyArray[e.target.name].quantity = e.target.value; 
+        copyArray[e.target.name].quantity = e.target.value;
+        copyArray[e.target.name].remaining = e.target.value; 
         // Can't edit one index of a useState array. Must completely overwrite array 
         setJobForm({ 
             ...jobForm,
@@ -100,9 +102,9 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
 
     return (
         <div>
-            <div id="modal1" className="modal modal-fixed-footer ">
+            <div id="jobModal" className="modal modal-fixed-footer ">
                 <div className="modal-content">
-                    <h4 className="center">Create Print Job Request</h4>
+                    <h4 className="">Create Print Job Request</h4>
                     <div className='row'>
                         <div className='col s12'>
                             <div className="file-field input-field">
@@ -122,7 +124,7 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
                             </div>
                         </div>
                     </div>
-                    {requestedParts.map((part, index) => <QuantityForm key={index} part={part} index={index} handleQuantityChange={handleQuantityChange}/>)}
+                    {requestedParts.map((part, index) => <JobQuantityForm key={index} part={part} index={index} handleQuantityChange={handleQuantityChange}/>)}
                     <div className='row'>
                         <div className='col s12'>
                             <div className="input-field">
@@ -235,7 +237,7 @@ const RequestJobModal = ({ user: { user, loading }, addJob, updateUser }) => {
                     <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
                         Refill<i className="material-icons right">format_color_fill</i>
                     </button>
-                    <button type='submit' style={{margin: '10px'}} className=" btn blue" onClick={formSubmit}>
+                    <button type='submit' style={{margin: '10px'}} className="btn blue" onClick={formSubmit}>
                         Submit<i className="material-icons right">send</i>
                     </button>
                 </div>

@@ -18,7 +18,7 @@ const JobSchema = mongoose.Schema({
     },
     dateNeeded: {
         type: Date,
-        default: Date.now
+        default: Date.now,
     },
 
     // Set when Job is complete, all parts delivered
@@ -56,7 +56,9 @@ const JobSchema = mongoose.Schema({
     // array of objects with a string for the name and a number for the quantity
     requestedParts: [{ //collapsible
         name: String,
-        quantity: Number
+        quantity: Number,
+        building: Number,
+        remaining: Number,
     }],
 
     // array of Builds used complete the Job

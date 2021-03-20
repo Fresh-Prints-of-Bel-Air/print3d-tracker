@@ -1,5 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import RequestJobModal from '../modals/RequestJobModal';
+import CreateBuildModal from '../modals/CreateBuildModal';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
  
@@ -14,7 +15,6 @@ const JobNav = ({user: {user}, updateUser}) => {
     console.log(toggle.current.checked);
     console.log(user.preferredView);
     if(toggle.current.checked) {
-      console.log('should be switced to operator');
       updateUser({...user, preferredView: 'Operator'});
     }
     else{
@@ -30,9 +30,9 @@ const JobNav = ({user: {user}, updateUser}) => {
             <ul className="left">
               <li>
               {user.preferredView === 'Engineer' ? 
-                <a href="#modal1" className="waves-effect waves-light btn blue modal-trigger">Create Job</a> 
+                <a href="#jobModal" className="waves-effect waves-light btn blue modal-trigger">Create Job</a> 
                 : 
-                <a href="#modal2" className="waves-effect waves-light btn blue modal-trigger">Create Build</a>
+                <a href="#buildModal" className="waves-effect waves-light btn blue modal-trigger">Create Build</a>
               } 
               </li>
             </ul>
@@ -51,7 +51,7 @@ const JobNav = ({user: {user}, updateUser}) => {
           </div>
         </nav>
       </div>
-      <RequestJobModal/>
+      {user.preferredView === 'Engineer' ? <RequestJobModal/> : <CreateBuildModal/>}
     </div>
   )
 }
