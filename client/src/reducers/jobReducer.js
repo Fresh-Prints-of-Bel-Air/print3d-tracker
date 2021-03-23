@@ -1,6 +1,7 @@
 import {
     //GET_USER_JOBS,
     GET_JOBS,
+    GET_USER_JOBS,
     JOBS_ERROR,
     SET_LOADING,
     ADD_JOB,
@@ -12,6 +13,7 @@ import {
 const initialState = {
     loading: true,
     error: null,
+    userJobs: [],
     jobs: [],
     view: 'Engineer',
 }
@@ -25,10 +27,13 @@ export default (state = initialState, action) => {
                 loading: false,
                 error: null
             }
-        // case GET_USER_JOBS: 
-        // {
-        //     return
-        // }
+        case GET_USER_JOBS: 
+            return {
+                ...state,
+                userJobs: action.payload,
+                loading: false,
+                error: null
+            }   
         case JOBS_ERROR:
             return {
                 ...state,

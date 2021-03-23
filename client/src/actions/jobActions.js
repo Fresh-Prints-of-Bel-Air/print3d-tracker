@@ -6,13 +6,35 @@ import {
     DELETE_JOB,
     UPDATE_JOB,
     GET_JOBS,
+    GET_USER_JOBS,
     JOBS_ERROR,
+    UPDATE_USER,
+    AUTH_ERROR
+
 } from './types';
 export const setLoading = () => async (dispatch) => {
     dispatch({
         type: SET_LOADING // case is in buildReducer
     });
 }
+
+export const getUserRequestedJobs = (jobIdArray) => async (dispatch) => {
+    setLoading();
+    try {
+        const res = await axios.get('api/jobs/userRequests/', jobIdArray);
+        dispatch({
+            type: GET_USER_JOBS,
+            payload: res.data,
+        })
+    }  catch (err) {
+        dispatch({
+            type: JOBS_ERROR,
+            payload: err.response.statusText
+        });
+        console.error('getUserRequestedJobs error.');
+    }
+}
+
 
 export const getJobs = (filter) => async (dispatch) => {
     setLoading();
@@ -72,19 +94,39 @@ export const updateJob = (job) => async (dispatch) => {
     }
 }
 
-export const addJob = (job) => async (dispatch) => {
+export const addJob = (job, user) => async (dispatch) => { //can also update the user with their most recently requested job
     setLoading();
     const config = {
         headers: {
           'Content-Type' : 'application/json',
         }
     }
+    let jobResponse;
     try{
-        const res = await axios.post('/api/jobs', job, config);
+        jobResponse = await axios.post('/api/jobs', job, config);
+        console.log(jobResponse.data._id);
+        console.log('user is: ');
+        console.log(user);
         dispatch({
             type: ADD_JOB,
-            payload: job,
+            payload: jobResponse.data,
         });
+        if(user){
+            console.log('user is true');
+            try{
+                const res = await axios.put(`/api/users/${user._id}`, {...user, requestedJobs: [...user.requestedJobs, jobResponse.data._id]}, config);
+                dispatch({
+                    type: UPDATE_USER,
+                    payload: res.data
+                });
+                console.log(res.data);
+            } catch (err){
+                dispatch({
+                    type: AUTH_ERROR,
+                    payload: err.response.statusText
+                });
+            }
+        }
     }
     catch(err){
         dispatch({
@@ -93,6 +135,7 @@ export const addJob = (job) => async (dispatch) => {
         });
         console.error('Job add error.');
     }
+    
 }
 
  
