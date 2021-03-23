@@ -42,7 +42,7 @@ export const JobCard = ({ job }) => {
                   <div className="col s1 align-right cyan darken-4">Qty</div>
                   <div className="col s3"></div>
                 </div>
-                {requestedParts.map((partEntry, index) => { return index % 2 ? ( 
+                {requestedParts && requestedParts.map((partEntry, index) => { return index % 2 ? ( 
                     <div className="row" key={index} style={{ margin: 0 }}>
                       <div className="col s3"></div>
                       <div className="col s5 align-left blue darken-3">{partEntry.name}</div>
@@ -83,7 +83,7 @@ export const JobCard = ({ job }) => {
                     {material}
                   </div>
                   <div className="col s4 center">
-                    {dateNeeded.split('T')[0]}
+                    {dateNeeded && dateNeeded.split('T')[0]}
                   </div>
                   <div className="col s3 center grey darken-3">
                     {resolution} 
