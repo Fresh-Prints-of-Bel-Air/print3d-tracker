@@ -1,17 +1,19 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { getJobs } from '../../actions/jobActions';
+import { getUserRequestedJobs } from '../../actions/jobActions';
 import JobCard from './JobCard';
 
-export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
+export const JobList = ({ job: { jobs, userJobs }, user: { user }, getJobs, getUserRequestedJobs }) => {
     useEffect(() => {
         console.log("user is: ");
         console.log(user);
+        getUserRequestedJobs(user.requestedJobs);
         getJobs({});
     }, []);
 
     return (
-        user.requestedJobs.map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id} />)
+        userJobs.map((job) => <JobCard job={job} key={job._id} />)
     )
 }
 
@@ -20,4 +22,4 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-export default connect(mapStateToProps, { getJobs })(JobList);
+export default connect(mapStateToProps, { getJobs, getUserRequestedJobs})(JobList);

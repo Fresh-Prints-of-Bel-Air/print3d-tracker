@@ -50,6 +50,22 @@ router.get(
     }
   });
   
+  //find many (array of IDs)
+
+  router.get(
+    '/userRequests',
+    //auth,
+    [],
+    async (req, res) => {
+      try {
+        const jobs = await Job.find().where('_id').in(req.query).exec();
+        res.json(jobs);
+      } catch (err) {
+        console.error(err.message);
+        res.status(500).send('server error');
+      }
+    }
+  )
   //@route POST api/jobs
   //@desc Add a Job
   //@access Public

@@ -8,12 +8,13 @@ import M from 'materialize-css';
 
 // DB methods: POST (add build), GET (load last request)
 
-const RequestJobModal = ({ user: { user }, addJob, updateUser }) => {
+const RequestJobModal = ({ job: { lastCreatedJobID }, user: { user }, addJob, updateUser }) => {
     useEffect(() => {
         console.log("User is: ");
         console.log(user);
         M.AutoInit();
-    }, [user]);
+    }, []);
+
 
     const [jobForm, setJobForm] = useState({
         projectName: '',
@@ -95,8 +96,9 @@ const RequestJobModal = ({ user: { user }, addJob, updateUser }) => {
         //e.preventDefault();
         console.log("Jobform is: ");
         console.log(jobForm);
-        addJob({ ...jobForm, requester: user.name, status: "Requested" });
-        updateUser({...user, lastJobRequest: jobForm, requestedJobs: [...user.requestedJobs, jobForm]});
+        addJob({ ...jobForm, requester: user.name, status: "Requested" }, {...user, lastJobRequest: jobForm}); 
+        console.log('requestJobModal formsubmit');
+        console.log(user.lastJobRequest);
         console.log("formSubmit call");
     }
 
@@ -237,7 +239,7 @@ const RequestJobModal = ({ user: { user }, addJob, updateUser }) => {
                     <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
                         Refill<i className="material-icons right">format_color_fill</i>
                     </button>
-                    <button type='submit' style={{margin: '10px'}} className="btn blue" onClick={formSubmit}>
+                    <button type='submit' style={{margin: '10px'}} className="btn blue modal-close" onClick={formSubmit}>
                         Submit<i className="material-icons right">send</i>
                     </button>
                 </div>
@@ -248,6 +250,7 @@ const RequestJobModal = ({ user: { user }, addJob, updateUser }) => {
  
 const mapStateToProps = (state) => ({
     user: state.user,
+    job: state.job,
 });
 
 export default connect(mapStateToProps, {addJob, updateUser})(RequestJobModal);
