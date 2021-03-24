@@ -7,6 +7,10 @@ const JobSchema = mongoose.Schema({
         type: String,
         required: true
     },
+    requesterId: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: true
+    },
     projectName: { //on card
         type: String,
         required: true
