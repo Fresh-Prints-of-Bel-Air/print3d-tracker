@@ -5,35 +5,32 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator/check');
 const config = require('config');
 const Job = require("../models/Job");
+const mongoose = require('mongoose');
 
-//@route GET api/jobs
-//@desc Get a job
-//@access Public
-// get by filter
 router.get(
-    // auth,
-    [], 
-    async (req, res) => {
-    
-    console.log("routes jobs get");
-    const filter = {
-        status: { $ne: 'Complete' } // not equals
-    }
-    
-    const { requester, status, dateRequested } = req.query;
-
-    if(status) filter.status = { $eq: status};
-    if(requester) filter.requester = { $eq: requester };
-    if(dateRequested) filter.dateRequested = { $eq: dateRequested };
-
+  '/userRequests',
+  //auth,
+  [],
+  async (req, res) => {
     try {
-        const job = await Job.find(filter);
-        res.json(job);
+      console.log('routes jobs get /userRequests');
+
+      // const objectIdArray = req.query.jobIdArray.map((idString) => {
+      //   new mongoose.Types.ObjectId(idString);
+      // })
+
+      const jobs = await Job.find({ '_id': { $in: req.query.jobIdArray } });
+
+      //const jobs = await Job.find().where('_id').in(req.query.jobIdArray).exec();
+      console.log("jobs after the Stack Overflow line: ");
+      console.log(jobs);
+      res.json(jobs);
     } catch (err) {
-        console.error(err.message);
-        res.status(500).send('server error');
+      console.error(err.message);
+      res.status(500).send('server error');
     }
-  });
+  }
+)
 
   // get by ID
   router.get(
@@ -50,22 +47,37 @@ router.get(
     }
   });
   
-  //find many (array of IDs)
+ //@route GET api/jobs
+//@desc Get a job
+//@access Public
+// get by filter
+router.get(
+  '/',
+  // auth,
+  [],
+  async (req, res) => {
+  
+  console.log("routes jobs get /");
+  const filter = {
+      status: { $ne: 'Complete' } // not equals
+  }
+  
+  const { requester, status, dateRequested } = req.query;
 
-  router.get(
-    '/userRequests',
-    //auth,
-    [],
-    async (req, res) => {
-      try {
-        const jobs = await Job.find().where('_id').in(req.query).exec();
-        res.json(jobs);
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send('server error');
-      }
-    }
-  )
+  if(status) filter.status = { $eq: status};
+  if(requester) filter.requester = { $eq: requester };
+  if(dateRequested) filter.dateRequested = { $eq: dateRequested };
+
+  try {
+      const job = await Job.find(filter);
+      res.json(job);
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('server error');
+  }
+});
+
+  
   //@route POST api/jobs
   //@desc Add a Job
   //@access Public

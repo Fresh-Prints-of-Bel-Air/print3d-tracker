@@ -21,7 +21,10 @@ export const setLoading = () => async (dispatch) => {
 export const getUserRequestedJobs = (jobIdArray) => async (dispatch) => {
     setLoading();
     try {
-        const res = await axios.get('api/jobs/userRequests/', jobIdArray);
+        console.log("entered Get UserRequestedJobs");
+        const res = await axios.get('/api/jobs/userRequests', { params: { jobIdArray } });
+        console.log("made it past the await axios, and the response is:");
+        console.log(res.data);
         dispatch({
             type: GET_USER_JOBS,
             payload: res.data,
@@ -29,7 +32,7 @@ export const getUserRequestedJobs = (jobIdArray) => async (dispatch) => {
     }  catch (err) {
         dispatch({
             type: JOBS_ERROR,
-            payload: err.response.statusText
+            payload: err.response
         });
         console.error('getUserRequestedJobs error.');
     }
@@ -39,7 +42,7 @@ export const getUserRequestedJobs = (jobIdArray) => async (dispatch) => {
 export const getJobs = (filter) => async (dispatch) => {
     setLoading();
     try {
-        const res = await axios.get('/api/jobs', filter);
+        const res = await axios.get('/api/jobs', { params: filter } );
         dispatch({
             type: GET_JOBS,
             payload: res.data

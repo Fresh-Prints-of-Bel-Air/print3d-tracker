@@ -23,7 +23,7 @@ const EngineerHome = () => {
             </div>
             <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
               
-              <JobQueue/>
+              
             </div>
           </div>
       </div>
