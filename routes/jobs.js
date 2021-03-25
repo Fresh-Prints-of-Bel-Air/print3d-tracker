@@ -6,11 +6,43 @@ const { check, validationResult } = require('express-validator/check');
 const config = require('config');
 const Job = require("../models/Job");
 
+//find many (array of IDs)
+
+router.get(
+  '/multipleJobsById',
+  //auth,
+  [],
+  async (req, res) => {
+    try {
+      const jobs = await Job.find().where('_id').in(req.query.jobIdArray).exec();
+      res.json(jobs);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('server error');
+    }
+  });
+
+// get by ID
+router.get(
+  '/:id', 
+  // auth,
+  [], 
+  async (req, res) => {
+  try {
+      const job = await Job.findById(req.params.id);
+      res.json(job);
+  } catch (err) {
+      console.error(err.message);
+      res.status(500).send('server error');
+  }
+});
+
 //@route GET api/jobs
 //@desc Get a job
 //@access Public
 // get by filter
 router.get(
+    '/',
     // auth,
     [], 
     async (req, res) => {
@@ -35,37 +67,6 @@ router.get(
     }
   });
 
-  // get by ID
-  router.get(
-    '/:id', 
-    // auth,
-    [], 
-    async (req, res) => {
-    try {
-        const job = await Job.findById(req.params.id);
-        res.json(job);
-    } catch (err) {
-        console.error(err.message);
-        res.status(500).send('server error');
-    }
-  });
-  
-  //find many (array of IDs)
-
-  router.get(
-    '/userRequests',
-    //auth,
-    [],
-    async (req, res) => {
-      try {
-        const jobs = await Job.find().where('_id').in(req.query).exec();
-        res.json(jobs);
-      } catch (err) {
-        console.error(err.message);
-        res.status(500).send('server error');
-      }
-    }
-  )
   //@route POST api/jobs
   //@desc Add a Job
   //@access Public

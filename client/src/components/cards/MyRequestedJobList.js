@@ -2,22 +2,23 @@ import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { getJobs } from '../../actions/jobActions';
 import { getJobsByIdArray } from '../../actions/jobActions';
+import JobCard from './JobCard';
 import JobQueueItem from './JobQueueItem';
 
-// the list of the jobs in the user's jobQueue (shown in operator view, right)
+// the list of the user's requested jobs
 
-export const JobQueue = ({ job: { jobs, userJobs }, user: { user }, getJobs, getJobsByIdArray }) => {
+export const MyRequestedJobList = ({ job: { jobs, userJobs }, user: { user }, getJobs, getJobsByIdArray }) => {
     useEffect(() => {
         console.log("user is: ");
         console.log(user);
         console.log("User's requested-job IDs:");
-        console.log(user.jobQueue);
-        getJobsByIdArray(user.jobQueue);
+        console.log(user.requestedJobs);
+        getJobsByIdArray(user.requestedJobs);
         //getJobs({});
     }, []);
 
     return (
-        userJobs && userJobs.map((job) => <JobQueueItem job={job} key={job._id} />)
+        userJobs && userJobs.map((job) => <JobCard job={job} key={job._id} />)
     )
 }
 
@@ -26,4 +27,4 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-export default connect(mapStateToProps, { getJobs, getJobsByIdArray })(JobQueue);
+export default connect(mapStateToProps, { getJobs, getJobsByIdArray })(MyRequestedJobList);

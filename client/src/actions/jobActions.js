@@ -18,12 +18,12 @@ export const setLoading = () => async (dispatch) => {
     });
 }
 
-export const getUserRequestedJobs = (jobIdArray) => async (dispatch) => {
+export const getJobsByIdArray = (jobIdArray) => async (dispatch) => {
     setLoading();
     try {
-        const res = await axios.get('api/jobs/userrequests', jobIdArray);
-        console.log("passed the get userRequest axios call");
-        console.log(res.data);
+        
+        const res = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray } });
+        console.log(res);
         dispatch({
             type: GET_USER_JOBS,
             payload: res.data,
@@ -31,9 +31,9 @@ export const getUserRequestedJobs = (jobIdArray) => async (dispatch) => {
     }  catch (err) {
         dispatch({
             type: JOBS_ERROR,
-            payload: err.response
+            payload: err.response.statusText,
         });
-        console.error('getUserRequestedJobs error.');
+        console.error('getJobsByIdArray error.');
     }
 }
 
@@ -41,7 +41,7 @@ export const getUserRequestedJobs = (jobIdArray) => async (dispatch) => {
 export const getJobs = (filter) => async (dispatch) => {
     setLoading();
     try {
-        const res = await axios.get('/api/jobs/', filter);
+        const res = await axios.get('/api/jobs', { params: filter });
         dispatch({
             type: GET_JOBS,
             payload: res.data
