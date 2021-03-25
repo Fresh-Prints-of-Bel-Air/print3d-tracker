@@ -8,12 +8,14 @@ export const JobList = ({ job: { jobs, userJobs }, user: { user }, getJobs, getU
     useEffect(() => {
         console.log("user is: ");
         console.log(user);
+        console.log("User's requested-job IDs:");
+        console.log(user.requestedJobs);
         getUserRequestedJobs(user.requestedJobs);
-        getJobs({});
+        //getJobs({});
     }, []);
 
     return (
-        userJobs.map((job) => <JobCard job={job} key={job._id} />)
+        userJobs && userJobs.map((job) => <JobCard job={job} key={job._id} />)
     )
 }
 
@@ -22,4 +24,4 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-export default connect(mapStateToProps, { getJobs, getUserRequestedJobs})(JobList);
+export default connect(mapStateToProps, { getJobs, getUserRequestedJobs })(JobList);

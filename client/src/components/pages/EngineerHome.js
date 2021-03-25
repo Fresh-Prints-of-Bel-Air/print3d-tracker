@@ -6,7 +6,7 @@ import JobList from '../cards/JobList';
 const EngineerHome = () => {
   return (
     <div style={{backgroundImage: "url(/images/mountain_low_contrast.jpg"}}>
-      <div style={{marginRight: '10%', marginLeft: '10%'}}>
+      <div style={{marginRight: '8%', marginLeft: '8%'}}>
         <div className="row" style={{backgroundColor: 'black', marginBottom: '15px'}}>
           <div className="col s1"></div>
           <div className="center col s4 white" style={{border: '2px solid black'}}>My Print Job Requests 
@@ -23,7 +23,7 @@ const EngineerHome = () => {
             </div>
             <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
               
-              <JobQueue/>
+              
             </div>
           </div>
       </div>
