@@ -1,19 +1,17 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
-import { getJobs } from '../../actions/jobActions';
 import { getJobsByIdArray } from '../../actions/jobActions';
 import JobQueueItem from './JobQueueItem';
 
 // the list of the jobs in the user's jobQueue (shown in operator view, right)
 
-export const JobQueue = ({ job: { jobs, userJobs }, user: { user }, getJobs, getJobsByIdArray }) => {
+export const JobQueue = ({ job: { userJobs }, user: { user }, getJobsByIdArray }) => {
     useEffect(() => {
         console.log("user is: ");
         console.log(user);
         console.log("User's requested-job IDs:");
         console.log(user.jobQueue);
         getJobsByIdArray(user.jobQueue);
-        //getJobs({});
     }, []);
 
     return (
@@ -26,4 +24,4 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-export default connect(mapStateToProps, { getJobs, getJobsByIdArray })(JobQueue);
+export default connect(mapStateToProps, { getJobsByIdArray })(JobQueue);
