@@ -1,11 +1,24 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import M from 'materialize-css/dist/js/materialize.min.js';
+import { connect } from 'react-redux';
+import { updateUser } from '../../actions/authActions';
+// import 
 
-export const JobCard = ({ job }) => {
+const JobCard = ({user: { user }, job, updateUser }) => {
+    const [acceptedState, setAcceptedState] = useState({
+      accepted: false,
+    });
+
     useEffect(() => {
         M.AutoInit();
       }, []);
     const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = job;
+
+    const acceptJob = () => {
+      setAcceptedState({...acceptedState, accepted: true});
+      updateUser({...user, jobQueue: [...user.jobQueue, job._id]});
+    }
+
     return (
         <div className="card" style={{ backgroundColor: '#323840', marginTop: '0px', marginBottom: '15px'}}>
               <div className="card-content hoverable white-text" style={{ padding: 0 }}>
@@ -59,7 +72,8 @@ export const JobCard = ({ job }) => {
                   )
                 })}
 
-                <div className="row"></div>
+                <div className="row">
+                </div>
                 
                 <div className="row grey darken-2" style={{ margin: 0 }}>
                   <div className="col s1" style={{ padding: 2 }}>
@@ -89,14 +103,33 @@ export const JobCard = ({ job }) => {
                     {resolution} 
                   </div>
                 </div>
-                
                 <div className="row center" style={{ margin: 0 }}>
-                  NOTE: {notes}
+                  <div className="col s12">
+                    <strong>NOTE: {notes}</strong>
+                  </div>
                 </div>
               </div>
-              
+              <div className="card-action white-text" style={{marginBottom: '0px', padding: '8px'}}>
+                <div className="row" style={{marginBottom: '0px'}}>
+                  <div className="col s4"></div>
+                    <div className="col s4"></div>
+                    <div className="col s4">
+                      {acceptedState.accepted === false ? <button class="btn waves-effect teal waves-light" style={{margin: '5px'}} type="submit" name="action" onClick={acceptJob}>Accept Job
+                      <i class="material-icons left">add_box</i>
+                      </button> : 
+                      <div>
+                        <strong>Job Accepted</strong>
+                        <i className="material-icons" style={{margin: '3px', marginTop: '5px', paddingTop: '5px'}}>check</i> 
+                      </div>
+                      } 
+                    </div>
+                </div>
+              </div>
         </div>
     )
 }
+const mapStateToProps = (state) => ({
+  user: state.user,
+});
 
-export default JobCard;
+export default connect(mapStateToProps, { updateUser })(JobCard);

@@ -21,7 +21,10 @@ export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
     }, []);
     return ( // in Operator view, shows all jobs
             // in Engineer view, shows all jobs except the user's requested jobs
-         user.preferredView === 'Operator'? jobs.map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>) : jobs.filter((job) => job.requesterId !== user._id).map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>)
+         user.preferredView === 'Operator'? 
+         jobs.map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>) 
+         : 
+         jobs.filter((job) => job.requesterId !== user._id).map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>)
     )
 }
 
