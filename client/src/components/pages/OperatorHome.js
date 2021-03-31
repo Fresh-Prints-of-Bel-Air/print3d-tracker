@@ -2,7 +2,6 @@ import React from 'react';
 import JobCard from '../cards/JobCard';
 import JobQueue from '../cards/JobQueue';
 import JobList from '../cards/JobList';
-import MyRequestedJobList from '../cards/MyRequestedJobList';
 
 const OperatorHome = () => {
   return (

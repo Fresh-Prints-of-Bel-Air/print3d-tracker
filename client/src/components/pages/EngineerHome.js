@@ -2,7 +2,7 @@ import React from 'react';
 import JobCard from '../cards/JobCard';
 import JobQueue from '../cards/JobQueue';
 import JobList from '../cards/JobList';
-import MyRequestedJobList from '../cards/MyRequestedJobList';
+import MyJobList from '../cards/MyJobList';
 
 const EngineerHome = () => {
   return (
@@ -23,7 +23,7 @@ const EngineerHome = () => {
               <JobList/>
             </div>
             <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
-              <MyRequestedJobList/>
+              <MyJobList/>
               
             </div>
           </div>

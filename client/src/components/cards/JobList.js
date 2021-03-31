@@ -10,7 +10,7 @@ import JobQueueItem from './JobQueueItem';
 // in Operator view, shows all jobs
 // in Engineer view, shows all jobs except the user's requested jobs
 
-export const JobList = ({ job: { jobs }, getJobs }) => {
+export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
     
     //getJobs({});
 
@@ -19,13 +19,18 @@ export const JobList = ({ job: { jobs }, getJobs }) => {
         console.log("Jobqueue useEffect called");
         //jobs.forEach((job) => console.log(job));
     }, []);
-    return (
-        jobs.map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id} />)
+    return ( // in Operator view, shows all jobs... with accept job button
+            // in Engineer view, shows all jobs except the user's requested jobs
+         user.preferredView === 'Operator'? 
+         jobs.map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>) 
+         : 
+         jobs.filter((job) => job.requesterId !== user._id).map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>)
     )
 }
 
 const mapStateToProps = (state) => ({
-  job: state.job
+  job: state.job,
+  user: state.user
 })
 
 export default connect(mapStateToProps, {getJobs})(JobList);

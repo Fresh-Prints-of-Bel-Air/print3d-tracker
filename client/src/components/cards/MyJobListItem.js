@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
 // import 
 
-const JobCard = ({user: { user }, job, updateUser }) => {
+const MyJobListItem = ({user: { user }, job, updateUser }) => {
     const [acceptedState, setAcceptedState] = useState({
       accepted: false,
     });
@@ -112,24 +112,23 @@ const JobCard = ({user: { user }, job, updateUser }) => {
                   </div>
                 </div>
               </div>
-              {user.preferredView === 'Operator' && (
-                <div className="card-action white-text" style={{marginBottom: '0px', padding: '8px'}}>
-                  <div className="row" style={{marginBottom: '0px'}}>
-                    <div className="col s4"></div>
-                      <div className="col s4"></div>
-                      <div className="col s4">
-                        {acceptedState.accepted === false ? <button class="btn waves-effect teal waves-light" style={{margin: '5px'}} type="submit" name="action" onClick={acceptJob}>Accept Job
-                        <i class="material-icons left">add_box</i>
-                        </button> : 
-                        <div>
-                          <strong>Job Accepted</strong>
-                          <i className="material-icons" style={{margin: '3px', marginTop: '5px', paddingTop: '5px'}}>check</i> 
+              <div className="card-action white-text" style={{marginBottom: '0px', padding: '8px'}}>
+                    <div className="row" style={{marginBottom: '0px'}}>
+                        <div className="row center" style={{marginBottom: '0px'}}>
+                            <div className="col s4">
+                                <a className="btn-small teal" style={{margin: '5px'}}>
+                                    <i class="large material-icons left">edit</i>Edit
+                                </a>
+                            </div>
+                            <div className="col s4"></div>
+                            <div className="col s4">
+                                <a className="btn-small teal truncate" style={{margin: '5px'}}>
+                                    <i class="small material-icons left">delete_forever</i>Delete
+                                </a>
+                            </div>
                         </div>
-                        } 
-                      </div>
-                  </div>
+                    </div>
                 </div>
-              )}
         </div>
     )
 }
@@ -137,4 +136,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { updateUser })(JobCard);
+export default connect(mapStateToProps, { updateUser })(MyJobListItem);
