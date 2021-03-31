@@ -74,6 +74,9 @@ export const JobCard = ({ job }) => {
                   <div className="col s3 center grey darken-3">
                     Resolution:
                   </div>
+                  <div className="col s1" style={{ padding: 2 }}>
+                    
+                  </div>
                 </div>
                 <div className="row grey darken-2" style={{ margin: 0 }}>
                   <div className="col s1" style={{ padding: 2 }}>
@@ -89,9 +92,19 @@ export const JobCard = ({ job }) => {
                     {resolution} 
                   </div>
                 </div>
-                
-                <div className="row center" style={{ margin: 0 }}>
-                  NOTE: {notes}
+                <div className="row center" style={{ padding: '10px' }}>
+                  <div className="col s4">
+                    <a className="btn-small teal">
+                      <i class="large material-icons left">edit</i>Edit
+                    </a>
+                    <a className="btn-small teal truncate" style={{ margin: '10px' }}>
+                      <i class="small material-icons left">delete_forever</i>Delete
+                    </a>
+                  </div>
+                  <div className="col s8">
+                    NOTE: {notes}  
+                  </div>
+
                 </div>
               </div>
               

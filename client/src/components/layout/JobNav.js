@@ -51,8 +51,7 @@ const JobNav = ({user: {user}, updateUser}) => {
           </div>
         </nav>
       </div>
-      <RequestJobModal/>
-      {/* user.preferredView === 'Engineer' ? <RequestJobModal/> : <CreateBuildModal/> */}
+      {user.preferredView === 'Engineer' ? <RequestJobModal/> : '<CreateBuildModal/>'}
     </div>
   )
 }
