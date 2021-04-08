@@ -88,6 +88,8 @@ const RequestJobModal = ({ job: { lastCreatedJobID }, user: { user }, addJob, up
             deliverTo: '',
             notes: '',
             requestedParts: [],
+            
+
         });
     }
 

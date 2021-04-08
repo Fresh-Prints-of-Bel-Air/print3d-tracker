@@ -2,21 +2,28 @@ import React, { useEffect, useState } from 'react'
 import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
+import JobCard from './JobCard';
+import { deleteJob } from '../../actions/jobActions';
 // import 
 
-const MyJobListItem = ({user: { user }, job, updateUser }) => {
-    const [acceptedState, setAcceptedState] = useState({
-      accepted: false,
-    });
-
+const MyJobListItem = ({user: { user }, job, key, updateUser }) => {
     useEffect(() => {
         M.AutoInit();
       }, []);
     const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = job;
 
-    const acceptJob = () => {
-      setAcceptedState({...acceptedState, accepted: true});
-      updateUser({...user, jobQueue: [...user.jobQueue, job._id]});
+    const deleteJobHandler = () => {
+      deleteJob(key);
+      updateUser({
+        ...user, 
+        requestedJobs: [
+          ...user.requestedJobs.filter(job => job._id !== key)
+        ]
+      })
+    }
+
+    const editJobHandler = () => {
+
     }
 
     return (
@@ -116,15 +123,15 @@ const MyJobListItem = ({user: { user }, job, updateUser }) => {
                     <div className="row" style={{marginBottom: '0px'}}>
                         <div className="row center" style={{marginBottom: '0px'}}>
                             <div className="col s4">
-                                <a className="btn-small teal" style={{margin: '5px'}}>
+                                <button className="btn-small teal" style={{margin: '5px'}} type="submit" onClick={editJobHandler}>
                                     <i class="large material-icons left">edit</i>Edit
-                                </a>
+                                </button>
                             </div>
                             <div className="col s4"></div>
                             <div className="col s4">
-                                <a className="btn-small teal truncate" style={{margin: '5px'}}>
+                                <button className="btn-small teal truncate" style={{margin: '5px'}} type="submit" onClick={deleteJobHandler}>
                                     <i class="small material-icons left">delete_forever</i>Delete
-                                </a>
+                                </button>
                             </div>
                         </div>
                     </div>
@@ -136,4 +143,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { updateUser })(MyJobListItem);
+export default connect(mapStateToProps, { updateUser, deleteJob })(MyJobListItem);
