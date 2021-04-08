@@ -18,10 +18,10 @@ const OperatorHome = () => {
           <div className="col s1"></div>
         </div>
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
-            <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
+            <div style={{height: '100vh', width: '49vw', overflow: 'auto', marginRight: '10px'}}>
               <JobList/>
             </div>
-            <div style={{height: '100vh', width: '49vw', overflow: 'auto'}}>
+            <div style={{height: '100vh', width: '49vw', overflow: 'auto', marginLeft: '10px'}}>
               <JobQueue/>
               
             </div>

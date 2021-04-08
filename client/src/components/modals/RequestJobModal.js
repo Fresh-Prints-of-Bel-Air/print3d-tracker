@@ -238,9 +238,12 @@ const RequestJobModal = ({ job: { lastCreatedJobID }, user: { user }, addJob, up
                     <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={clearForm}>
                         Clear<i className="material-icons right">clear</i>
                     </button>
-                    <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={() => { setJobForm(user.lastJobRequest) }}>
-                        Refill<i className="material-icons right">format_color_fill</i>
-                    </button>
+                    {user.lastJobRequest && 
+                        <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" 
+                                onClick={() => {  setJobForm(user.lastJobRequest) }}>
+                            Refill<i className="material-icons right">format_color_fill</i>
+                        </button>
+                    }
                     <button type='submit' style={{margin: '10px'}} className="btn blue modal-close" onClick={formSubmit}>
                         Submit<i className="material-icons right">send</i>
                     </button>

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { set } from 'mongoose';
 import {
     SET_LOADING,
     ADD_JOB,
@@ -21,8 +20,8 @@ export const setLoading = () => async (dispatch) => {
 export const getJobsByIdArray = (jobIdArray) => async (dispatch) => {
     setLoading();
     try {
-        
         const res = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray } });
+        console.log("getJobByIdArray res");
         console.log(res);
         dispatch({
             type: GET_USER_JOBS,
@@ -58,9 +57,13 @@ export const getJobs = (filter) => async (dispatch) => {
 
 export const deleteJob = (id) => async (dispatch) => {
     setLoading();
-    
+    console.log("deleting id:");
+    console.log(id);
     try{
         const res = await axios.delete(`/api/jobs/${id}`);
+        console.log("delete response: ");
+        console.log(res);
+        console.log("dispatching DELETE_JOB?");
         dispatch({
             type: DELETE_JOB,
             payload: id
@@ -113,22 +116,21 @@ export const addJob = (job, user) => async (dispatch) => { //can also update the
             type: ADD_JOB,
             payload: jobResponse.data,
         });
-        if(user){
-            console.log('user is true');
-            try{
-                const res = await axios.put(`/api/users/${user._id}`, {...user, requestedJobs: [...user.requestedJobs, jobResponse.data._id]}, config);
-                dispatch({
-                    type: UPDATE_USER,
-                    payload: res.data
-                });
-                console.log(res.data);
-            } catch (err){
-                dispatch({
-                    type: AUTH_ERROR,
-                    payload: err.response.statusText
-                });
-            }
+
+        try{
+            const res = await axios.put(`/api/users/${user._id}`, {...user, requestedJobs: [...user.requestedJobs, jobResponse.data._id]}, config);
+            dispatch({
+                type: UPDATE_USER,
+                payload: res.data
+            });
+            console.log(res.data);
+        } catch (err){
+            dispatch({
+                type: AUTH_ERROR,
+                payload: err.response.statusText
+            });
         }
+        
     }
     catch(err){
         dispatch({
