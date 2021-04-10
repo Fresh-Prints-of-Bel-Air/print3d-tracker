@@ -6,7 +6,7 @@ import JobCard from './JobCard';
 import { deleteJob } from '../../actions/jobActions';
 // import 
 
-const MyJobListItem = ({user: { user }, job, key, updateUser }) => {
+const MyJobListItem = ({user: { user }, job, key, updateUser, deleteJob }) => {
     useEffect(() => {
         M.AutoInit();
       }, []);

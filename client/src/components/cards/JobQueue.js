@@ -12,7 +12,7 @@ export const JobQueue = ({ job: { userJobs }, user: { user }, getJobsByIdArray }
         console.log("User's requested-job IDs:");
         console.log(user.jobQueue);
         getJobsByIdArray(user.jobQueue);
-    }, []);
+    }, [user]);
 
     return (
         userJobs && userJobs.map((job) => <JobQueueItem job={job} key={job._id} />)

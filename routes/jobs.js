@@ -149,7 +149,7 @@ router.delete('/:id',
 async (req, res) => {
   try {
     let job = await Job.findById(req.params.id);
-    if(!build) return res.status(404).json({msg: 'Job not found'});
+    if(!job) return res.status(404).json({msg: 'Job not found'});
     let authorized = (job.requester === req.user) ? true : false;
     if(authorized === false)
       return res.status(401).json({msg: 'Not authorized'});

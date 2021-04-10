@@ -1,25 +1,29 @@
 // import React, { useEffect, useState } from 'react'
 // import { connect } from 'react-redux';
 // import { addBuild } from '../../actions/buildActions';
-// import { getJobs } from '../../actions/jobActions';
+// import { getJobsByIdArray } from '../../actions/jobActions';
 // import BuildQuantityForm from './BuildQuantityForm';
 
 // import M from 'materialize-css';
 
-// const CreateBuildModal = ({user: {user}, job: {jobs}, addBuild, getJobs}) => {
+// const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdArray}) => {
   
 //   //const jobMap = new Map();
   
 //   useEffect(() => {
 //     M.AutoInit();
-//     getJobs({});
-//     jobs.forEach((job) => {
-//       jobMap.set(job._id, job);
+//     getJobsByIdArray([...user.jobQueue]);
+//     setJobMap(new Map());
+//     userJobs.forEach((job) => {
+//       setJobMap((job) => {
+        
+//       })
+//       //(job._id, job);
 //     });
-//   },[]);
+//   });  //infinite loop? 
 
 //   const [jobMap, setJobMap] = useState(new Map());
-//   const [prevJobState, setPrevJobState] = useState([]);
+//   const [prevJobState, setPrevJobState] = useState({});
 //   const [buildForm, setBuildForm] = useState({
 //     associatedJobs: [],
 //     partsBuilding: [],
@@ -67,10 +71,9 @@
 //     <div id='buildModal'className='modal modal-fixed-footer'>
 //       <div className="modal-content">
 //         {/* create a select dropdown with all of the jobs that have yet to be completed */}
-//         {jobs.Map((job, index) => {
-//           <BuildQuantityForm job={job} />
+//         {userJobs.length === 0 ? <div>Please accept jobs to start a build!</div> : userJobs.Map((job, index) => {
+//           <BuildQuantityForm job={job} id={index}/>
 //         })}
-      
 //       </div>
 //     </div>  
 //     </div>
@@ -79,7 +82,7 @@
 
 // const mapStateToProps = (state) => ({
 //   user: state.user,
-//   job: state.job,
+//   job: state.userJobs,
 // });
 
-// export default connect(mapStateToProps, {addBuild, getJobs})(CreateBuildModal);
+// export default connect(mapStateToProps, {addBuild, getJobsByIdArray})(CreateBuildModal);
