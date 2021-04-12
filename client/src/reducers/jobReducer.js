@@ -7,7 +7,8 @@ import {
     ADD_JOB,
     UPDATE_JOB,
     DELETE_JOB,
-    SET_VIEW
+    SET_VIEW,
+    SET_SELECTED_JOB_ID
   } from '../actions/types';
 
 const initialState = {
@@ -16,6 +17,7 @@ const initialState = {
     userJobs: [],
     jobs: [],
     view: 'Engineer',
+    selectedJobId: 0 // todo add action to dispatch, and the dispatch case
 }
 
 export default (state = initialState, action) => {
@@ -34,6 +36,13 @@ export default (state = initialState, action) => {
                 loading: false,
                 error: null
             }   
+        case SET_SELECTED_JOB_ID:
+            return {
+                ...state,
+                selectedJobId: action.payload,
+                loading: false,
+                error: null
+            }
         case JOBS_ERROR:
             return {
                 ...state,
