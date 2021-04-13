@@ -16,7 +16,7 @@ export const MyJobList = ({ job: { jobs, userJobs }, user: { user }, getJobs, ge
         console.log(user.requestedJobs);
         getJobsByIdArray(user.requestedJobs);
         //getJobs({});
-    }, []);
+    }, [jobs]);
 
     const [jobIdForModal, setJobIdForModal] = useState(0);
 

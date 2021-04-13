@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
-import { deleteJob } from '../../actions/jobActions';
+import { updateJob } from '../../actions/jobActions';
 import Select from 'react-select';
 import M from 'materialize-css';
 
-const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, deleteJob }) => {
-    const [jobForm, setJobForm] = useState({
+const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, updateJob }) => {
+    const [editJobForm, setEditJobForm] = useState({
         projectName: '',
         dateNeeded: '',
         folderLocation: '',
@@ -15,21 +15,18 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
         priority: '2', // needs to match the default value
         deliverTo: '',
         notes: '',
-        requestedParts: [],
     });
 
     useEffect(() => {
         console.log("User is: ");
         console.log(user);
-        setJobForm(jobData);
+        setEditJobForm(jobData);
         M.AutoInit();
     }, []);
 
-    
-
     const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, 
         folderLocation, material, resolution, priority, deliverTo, status, notes, requestedParts, 
-        builds } = jobData;
+        builds } = editJobForm;
 
         const prioritySelectOptions = [
             {value: '1', label: "Priority 1"},
@@ -38,36 +35,21 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
         ];
     
         const onPriorityChange = (option) => {
-            setJobForm({
-                ...jobForm,
+            setEditJobForm({
+                ...editJobForm,
                 priority: option.value
             })
         }
 
         const onChange = (e) => {
-            if(e.target.name === 'files'){
-                setJobForm({
-                    ...jobForm,
-                    // take file list and map to new array containing objects with quantities
-                    requestedParts: [...e.target.files].map((file) => ({ 
-                        name: file.name,
-                        // make sure to do error checking on the submit to make sure the quantity values are integers > 0 
-                        quantity: '',
-                        building: '',
-                    })
-                    )
-                })
-            }
-            else {
-                setJobForm({
-                    ...jobForm,
-                    [e.target.name]: e.target.value
-                });
-            }
+            setEditJobForm({
+                ...editJobForm,
+                [e.target.name]: e.target.value
+            });
         }
 
         const clearForm = () => {
-            setJobForm({
+            setEditJobForm({
                 projectName: '',
                 dateNeeded: '',
                 folderLocation: '',
@@ -77,36 +59,35 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
                 deliverTo: '',
                 notes: '',
                 requestedParts: [],
-                
-    
             });
         }
 
-        const formSubmit = (e) => { 
+        const editConfirm = (e) => { 
             //e.preventDefault();
             console.log("Jobform is: ");
-            console.log(jobForm);
+            console.log(editJobForm);
             // TODO: add put-job requesting Action function
+            updateJob({ ...editJobForm, id: jobID });
             //addJob({ ...jobForm, requester: user.name, requesterId: user._id, status: "Requested" }, {...user, lastJobRequest: jobForm}); 
             console.log('requestJobModal formsubmit');
             console.log(user.lastJobRequest);
             console.log("formSubmit call");
         }
 
-    const editJobHandler = () => {
-        // handleCardButtonClick(jobID);
-        // setSelectedJobID(jobID);
-        console.log("delete button clicked");
-        console.log("jobID is: ");
-        console.log(jobID);
-        deleteJob(jobID);
-        updateUser({
-          ...user, 
-          requestedJobs: [
-            ...user.requestedJobs.filter(requestedJobID => requestedJobID != jobID)
-          ]
-        })
-      }
+    // const editJobHandler = () => {
+    //     // handleCardButtonClick(jobID);
+    //     // setSelectedJobID(jobID);
+    //     console.log("delete button clicked");
+    //     console.log("jobID is: ");
+    //     console.log(jobID);
+    //     deleteJob(jobID);
+    //     updateUser({
+    //       ...user, 
+    //       requestedJobs: [
+    //         ...user.requestedJobs.filter(requestedJobID => requestedJobID != jobID)
+    //       ]
+    //     })
+    //   }
 
     return ( 
         <div>
@@ -116,7 +97,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
             </a>
             <div id={`myJobListEditModal${jobNumber}`} className="modal">
                 <div className="modal-content grey darken-3">
-                <h4 className="">Edit Print Job Request</h4>
+                <h4 className="">Edit Print Job Request #{jobNumber}</h4>
                     {/* <div className='row'>
                         <div className='col s12'>
                             <div className="file-field input-field">
@@ -141,6 +122,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
                         <div className='col s12'>
                             <div className="input-field">
                                 <input
+                                    className="white-text"
                                     type='text'
                                     name='folderLocation'
                                     value={folderLocation}
@@ -157,6 +139,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
                         <div className='col s4'>
                             <div className="input-field">
                                 <input 
+                                    className="white-text"
                                     type='date'     
                                     name='dateNeeded' 
                                     value={dateNeeded} 
@@ -173,13 +156,14 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
                         <div className='col s4'>
                             <div className="input-field">
                                 <input 
+                                    className="white-text"
                                     type='text'
                                     name='deliverTo'
                                     value={deliverTo} 
                                     onChange={onChange}
                                 />
                                 <label htmlFor="deliverTo" className="active">
-                                Deliver To
+                                    Deliver To
                                 </label>
                             </div>
                         </div>
@@ -188,6 +172,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
                         <div className='col s4'>
                             <div className="input-field">
                                 <input 
+                                    className="white-text"
                                     type='text'     
                                     name='projectName' 
                                     value={projectName} 
@@ -201,6 +186,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
                         <div className='col s4'>
                             <div className="input-field">
                                 <input 
+                                    className="white-text"
                                     type='text'     
                                     name='material' 
                                     value={material} 
@@ -214,6 +200,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
                         <div className='col s4'>
                             <div className="input-field">
                                 <input 
+                                    className="white-text"
                                     type='text'     
                                     name='resolution' 
                                     value={resolution} 
@@ -231,7 +218,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
                                 <textarea 
                                     id="notes" 
                                     name="notes"
-                                    className="materialize-textarea"
+                                    className="materialize-textarea white-text"
                                     value={notes}
                                     onChange={onChange} 
                                 ></textarea>
@@ -245,7 +232,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, d
                     
                 </div>
                 <div className="modal-footer grey darken-3">
-                    <a href="#!" className="modal-close green btn-flat" onClick={editJobHandler}>Confirm</a>
+                    <a href="#!" className="modal-close green btn-flat" onClick={editConfirm}>Confirm</a>
                     <a href="#!" className="modal-close red btn-flat">Cancel Edit</a>
                 </div>
             </div>
@@ -258,5 +245,5 @@ const mapStateToProps = (state) => ({
     job: state.job
 });
 
-export default connect(mapStateToProps, { updateUser, deleteJob })(EditJobModal);
+export default connect(mapStateToProps, { updateUser, updateJob })(EditJobModal);
 
