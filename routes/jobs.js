@@ -5,16 +5,21 @@ const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator/check');
 const config = require('config');
 const Job = require("../models/Job");
+const auth = require('../middleware/auth');
 
 //find many (array of IDs)
 
 router.get(
   '/multipleJobsById',
-  //auth,
+  auth,
   [],
   async (req, res) => {
     try {
       const jobs = await Job.find().where('_id').in(req.query.jobIdArray).exec();
+      console.log("req.query.jobIdArray");
+      console.log(req.query.jobIdArray);
+      console.log("multipleJobsById jobs");
+      console.log(jobs);
       res.json(jobs);
     } catch (err) {
       console.error(err.message);
@@ -25,7 +30,7 @@ router.get(
 // get by ID
 router.get(
   '/:id', 
-  // auth,
+  auth,
   [], 
   async (req, res) => {
   try {
@@ -84,6 +89,7 @@ router.get(
       try {
         const newJob = new Job({
           ...req.body,
+          lastUpdated: Date.now
         });
   
         const job = await newJob.save();
@@ -112,6 +118,7 @@ router.get(
         material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = req.body;
         
       const updateFields = {};
+      updateFields.lastUpdated = Date.now;
       if(requester) updateFields.requester = requester;
       if(projectName) updateFields.projectName = projectName;
       if(dateRequested) updateFields.dateRequested = dateRequested;
@@ -145,17 +152,35 @@ router.get(
 //@desc Delete a job. Only the job requester can delete the job.
 //@access Public
 router.delete('/:id',
-//auth,
+auth,
 async (req, res) => {
+  console.log("job delete");
+  
   try {
     let job = await Job.findById(req.params.id);
     if(!job) return res.status(404).json({msg: 'Job not found'});
-    let authorized = (job.requester === req.user) ? true : false;
+
+    console.log("req.user.id");
+    console.log(req.user.id);
+    console.log("job.requesterId");
+    console.log(job.requesterId);
+
+    let authorized = (job.requesterId == req.user.id) ? true : false;
+
+    console.log("authorized:")
+    console.log(authorized);
+
     if(authorized === false)
       return res.status(401).json({msg: 'Not authorized'});
-    await Job.findByIdAndRemove(req.params.id);
-    
 
+    console.log('req.params.id');
+    console.log(req.params.id);
+
+    const deletedJob = await Job.findByIdAndDelete(req.params.id);
+
+    console.log(deletedJob);
+    res.json(deletedJob);
+    
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');

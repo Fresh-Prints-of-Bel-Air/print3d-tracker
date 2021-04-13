@@ -13,7 +13,7 @@ import {
 const initialState = {
     loading: true,
     error: null,
-    userJobs: [],
+    userJobs: [], //these refer to actual job objects, not IDs
     jobs: [],
     view: 'Engineer',
 }

@@ -53,6 +53,11 @@ const JobSchema = mongoose.Schema({
         ],
         required: true
     },
+    lastUpdated: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
 
     // stipulations about the request, such as build orientation
     notes: String,

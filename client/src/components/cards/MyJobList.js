@@ -18,7 +18,7 @@ export const MyJobList = ({ job: { jobs, userJobs }, user: { user }, getJobs, ge
     }, []);
 
     return (
-        userJobs && userJobs.map((job) => <MyJobListItem job={job} key={job._id} />)
+        userJobs && userJobs.map((job) => <MyJobListItem job={job} key={job._id} jobID={job._id} />)
     )
 }
 

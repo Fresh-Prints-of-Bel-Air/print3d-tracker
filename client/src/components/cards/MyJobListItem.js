@@ -6,18 +6,20 @@ import JobCard from './JobCard';
 import { deleteJob } from '../../actions/jobActions';
 // import 
 
-const MyJobListItem = ({user: { user }, job, key, updateUser, deleteJob }) => {
+const MyJobListItem = ({user: { user }, job, jobID, updateUser, deleteJob }) => {
     useEffect(() => {
         M.AutoInit();
       }, []);
     const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = job;
 
     const deleteJobHandler = () => {
-      deleteJob(key);
+      console.log("jobID is: ");
+      console.log(jobID);
+      deleteJob(jobID);
       updateUser({
         ...user, 
         requestedJobs: [
-          ...user.requestedJobs.filter(job => job._id !== key)
+          ...user.requestedJobs.filter(requestedJobID => requestedJobID != jobID)
         ]
       })
     }
