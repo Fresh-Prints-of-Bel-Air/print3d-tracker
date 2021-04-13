@@ -3,16 +3,22 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
 import JobCard from './JobCard';
-import { deleteJob } from '../../actions/jobActions';
+import { deleteJob, setSelectedJobID } from '../../actions/jobActions';
+import DeleteJobModal from '../modals/DeleteJobModal';
+import EditJobModal from '../modals/EditJobModal';
 // import 
 
-const MyJobListItem = ({user: { user }, job, jobID, updateUser, deleteJob }) => {
+const MyJobListItem = ({user: { user }, jobData, jobID, updateUser, deleteJob, setSelectedJobID }) => {
     useEffect(() => {
         M.AutoInit();
       }, []);
-    const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = job;
+    const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, 
+      material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = jobData;
 
     const deleteJobHandler = () => {
+      // handleCardButtonClick(jobID);
+      // setSelectedJobID(jobID);
+      console.log("delete button clicked");
       console.log("jobID is: ");
       console.log(jobID);
       deleteJob(jobID);
@@ -125,15 +131,11 @@ const MyJobListItem = ({user: { user }, job, jobID, updateUser, deleteJob }) => 
                     <div className="row" style={{marginBottom: '0px'}}>
                         <div className="row center" style={{marginBottom: '0px'}}>
                             <div className="col s4">
-                                <button className="btn-small teal" style={{margin: '5px'}} type="submit" onClick={editJobHandler}>
-                                    <i class="large material-icons left">edit</i>Edit
-                                </button>
+                                <EditJobModal jobNumber={job_number} jobID={jobID} jobData={jobData}/>
                             </div>
                             <div className="col s4"></div>
                             <div className="col s4">
-                                <button className="btn-small teal truncate" style={{margin: '5px'}} type="submit" onClick={deleteJobHandler}>
-                                    <i class="small material-icons left">delete_forever</i>Delete
-                                </button>
+                                <DeleteJobModal jobNumber={job_number} jobID={jobID}/>
                             </div>
                         </div>
                     </div>
@@ -141,8 +143,9 @@ const MyJobListItem = ({user: { user }, job, jobID, updateUser, deleteJob }) => 
         </div>
     )
 }
+
 const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { updateUser, deleteJob })(MyJobListItem);
+export default connect(mapStateToProps, { updateUser, deleteJob, setSelectedJobID })(MyJobListItem);

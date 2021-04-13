@@ -4,7 +4,14 @@ import CreateBuildModal from '../modals/CreateBuildModal';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
  
-const JobNav = ({user: {user}, updateUser}) => {
+const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selectedJobId to redux state
+  //////////////// delete job modal stuff
+  // const [jobIdForModal, setJobIdForModal] = useState(0);
+
+  // const handleCardButtonClick = (cardJobId) => {
+  //     setJobIdForModal(cardJobId);
+  // }
+  ////////////////
   
   useEffect(() => {
     console.log(user.preferredView);
@@ -34,6 +41,9 @@ const JobNav = ({user: {user}, updateUser}) => {
                 : 
                 <a href="#buildModal" className="waves-effect waves-light btn blue modal-trigger">Create Build</a>
               } 
+
+                
+
               </li>
             </ul>
             <ul className="right hide-on-med-and-down">
@@ -52,12 +62,17 @@ const JobNav = ({user: {user}, updateUser}) => {
         </nav>
       </div>
       {user.preferredView === 'Engineer' ? <RequestJobModal/> : '<CreateBuildModal/>'}
+
+      
+      
+
     </div>
   )
 }
 
 const mapStateToProps = (state) => ({
   user: state.user,
+  job: state.job
 });
 
 export default connect(mapStateToProps, {updateUser})(JobNav);

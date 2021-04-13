@@ -8,7 +8,8 @@ import {
     GET_USER_JOBS,
     JOBS_ERROR,
     UPDATE_USER,
-    AUTH_ERROR
+    AUTH_ERROR,
+    SET_SELECTED_JOB_ID
 
 } from './types';
 export const setLoading = () => async (dispatch) => {
@@ -140,6 +141,13 @@ export const addJob = (job, user) => async (dispatch) => { //can also update the
         console.error('Job add error.');
     }
     
+}
+
+export const setSelectedJobID = (jobID) => async (dispatch) => {
+    dispatch({
+        type: SET_SELECTED_JOB_ID,
+        payload: jobID
+    })
 }
 
  

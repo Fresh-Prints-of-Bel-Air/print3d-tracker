@@ -28,6 +28,7 @@ export const ADD_JOB = 'ADD_JOB';
 export const UPDATE_JOB = 'UPDATE_JOB';
 export const SET_VIEW = 'SET_VIEW';
 export const GET_USER_JOBS = 'GET_USER_JOBS';
+export const SET_SELECTED_JOB_ID = 'SET_SELECTED_JOB_ID'; 
 
 //User Type
 
