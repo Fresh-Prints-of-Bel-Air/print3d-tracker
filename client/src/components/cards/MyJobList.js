@@ -26,7 +26,7 @@ export const MyJobList = ({ job: { jobs, userJobs }, user: { user }, getJobs, ge
 
     return (
         <div>
-            {userJobs && userJobs.map((job) => <MyJobListItem job={job} key={job._id} jobID={job._id} handleCardButtonClick={handleCardButtonClick}/>)}
+            {userJobs && userJobs.map((job) => <MyJobListItem jobData={job} key={job._id} jobID={job._id} handleCardButtonClick={handleCardButtonClick}/>)}
             
         </div>
         

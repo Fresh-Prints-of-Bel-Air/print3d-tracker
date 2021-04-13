@@ -4,13 +4,16 @@ import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
 import JobCard from './JobCard';
 import { deleteJob, setSelectedJobID } from '../../actions/jobActions';
+import DeleteJobModal from '../modals/DeleteJobModal';
+import EditJobModal from '../modals/EditJobModal';
 // import 
 
-const MyJobListItem = ({user: { user }, job, jobID, updateUser, deleteJob, setSelectedJobID }) => {
+const MyJobListItem = ({user: { user }, jobData, jobID, updateUser, deleteJob, setSelectedJobID }) => {
     useEffect(() => {
         M.AutoInit();
       }, []);
-    const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = job;
+    const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, 
+      material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = jobData;
 
     const deleteJobHandler = () => {
       // handleCardButtonClick(jobID);
@@ -128,29 +131,11 @@ const MyJobListItem = ({user: { user }, job, jobID, updateUser, deleteJob, setSe
                     <div className="row" style={{marginBottom: '0px'}}>
                         <div className="row center" style={{marginBottom: '0px'}}>
                             <div className="col s4">
-                                <button className="btn-small teal" style={{margin: '5px'}} type="submit" 
-                                    onClick={editJobHandler}>
-                                    <i class="large material-icons left">edit</i>Edit
-                                </button>
+                                <EditJobModal jobNumber={job_number} jobID={jobID} jobData={jobData}/>
                             </div>
                             <div className="col s4"></div>
                             <div className="col s4">
-                                <div>
-                                    <a className="btn-small teal truncate modal-trigger" style={{margin: '5px'}} 
-                                        href={`#myJobListModal${job_number}`}>
-                                        <i class="small material-icons left">delete_forever</i>Delete
-                                    </a>
-                                    <div id={`myJobListModal${job_number}`} className="modal">
-                                      <div className="modal-content grey darken-3">
-                                          <h5>Are you sure you want to delete Job {job_number}?</h5>
-                                      </div>
-                                      <div className="modal-footer grey darken-3">
-                                          <a href="#!" className="modal-close green btn-flat" onClick={deleteJobHandler}>Yes</a>
-                                          <a href="#!" className="modal-close red btn-flat">No</a>
-                                      </div>
-                                    </div>
-                                </div>
-                                
+                                <DeleteJobModal jobNumber={job_number} jobID={jobID}/>
                             </div>
                         </div>
                     </div>
@@ -158,6 +143,7 @@ const MyJobListItem = ({user: { user }, job, jobID, updateUser, deleteJob, setSe
         </div>
     )
 }
+
 const mapStateToProps = (state) => ({
   user: state.user,
 });

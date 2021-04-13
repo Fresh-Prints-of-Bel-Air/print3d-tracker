@@ -17,7 +17,7 @@ const initialState = {
     userJobs: [],
     jobs: [],
     view: 'Engineer',
-    selectedJobId: 0 // todo add action to dispatch, and the dispatch case
+    selectedJobId: 0 // todo delete this
 }
 
 export default (state = initialState, action) => {
