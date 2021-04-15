@@ -74,6 +74,9 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
             console.log("formSubmit call");
         }
 
+        const cancelJobRequest = () => updateJob({ ...editJobForm, status: 'Cancelled', id: jobID });
+        const setStatusToComplete = () => updateJob({ ...editJobForm, status: 'Complete', id: jobID });
+        
     // const editJobHandler = () => {
     //     // handleCardButtonClick(jobID);
     //     // setSelectedJobID(jobID);
@@ -95,7 +98,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
                 href={`#myJobListEditModal${jobNumber}`}>
                 <i class="small material-icons left">edit</i>Edit
             </a>
-            <div id={`myJobListEditModal${jobNumber}`} className="modal">
+            <div id={`myJobListEditModal${jobNumber}`} className="modal grey darken-3">
                 <div className="modal-content grey darken-3">
                 <h4 className="">Edit Print Job Request #{jobNumber}</h4>
                     {/* <div className='row'>
@@ -150,7 +153,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
                                 </label>
                             </div>
                         </div>
-                        <div className='col s4'>
+                        <div className='col s4 black-text left-align'>
                             <Select options={prioritySelectOptions} onChange={onPriorityChange} value={{label: `Priority ${priority}`, value: priority}} isSearchable={false}/>
                         </div>
                         <div className='col s4'>
@@ -231,8 +234,10 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
                     
                     
                 </div>
-                <div className="modal-footer grey darken-3">
-                    <a href="#!" className="modal-close green btn-flat" onClick={editConfirm}>Confirm</a>
+                <div className="modal-footer grey darken-3 center">
+                    <a href="#!" className="modal-close blue darken-2 btn-flat" onClick={setStatusToComplete}>Set Status To Complete</a>
+                    <a href="#!" className="modal-close red darken-3 btn-flat" onClick={cancelJobRequest}>Cancel Job Request</a>
+                    <a href="#!" className="modal-close green darken-1 btn-flat" onClick={editConfirm}>Confirm Edit</a>
                     <a href="#!" className="modal-close red btn-flat">Cancel Edit</a>
                 </div>
             </div>

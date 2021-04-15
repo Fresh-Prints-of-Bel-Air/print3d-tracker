@@ -83,7 +83,7 @@ const JobCard = ({user: { user }, job, updateUser }) => {
                     Material:
                   </div>
                   <div className="col s4 center">
-                    Needed by:
+                    Needed by {deliverTo}:
                   </div>
                   <div className="col s3 center grey darken-3">
                     Resolution:
