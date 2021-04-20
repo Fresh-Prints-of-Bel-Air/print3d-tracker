@@ -1,27 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { getBuilds } from '../../actions/buildActions';
+import { getJobs } from '../../actions/jobActions';
 import M from 'materialize-css';
 
-const RequestHistorySearch = ({build: {builds}, getBuilds}) => {
+const RequestHistorySearch = ({ getJobs }) => {
   const [requestSearchFormData, setRequestSearchFormData] = useState({
     job_number: '',
     requester: '',
     projectName: '', 
     dateRequestedLowerBound: '',
     dateRequestedUpperBound: '',
-    status: ''
+    jobStatus: ''
   });
-  const [userFormData, setUserFormData] = useState({
-    status: '',
-    startedFrom: '',
-    startedTo: '',
-    deliveredFrom: '',
-    deliveredTo: '',
-    operator: '',
-    project: '',
-  });
-  const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
+  const { job_number, requester, projectName, dateRequestedLowerBound, dateRequestedUpperBound, jobStatus } = requestSearchFormData;
+  // const [userFormData, setUserFormData] = useState({
+  //   status: '',
+  //   startedFrom: '',
+  //   startedTo: '',
+  //   deliveredFrom: '',
+  //   deliveredTo: '',
+  //   operator: '',
+  //   project: '',
+  // });
+  // const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
 
   useEffect(() => {
     M.AutoInit();
@@ -29,19 +30,34 @@ const RequestHistorySearch = ({build: {builds}, getBuilds}) => {
     //pull builds from API with current filter values
   },[status]);
 
-  const onSubmit = (e) => {
-    e.preventDefault();
-    //console.log("onSubmit called");
-    //console.log(userFormData);
-    getBuilds(userFormData);
-  }
-  const onChange = (e) => {
-    setUserFormData({
-      ...userFormData,
+  const requestSearchOnSubmit = (e) => {
+      e.preventDefault();
+      //console.log("onSubmit called");
+      //console.log(userFormData);
+      getJobs(requestSearchFormData);
+    }
+  // const onSubmit = (e) => {
+  //   e.preventDefault();
+  //   //console.log("onSubmit called");
+  //   //console.log(userFormData);
+  //   getBuilds(userFormData);
+  // }
+
+  const requestSearchOnChange = (e) => {
+    setRequestSearchFormData({
+      ...requestSearchFormData,
       [e.target.name]: e.target.value,
-    });
-    console.log(e.target.value);
-  };
+    })
+  }
+  // const onChange = (e) => {
+  //   setUserFormData({
+  //     ...userFormData,
+  //     [e.target.name]: e.target.value,
+  //   });
+  //   console.log(e.target.value);
+  // };
+
+  
 
   // copies the contents of the builds state into a table on the clipboard
   // separated by tabs and newlines
@@ -67,6 +83,17 @@ const RequestHistorySearch = ({build: {builds}, getBuilds}) => {
       deliveredTo: '',
       operator: '',
       project: '',
+    });
+  }
+
+  const clearRequestSearch = (e) => {
+    setRequestSearchFormData({
+      job_number: '',
+      requester: '',
+      projectName: '', 
+      dateRequestedLowerBound: '',
+      dateRequestedUpperBound: '',
+      jobStatus: ''
     });
   }
 
@@ -146,8 +173,8 @@ const RequestHistorySearch = ({build: {builds}, getBuilds}) => {
   ); // style={{"font-weight": "bold", "color" : "black" }}
 };
 
-const mapStateToProps = (state) => ({
-  build: state.build
-});
+// const mapStateToProps = (state) => ({
+//   build: state.build
+// });
 
-export default connect(mapStateToProps, {getBuilds})(RequestHistorySearch);
+export default connect(mapStateToProps, { getJobs })(RequestHistorySearch);
