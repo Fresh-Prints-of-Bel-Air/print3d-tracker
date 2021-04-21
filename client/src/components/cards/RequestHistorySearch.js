@@ -106,11 +106,11 @@ const RequestHistorySearch = ({ getJobs }) => {
         >
           <div className='row'>
             <div className='col s2'>
-              <label htmlFor='status'>Status:</label>
+              <label htmlFor='jobStatus'>Status:</label>
               <select 
-                name='status' 
-                value={status} 
-                onChange={onChange}
+                name='jobStatus' 
+                value={jobStatus} 
+                onChange={requestSearchOnChange}
               >
                 <option value='' disabled selected>Select</option>
                 <option value='Build File Ready'>Build File Ready</option>
@@ -121,42 +121,47 @@ const RequestHistorySearch = ({ getJobs }) => {
               </select>
             </div>
             <div className='col s2'>
-              <label htmlFor='startedFrom'>Builds Started From: </label>
+              <label htmlFor='dateRequestedLowerBound'>Builds Started From: </label>
               <input
-                name='startedFrom'
-                id='startedFrom'
+                name='dateRequestedLowerBound'
+                id='dateRequestedLowerBound'
                 type='date'
-                onChange={onChange}
-                value={startedFrom}
+                onChange={requestSearchOnChange}
+                value={dateRequestedLowerBound}
               />
             </div>
             <div className='col s2'>
-              <label htmlFor='startedTo'>...To:</label>
-              <input name='startedTo' id='startedTo' type='date' value={startedTo} onChange={onChange} />
+              <label htmlFor='dateRequestedUpperBound'>...To:</label>
+              <input 
+                name='dateRequestedUpperBound' 
+                id='dateRequestedUpperBound' type='date' 
+                value={dateRequestedUpperBound} 
+                onChange={requestSearchOnChange} 
+              />
             </div>
-            <div className='col s2'>
+            {/* <div className='col s2'>
             <label htmlFor='deliveredFrom'>Builds Delivered From: </label>
               <input
                 name='deliveredFrom'
                 id='deliveredFrom'
                 type='date'
-                onChange={onChange}
+                onChange={requestSearchOnChange}
                 value={deliveredFrom}
               />
             </div>
             <div className='col s2'>
               <label htmlFor='deliveredTo'>...To:</label>
-              <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={onChange} />
-            </div>
+              <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={requestSearchOnChange} />
+            </div> */}
             <div className='col s1'>
-                <label htmlFor='operatorName'>Operator Name:</label>
-                <input name='operator' placeholder="First/Last" id="operatorName" type="text" value={operator} onChange={onChange}/>
+                <label htmlFor='requester'>Operator Name:</label>
+                <input name='requester' placeholder="requester" id="requester" type="text" value={requester} onChange={requestSearchOnChange}/>
             </div>
             <div className='col s1'>
                 <label htmlFor='projectName'>Project Name:</label>
-                <input placeholder="" type="text" id="project" name='project' value={project} onChange={onChange}/>
+                <input placeholder="" type="text" id="projectName" name='projectName' value={projectName} onChange={requestSearchOnChange}/>
             </div>
-            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
+            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={requestSearchOnSubmit}>Submit
                 <i className="material-icons right">send</i>
             </button>
             {/* <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
