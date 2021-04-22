@@ -28,7 +28,7 @@ const RequestHistorySearch = ({ getJobs }) => {
     M.AutoInit();
     console.log("UseEffect called, state is: ");
     //pull builds from API with current filter values
-  },[status]);
+  },[jobStatus]);
 
   const requestSearchOnSubmit = (e) => {
       e.preventDefault();
@@ -73,18 +73,18 @@ const RequestHistorySearch = ({ getJobs }) => {
 //     });
 //     navigator.clipboard.writeText(billingSheet);
 //   }
-  const clearSearch = (e) => {
-    setUserFormData({
-      ...userFormData,
-      status: '',
-      startedFrom: '',
-      startedTo: '',
-      deliveredFrom: '',
-      deliveredTo: '',
-      operator: '',
-      project: '',
-    });
-  }
+  // const clearSearch = (e) => {
+  //   setUserFormData({
+  //     ...userFormData,
+  //     status: '',
+  //     startedFrom: '',
+  //     startedTo: '',
+  //     deliveredFrom: '',
+  //     deliveredTo: '',
+  //     operator: '',
+  //     project: '',
+  //   });
+  // }
 
   const clearRequestSearch = (e) => {
     setRequestSearchFormData({
@@ -105,6 +105,10 @@ const RequestHistorySearch = ({ getJobs }) => {
           style={{ position: 'fixed', width: '100%', height: '150px', zIndex: '1' }} //keeps filter options displayed on page
         >
           <div className='row'>
+          <div className='col s1'>
+                <label htmlFor='job_number'>Job Number:</label>
+                <input name='job_number' placeholder="#" id="job_number" type="number" value={job_number} onChange={requestSearchOnChange}/>
+            </div>
             <div className='col s2'>
               <label htmlFor='jobStatus'>Status:</label>
               <select 
@@ -113,15 +117,14 @@ const RequestHistorySearch = ({ getJobs }) => {
                 onChange={requestSearchOnChange}
               >
                 <option value='' disabled selected>Select</option>
-                <option value='Build File Ready'>Build File Ready</option>
-                <option value='Build Started'>Build Started</option>
-                <option value='Build Complete'>Build Complete</option>
-                <option value='Build Post-Processed'>Build Post-Processed</option>
-                <option value='Build Delivered'>Build Delivered</option>
+                <option value='Accepted'>Accepted</option>
+                <option value='Requested'>Requested</option>
+                <option value='Complete'>Complete</option>
+                <option value='Cancelled'>Cancelled</option>
               </select>
             </div>
             <div className='col s2'>
-              <label htmlFor='dateRequestedLowerBound'>Builds Started From: </label>
+              <label htmlFor='dateRequestedLowerBound'>Request Date From: </label>
               <input
                 name='dateRequestedLowerBound'
                 id='dateRequestedLowerBound'
@@ -154,7 +157,7 @@ const RequestHistorySearch = ({ getJobs }) => {
               <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={requestSearchOnChange} />
             </div> */}
             <div className='col s1'>
-                <label htmlFor='requester'>Operator Name:</label>
+                <label htmlFor='requester'>Job Requester:</label>
                 <input name='requester' placeholder="requester" id="requester" type="text" value={requester} onChange={requestSearchOnChange}/>
             </div>
             <div className='col s1'>
@@ -167,7 +170,7 @@ const RequestHistorySearch = ({ getJobs }) => {
             {/* <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
                 <i className="material-icons right">content_copy</i>
             </button> */}
-            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearSearch}>Clear
+            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearRequestSearch}>Clear
                 <i className="material-icons right">clear</i>
             </button>
           </div>
@@ -178,8 +181,8 @@ const RequestHistorySearch = ({ getJobs }) => {
   ); // style={{"font-weight": "bold", "color" : "black" }}
 };
 
-// const mapStateToProps = (state) => ({
-//   build: state.build
-// });
+const mapStateToProps = (state) => ({
+  build: state.build
+});
 
 export default connect(mapStateToProps, { getJobs })(RequestHistorySearch);

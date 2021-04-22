@@ -57,15 +57,19 @@ router.get(
         status: { $ne: 'Complete' } // not equals
     }
     
-    const { requester, status, dateRequested } = req.query;
+    const { job_number, requester, projectName, dateRequestedLowerBound, dateRequestedUpperBound, jobStatus } = req.query;
+    
+    if(dateRequestedLowerBound) filter.dateRequestedLowerBound = { $gte: dateRequestedLowerBound }; //add upperbound?
 
-    if(status) filter.status = { $eq: status};
+    if(job_number) filter.job_number = { $gte: job_number };
+    if(jobStatus) filter.status = { $eq: jobStatus };
     if(requester) filter.requester = { $eq: requester };
-    if(dateRequested) filter.dateRequested = { $eq: dateRequested };
+    if(dateRequestedLowerBound) filter.dateRequested = { $gte: dateRequestedLowerBound };
+    if(projectName) filter.projectName = { $eq: projectName };
 
     try {
-        const job = await Job.find(filter);
-        res.json(job);
+        const jobs = await Job.find(filter);
+        res.json(jobs);
     } catch (err) {
         console.error(err.message);
         res.status(500).send('server error');
