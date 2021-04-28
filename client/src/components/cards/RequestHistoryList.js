@@ -1,23 +1,23 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import BuildItem from './BuildItem';
+import RequestHistoryItem from './RequestHistoryItem';
 
-const RequestHistoryList = ({build: {builds}}) => {
+const RequestHistoryList = ({ job: { jobs } }) => {
   console.log("Request History job IDs in the list");
-  builds.forEach((build) => console.log(build._id));
+  jobs.forEach((job) => console.log(job._id));
   return (
     <div style={{ backgroundImage: "url(/images/mountain_low_contrast.jpg"}}>
-        {builds.length === 0 ? (
+        {jobs.length === 0 ? (
             <p className='center' style={{backgroundColor: 'white', opacity: '1.0'}}>No builds to show...</p>
         ) : (
-            builds.map((buildEntry) => <BuildItem build={buildEntry} key={buildEntry._id} />)
+            jobs.map((jobEntry) => <RequestHistoryItem job={jobEntry} key={jobEntry._id} />)
         )}
     </div>
   )
 }
 
 const mapStateToProps = (state) => ({
-  build: state.build
+  job: state.job
 });
 
 export default connect(mapStateToProps)(RequestHistoryList);

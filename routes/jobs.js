@@ -58,13 +58,30 @@ router.get(
     }
     
     const { job_number, requester, projectName, dateRequestedLowerBound, dateRequestedUpperBound, jobStatus } = req.query;
-    
-    if(dateRequestedLowerBound) filter.dateRequestedLowerBound = { $gte: dateRequestedLowerBound }; //add upperbound?
 
+    console.log(req.query);
+    
+    //if(dateRequestedLowerBound) filter.dateRequestedLowerBound = { $gte: dateRequestedLowerBound }; //add upperbound?
+
+    if(dateRequestedLowerBound && dateRequestedUpperBound) {
+      filter.$and = [
+        { dateRequested: { $gte: dateRequestedLowerBound } }, 
+        { dateRequested: { $lte: dateRequestedUpperBound } }
+      ]
+    } else if(dateRequestedLowerBound) {
+      filter.dateRequested = {
+        $gte: dateRequestedLowerBound
+      }
+    } else if(dateRequestedUpperBound) {
+      filter.dateRequested = {
+        $lte: dateRequestedUpperBound
+      }
+    }
+
+    // if(dateRequestedLowerBound) filter.dateRequested = { $gte: dateRequestedLowerBound };
     if(job_number) filter.job_number = { $gte: job_number };
     if(jobStatus) filter.status = { $eq: jobStatus };
     if(requester) filter.requester = { $eq: requester };
-    if(dateRequestedLowerBound) filter.dateRequested = { $gte: dateRequestedLowerBound };
     if(projectName) filter.projectName = { $eq: projectName };
 
     try {
