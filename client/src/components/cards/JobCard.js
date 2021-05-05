@@ -20,8 +20,8 @@ const JobCard = ({user: { user }, job, updateUser }) => {
     }
 
     return (
-        <div className="card" style={{ backgroundColor: '#323840', marginTop: '0px', marginBottom: '15px'}}>
-              <div className="card-content hoverable white-text" style={{ padding: 0 }}>
+        <div className="card hoverable" style={{ backgroundColor: '#323840', marginTop: '0px', marginBottom: '15px'}}>
+              <div className="card-content white-text" style={{ padding: 0 }}>
                 <div className="row grey darken-3" style={{ margin: 0 }}>
                   <div className="col s1 grey darken-4">
                     #{job_number}

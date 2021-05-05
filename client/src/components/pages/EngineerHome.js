@@ -43,7 +43,7 @@ const EngineerHome = () => {
 
         </div>
         
-        <div style={{ height: '9vh' }}></div>
+        <div style={{ height: '11vh' }}></div>
         
         <div style={{display: 'flex', justifyContent: 'space-between'}}>
           <div style={{height: '100vh', width: '41vw', overflow: 'auto', }}>

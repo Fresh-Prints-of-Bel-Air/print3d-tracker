@@ -8,16 +8,9 @@ const OperatorHome = () => {
     <div style={{backgroundImage: "url(/images/mountain_low_contrast.jpg"}}>
       <div style={{marginRight: '8%', marginLeft: '8%'}}>
         <div style={{height: '12vh', width: '41vw', position: 'fixed', zIndex: '8',}}>
-          <div 
-            className="card center white-text grey darken-4" 
-              style={{
-                paddingTop: '5px',
-                paddingBottom: '5px',
-                paddingRight: '0px',
-                paddingLeft: '0px',
-                marginTop: '0px'
-              }}
-          >
+          <div className="card center white-text grey darken-4" 
+            style={{ paddingTop: '5px', paddingBottom: '5px', 
+                paddingRight: '0px', paddingLeft: '0px', marginTop: '0px' }}>
               <h5>All Print Job Requests</h5>  
             </div>
           </div>
@@ -35,16 +28,13 @@ const OperatorHome = () => {
               <h5>Builds</h5>
             </div>
           </div>
-
-          <div style={{ height: '9vh' }}></div>
-
-        <div style={{display: 'flex', justifyContent: 'space-between'}}>
+          <div name="dummy-div" style={{ height: '11vh' }}></div>
+          <div style={{display: 'flex', justifyContent: 'space-between'}}>
             <div style={{height: '100vh', width: '41vw', overflow: 'auto'}}>
               <JobList/>
             </div>
             <div style={{height: '100vh', width: '41vw', overflow: 'auto'}}>
               <JobQueue/>
-              
             </div>
           </div>
       </div>
