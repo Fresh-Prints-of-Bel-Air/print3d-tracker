@@ -8,7 +8,7 @@ const RequestHistoryList = ({ job: { jobs } }) => {
   return (
     <div style={{ backgroundImage: "url(/images/mountain_low_contrast.jpg"}}>
         {jobs.length === 0 ? (
-            <p className='center' style={{backgroundColor: 'white', opacity: '1.0'}}>No builds to show...</p>
+            <p className='center' style={{backgroundColor: 'white', opacity: '1.0'}}>No job requests to show...</p>
         ) : (
             jobs.map((jobEntry) => <RequestHistoryItem job={jobEntry} key={jobEntry._id} />)
         )}

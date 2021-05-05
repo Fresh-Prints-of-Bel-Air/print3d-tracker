@@ -46,17 +46,19 @@ const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selec
 
               </li>
             </ul>
-            <ul className="right hide-on-med-and-down">
+            
+            <ul className="right black-text">
+              <li><p4 className="center">Engineer View</p4></li>
               <li>
                 <div className="switch">
                   <label>
-                    Engineer View
                     <input type="checkbox" ref={toggle} onClick={onViewToggleChange} checked={user.preferredView === 'Operator'}/>
                     <span className="lever"></span>
-                    Operator View
                   </label>
                 </div>
               </li>
+              <li><p4 className="center">Operator View</p4></li>
+              <li>&nbsp; &nbsp; &nbsp;</li>
             </ul>
           </div>
         </nav>

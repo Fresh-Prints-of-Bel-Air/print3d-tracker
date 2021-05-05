@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout } from '../../actions/authActions';
 
 export const Navbar = ({ user, logout }) => {
   // click event function for Logout link
+  const navLinkStyle = { backgroundColor: '#1565c0' }; // blue darken-3
   const onLogout = () => logout();
   return (
     <div className="navbar-fixed">
@@ -14,20 +15,21 @@ export const Navbar = ({ user, logout }) => {
             <img alt="Altaviz" src="/images/AltaViz.jpg" style={{maxWidth:'30%', maxHeight:'100%', filter: 'brightness(180%)'}}></img>
           </ul>
           <ul id='nav-mobile' className='right hide-on-med-and-down'>
-              { (localStorage.getItem("token") !== null) &&
-                <li>
-                  <Link to='login' onClick={onLogout}>Logout</Link>
-                </li>   
-             }
+            
             <li>
-              <Link to='/'>Home</Link>
+              <NavLink to='/' exact activeStyle={navLinkStyle}>Home</NavLink>
             </li>
             <li>
-              <Link to='build-history'>Build History</Link>
+              <NavLink to='build-history' activeStyle={navLinkStyle}>Build History</NavLink>
              </li>
              <li>
-              <Link to='request-history'>Request History</Link>
+              <NavLink to='request-history' activeStyle={navLinkStyle}>Request History</NavLink>
              </li>
+             { (localStorage.getItem("token") !== null) &&
+              <li>
+                <NavLink to='login' activeStyle={navLinkStyle} onClick={onLogout}>Logout</NavLink>
+              </li>   
+             }
           </ul>
         </div>
       </nav>
