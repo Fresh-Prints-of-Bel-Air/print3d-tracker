@@ -1,22 +1,25 @@
 import React, { useEffect, useState } from 'react';
 import M from 'materialize-css';
 
-export const BuildItem = ( { build } ) => {
+export const RequestHistoryItem = ( { job } ) => {
     useEffect(() => {
         M.AutoInit();
         console.log("useEffect log " + collapseState.activeClass);
     });
 
-    const { build_number, buildFileName, dateStarted, status, projects, associatedJobs, material, resolution, estPrintTime, operators, buildFilePath, dateDelivered, partsBuilding } = build;
+    // const { build_number, buildFileName, dateStarted, status, projects, associatedJobs, material, resolution, estPrintTime, operators, buildFilePath, dateDelivered, partsBuilding } = build;
+
+    const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, 
+        material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = job;
 
     const [collapseState, setCollapseState] = useState({ activeClass: "" });
 
     // building a comma separated string of the projects associated with a build, of at most length 3
-    let projectsString = '';
-    projects.forEach((project, i) => {
-        if (i < 3) projectsString += projects[i] + ", ";
-    });
-    projectsString = projectsString.substring(0, projectsString.length-2);
+    // let projectsString = '';
+    // projects.forEach((project, i) => {
+    //     if (i < 3) projectsString += projects[i] + ", ";
+    // });
+    // projectsString = projectsString.substring(0, projectsString.length-2);
 
     const collapsibleClicked = (e) => {
         console.log("collapsible clicked");
@@ -50,11 +53,11 @@ export const BuildItem = ( { build } ) => {
     const partsRow2 = [];
     const MAX_TABLE_SIZE = 10;
     let i = 0;
-    while(i < partsBuilding.length && i < MAX_TABLE_SIZE){
+    while(i < requestedParts.length && i < MAX_TABLE_SIZE){
         if(i < MAX_TABLE_SIZE / 2) //half the loop runs here
-            partsRow1.push(<td key={i}>{partsBuilding[i].name}</td>);
+            partsRow1.push(<td key={i}>{requestedParts[i].name}</td>);
         else //half the loop runs here
-            partsRow2.push(<td key={i}>{partsBuilding[i].name}</td>);
+            partsRow2.push(<td key={i}>{requestedParts[i].name}</td>);
         i++;
     }
 
@@ -63,7 +66,16 @@ export const BuildItem = ( { build } ) => {
             <ul class="collapsible" style={{ margin: '0px'}}>
                 <li className={collapseState.activeClass}>
                     <div class="collapsible-header row" style={{opacity: '.92', marginBottom: '0px'}} onClick={collapsibleClicked}>
-                        <p class="col s2" style={{fontSize: 'large', marginLeft: '0px'}}>#{build_number}</p>   
+                        
+                        <p class="col s2" style={{fontSize: 'large', marginLeft: '0px'}}>#{job_number}</p>
+                        <div className="col s1">
+                            <i className="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Requester">person</i>
+                        </div>
+                        <div className="col s3">
+                            Requester: <br/> {requester}
+                            {/* <p>Operators</p>
+                            {operators.map((operator, index) => <div class="chip" key={index}>{operator}</div>)} */}
+                        </div>   
                         <i 
                             class="material-icons tooltipped col s1" 
                             data-position="top" 
@@ -71,17 +83,17 @@ export const BuildItem = ( { build } ) => {
                             style={{marginLeft: '30px'}}
                         > build </i>
                         <div className="col s2">
-                           Projects: <br/>{projectsString}
-                        </div>
-                        <i  
+                            Project Name: <br/>{projectName}
+                        </div> 
+                        {/* <i  
                             class="material-icons tooltipped col s1"
                             data-position="top" 
                             data-tooltip="Build Filename"
                             style={{marginLeft: '30px'}}
                         > insert_drive_file </i> 
                         <div className="col s2">
-                            Build Filename: <br/>{buildFileName}
-                        </div>                        
+                            {buildFileName}
+                        </div>                         */}
                         <i 
                             class="material-icons tooltipped col s1" 
                             data-position="top" 
@@ -89,9 +101,9 @@ export const BuildItem = ( { build } ) => {
                             style={{marginLeft: '30px'}}
                         > event </i> 
                         <div className="col s2">
-                            Date Started: <br/>{dateStarted.split('T')[0]}
+                            Date Requested: <br/>{dateRequested.split('T')[0]}
                         </div>
-                        {status === 'Build Delivered' ? 
+                             {status === 'Complete' ? 
                                 <i class="material-icons tooltipped col s1" 
                                     data-position="top" 
                                     data-tooltip="Status"
@@ -114,12 +126,12 @@ export const BuildItem = ( { build } ) => {
                             <div className="col s1" style={{marginLeft: '50px'}}>
 
                             </div>
-                            <div className="col s1">
+                            {/* <div className="col s1">
                                 <i class="material-icons tooltipped" data-position="top" data-tooltip="Build File Path">folder</i>
                             </div>
                             <div className="col s2">              
-                                Build Filepath: <br/><strong>{buildFilePath}</strong>
-                            </div>
+                                <strong>{buildFilePath}</strong>
+                            </div> */}
                             <div className="col s1">
                                 <i className="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Material">layers</i>
                             </div>
@@ -132,23 +144,25 @@ export const BuildItem = ( { build } ) => {
                             <div className="col s2">
                                 Resolution: <br/>{resolution}
                             </div>
+                            <div className="col s1">
+                            <i className="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Date Delivered">local_shipping</i>
+                            </div>
+                            <div className="col s3">
+                                Completion Date: <br/>{completionDate ? completionDate.split('T')[0] : "Incomplete"}
+                            </div>
                         </div>
+                        
                         <div class="row">
                             <div className="col s1" style={{marginLeft: '50px'}}>
                                
                             </div>
-                            <div className="col s1">
+                            {/* <div className="col s1">
                                 <i class="material-icons tooltipped" data-position="top" data-tooltip="Estimated Print Time">access_time</i>
                             </div>
                             <div className="col s2">              
-                                Est. Print Time: <br/>{estPrintTime}
-                            </div>
-                            <div className="col s1">
-                                <i className="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Date Delivered">local_shipping</i>
-                            </div>
-                            <div className="col s2">
-                                Date Delivered: <br/>{dateDelivered.split('T')[0]}
-                            </div>
+                                {estPrintTime}
+                            </div> */}
+                            
                         </div>
                         <div className="row">
                             <div className="col s1" style={{marginLeft: '50px'}}>
@@ -161,7 +175,6 @@ export const BuildItem = ( { build } ) => {
                                             <th>Parts</th>
                                         </tr>
                                     </thead>
-
                                     <tbody>
                                         <tr>
                                             {partsRow1}
@@ -172,11 +185,6 @@ export const BuildItem = ( { build } ) => {
                                     </tbody>
                                 </table>
                             </div>
-                            <div className="col s5">
-                                <p>Operators</p>
-                                {operators.map((operator, index) => <div class="chip" key={index}>{operator}</div>)}
-                            </div>
-
                         </div>
                     </div>
                 </li>
@@ -185,4 +193,4 @@ export const BuildItem = ( { build } ) => {
     )
 }
 
-export default BuildItem;
+export default RequestHistoryItem;

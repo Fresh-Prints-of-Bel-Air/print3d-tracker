@@ -43,6 +43,7 @@ export const getJobs = (filter) => async (dispatch) => {
     setLoading();
     try {
         const res = await axios.get('/api/jobs', { params: filter });
+        console.log(res);
         dispatch({
             type: GET_JOBS,
             payload: res.data
