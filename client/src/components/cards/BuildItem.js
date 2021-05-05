@@ -62,7 +62,7 @@ export const BuildItem = ( { build } ) => {
         <div><strong>
             <ul class="collapsible" style={{ margin: '0px'}}>
                 <li className={collapseState.activeClass}>
-                    <div class="collapsible-header row" style={{opacity: '.9', marginBottom: '0px'}} onClick={collapsibleClicked}>
+                    <div class="collapsible-header row" style={{opacity: '.92', marginBottom: '0px'}} onClick={collapsibleClicked}>
                         <p class="col s2" style={{fontSize: 'large', marginLeft: '0px'}}>#{build_number}</p>   
                         <i 
                             class="material-icons tooltipped col s1" 
@@ -71,7 +71,7 @@ export const BuildItem = ( { build } ) => {
                             style={{marginLeft: '30px'}}
                         > build </i>
                         <div className="col s2">
-                            {projectsString}
+                           Projects: <br/>{projectsString}
                         </div>
                         <i  
                             class="material-icons tooltipped col s1"
@@ -80,7 +80,7 @@ export const BuildItem = ( { build } ) => {
                             style={{marginLeft: '30px'}}
                         > insert_drive_file </i> 
                         <div className="col s2">
-                            {buildFileName}
+                            Build Filename: <br/>{buildFileName}
                         </div>                        
                         <i 
                             class="material-icons tooltipped col s1" 
@@ -89,7 +89,7 @@ export const BuildItem = ( { build } ) => {
                             style={{marginLeft: '30px'}}
                         > event </i> 
                         <div className="col s2">
-                            {dateStarted.split('T')[0]}
+                            Date Started: <br/>{dateStarted.split('T')[0]}
                         </div>
                         {status === 'Build Delivered' ? 
                                 <i class="material-icons tooltipped col s1" 
@@ -105,11 +105,11 @@ export const BuildItem = ( { build } ) => {
                                 >hourglass_full</i>
                         }
                         <div className="col s2">
-                            {status}
+                            Status: <br/>{status}
                         </div>
                         
                     </div>
-                    <div class="collapsible-body" style={{ backgroundColor: 'white', opacity: '.7', marginBottom: '0px'}}>
+                    <div class="collapsible-body" style={{ backgroundColor: 'white', opacity: '.84', marginBottom: '0px'}}>
                         <div class="row">  
                             <div className="col s1" style={{marginLeft: '50px'}}>
 
@@ -118,19 +118,19 @@ export const BuildItem = ( { build } ) => {
                                 <i class="material-icons tooltipped" data-position="top" data-tooltip="Build File Path">folder</i>
                             </div>
                             <div className="col s2">              
-                                <strong>{buildFilePath}</strong>
+                                Build Filepath: <br/><strong>{buildFilePath}</strong>
                             </div>
                             <div className="col s1">
                                 <i className="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Material">layers</i>
                             </div>
                             <div className="col s2">
-                                {material}
+                                Material: <br/>{material}
                             </div>
                             <div className="col s1">
                                 <i className="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Resolution">line_weight</i>
                             </div>
                             <div className="col s2">
-                                {resolution}
+                                Resolution: <br/>{resolution}
                             </div>
                         </div>
                         <div class="row">
@@ -141,13 +141,13 @@ export const BuildItem = ( { build } ) => {
                                 <i class="material-icons tooltipped" data-position="top" data-tooltip="Estimated Print Time">access_time</i>
                             </div>
                             <div className="col s2">              
-                                {estPrintTime}
+                                Est. Print Time: <br/>{estPrintTime}
                             </div>
                             <div className="col s1">
                                 <i className="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Date Delivered">local_shipping</i>
                             </div>
                             <div className="col s2">
-                                {dateDelivered.split('T')[0]}
+                                Date Delivered: <br/>{dateDelivered.split('T')[0]}
                             </div>
                         </div>
                         <div className="row">
