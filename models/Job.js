@@ -53,6 +53,11 @@ const JobSchema = mongoose.Schema({
         ],
         required: true
     },
+    lastUpdated: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
 
     // stipulations about the request, such as build orientation
     notes: String,
@@ -64,12 +69,18 @@ const JobSchema = mongoose.Schema({
         building: Number,
         remaining: Number,
     }],
+    
+    //operators that have accepted the job, used to notify operators of job deletion/cancellation and remove the job from their job queue
+    acceptingOperators: [{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'users'
+    }],
 
     // array of Builds used complete the Job
     builds: [{  
         type: mongoose.Schema.Types.ObjectId,
         ref: 'builds'
-    }] 
+    }],
     
 })
 

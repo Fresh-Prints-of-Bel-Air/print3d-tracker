@@ -110,6 +110,7 @@ router.get(
       try {
         const newJob = new Job({
           ...req.body,
+          lastUpdated: Date.now
         });
   
         const job = await newJob.save();
@@ -138,6 +139,7 @@ router.get(
         material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = req.body;
         
       const updateFields = {};
+      updateFields.lastUpdated = Date.now;
       if(requester) updateFields.requester = requester;
       if(projectName) updateFields.projectName = projectName;
       if(dateRequested) updateFields.dateRequested = dateRequested;

@@ -18,7 +18,7 @@ export const setLoading = () => async (dispatch) => {
     });
 }
 
-export const getJobsByIdArray = (jobIdArray) => async (dispatch) => {
+export const getJobsByIdArray = (jobIdArray, user) => async (dispatch) => { //for getting the User's jobs (requestedJobs or jobQueue)
     setLoading();
     try {
         const res = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray } });
@@ -28,6 +28,7 @@ export const getJobsByIdArray = (jobIdArray) => async (dispatch) => {
             type: GET_USER_JOBS,
             payload: res.data,
         });
+
     }  catch (err) {
         dispatch({
             type: JOBS_ERROR,

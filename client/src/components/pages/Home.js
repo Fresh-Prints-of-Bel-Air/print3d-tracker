@@ -7,9 +7,14 @@ import EngineerHome from './EngineerHome';
 import OperatorHome from './OperatorHome';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
+
 const Home = ({ user: {user, loading}, loadUser }) => {
+
+
+
   useEffect(() => {
     M.AutoInit();
+    
     console.log('Home component mounted');
     loadUser();
     //eslint-disable-next-line
@@ -18,7 +23,7 @@ const Home = ({ user: {user, loading}, loadUser }) => {
     return <Preloader/>;
   }
   return (
-    <div>
+    <div style={{position: 'relative'}}>
       <JobNav/>
       {user.preferredView === 'Operator' ? <OperatorHome/> : <EngineerHome/>}
     </div>

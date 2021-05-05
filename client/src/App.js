@@ -12,17 +12,22 @@ import BuildHistory from './components/pages/BuildHistory';
 import RequestHistoryPage from './components/pages/RequestHistoryPage';
 import Home from './components/pages/Home';
 import PrivateRoute from './components/routing/PrivateRoute';
+import ScrollToTop from './components/pages/ScrollToTop';
 
 function App() {
+
+  
+
   useEffect(() => {
     M.AutoInit();
-
+    
     //console.log(store.getState());
-  });
+  }, []);
   return (
     <Provider store={store}>
       <Fragment>
         <Router>
+          <ScrollToTop/>
           <Navbar />
           <Switch>
             <PrivateRoute exact path='/' component={Home}/>

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
+import { updateJob } from '../../actions/jobActions';
 // import 
 
 const JobCard = ({user: { user }, job, updateUser }) => {
@@ -17,6 +18,8 @@ const JobCard = ({user: { user }, job, updateUser }) => {
     const acceptJob = () => {
       setAcceptedState({...acceptedState, accepted: true});
       updateUser({...user, jobQueue: [...user.jobQueue, job._id]});
+      //updatejob, adding the user to the job's operators list
+      updateJob({...job, acceptingOperators: [...job.acceptingOperators, user._id]});
     }
 
     return (
