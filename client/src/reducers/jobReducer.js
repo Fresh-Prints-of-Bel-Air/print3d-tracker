@@ -8,6 +8,7 @@ import {
     UPDATE_JOB,
     DELETE_JOB,
     SET_VIEW,
+    RESET_JOB_STATE,   
     SET_SELECTED_JOB_ID
   } from '../actions/types';
 
@@ -74,6 +75,13 @@ export default (state = initialState, action) => {
                 jobs: state.jobs.filter(job => job.id !== action.payload),
                 loading: false,
                 error: null,
+            }
+        case RESET_JOB_STATE:
+            return {
+                ...state,
+                jobs: [],
+                loading: false,
+                error: null
             }
         case SET_VIEW:
             return {

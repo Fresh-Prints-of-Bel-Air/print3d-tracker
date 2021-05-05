@@ -51,7 +51,7 @@ const  NotificationPanel = ({user: { user }, updateUser, setNotificationStatus})
                       <div className="row">
                         <div className="col s7" style={notification.isRead ? {fontWeight: 'normal', lineHeight: '1.5'} : {fontWeight: 'bold', lineHeight: '1.5'}}>{notification.text}</div>
                         <span className="col s5">
-                        {!(notification.isRead) && <a name="markRead" style={{width: '100%'}} class="waves-effect waves-light btn-small blue" onClick={markRead} id={index}>Mark Read</a>
+                        {!(notification.isRead) && <a name="markRead" style={{width: '100%'}} className="waves-effect waves-light btn-small blue" onClick={markRead} id={index}>Mark Read</a>
                         }
                         </span>
                       </div>

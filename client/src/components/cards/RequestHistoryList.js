@@ -1,9 +1,15 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { resetJobState } from '../../actions/jobActions';
 import RequestHistoryItem from './RequestHistoryItem';
 
-const RequestHistoryList = ({ job: { jobs } }) => {
+const RequestHistoryList = ({ job: { jobs }, resetJobState }) => {
   console.log("Request History job IDs in the list");
+
+  useEffect(() => {
+    resetJobState();
+  },[]);
+
   jobs.forEach((job) => console.log(job._id));
   return (
     <div style={{ backgroundImage: "url(/images/mountain_low_contrast.jpg"}}>
@@ -20,4 +26,4 @@ const mapStateToProps = (state) => ({
   job: state.job
 });
 
-export default connect(mapStateToProps)(RequestHistoryList);
+export default connect(mapStateToProps, { resetJobState })(RequestHistoryList);
