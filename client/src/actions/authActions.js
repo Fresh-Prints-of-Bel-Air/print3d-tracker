@@ -40,7 +40,7 @@ export const updateUser = (user) => async (dispatch) => {
     }
   }
   try{
-    
+    console.log(user);
     const res = await axios.put(`/api/users/${user._id}`, user, config); 
     console.log('updated user is: ');
     console.log(res);

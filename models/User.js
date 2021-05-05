@@ -31,7 +31,15 @@ const UserSchema = mongoose.Schema({
   }],
   lastJobRequest: {
     type: Object,
-  }
+  },
+  notifications: [{
+    text: String,
+    dateCreated: Date,
+    isRead: {
+      type: Boolean,
+      default: false,
+    }
+  }]
 });
 
 module.exports = mongoose.model('User', UserSchema);
