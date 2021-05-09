@@ -99,10 +99,10 @@ const RequestHistorySearch = ({ getJobs }) => {
 
   return (
     <div>
-      <div style={{width: '100%', height: '150px' }}>
+      <div style={{width: '100%', height: '12vh' }}>
         <div
           className='grey lighten-2'
-          style={{ position: 'fixed', width: '100%', height: '150px', zIndex: '1' }} //keeps filter options displayed on page
+          style={{ position: 'fixed', width: '100%', height: '12vh', zIndex: '1' }} //keeps filter options displayed on page
         >
           <div className='row' style={{marginBottom: '0px'}}>
           <div className='col s1'>

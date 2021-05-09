@@ -6,7 +6,7 @@ const BuildList = ({build: {builds}}) => {
   console.log("build IDs in the list:");
   builds.forEach((build) => console.log(build._id));
   return (
-    <div style={{ backgroundImage: "url(/images/mountain_low_contrast.jpg"}}>
+    <div style={{backGroundImage: builds.length !== 0 && "url(/images/mountain_low_contrast.jpg", height: '83vh', overflowY: 'scroll'}}>
           {builds.length === 0 ? (
             <p className='center' style={{backgroundColor: 'white', opacity: '1.0'}}>No builds to show...</p>
           ) : (

@@ -12,12 +12,12 @@ const RequestHistoryList = ({ job: { jobs }, resetJobState }) => {
 
   jobs.forEach((job) => console.log(job._id));
   return (
-    <div style={{ backgroundImage: "url(/images/mountain_low_contrast.jpg"}}>
+    <div style={{backGroundImage: jobs.length !== 0 && "url(/images/mountain_low_contrast.jpg", height: '83vh', overflowY: 'scroll'}}>
         {jobs.length === 0 ? (
             <p className='center' style={{backgroundColor: 'white', opacity: '1.0'}}>No job requests to show...</p>
         ) : (
-            jobs.map((jobEntry) => <RequestHistoryItem job={jobEntry} key={jobEntry._id} />)
-        )}
+              jobs.map((jobEntry) => <RequestHistoryItem job={jobEntry} key={jobEntry._id} />)
+            )}
     </div>
   )
 }

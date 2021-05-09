@@ -14,7 +14,7 @@ const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selec
   // }
   ////////////////
   
-  const [checkedState, setCheckedState] = useState(false);
+  //const [checkedState, setCheckedState] = useState(false);
 
   useEffect(() => {
     console.log(user.preferredView);
@@ -22,7 +22,7 @@ const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selec
 
   const onViewToggleChange = (checked) => {
     
-    setCheckedState(checked);
+    //setCheckedState(checked);
 
     if(checked) {
       updateUser({...user, preferredView: 'Operator'});
@@ -47,11 +47,11 @@ const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selec
               </li>
             </ul>
             <ul style={{marginRight: '1vw'}} className="right hide-on-med-and-down black-text">
-              <li style={{marginRight: '1vw', fontWeight: checkedState == false && 'bold'}}>Engineer View</li>
+              <li style={{marginRight: '1vw', fontWeight: user.preferredView === 'Engineer' && 'bold'}}>Engineer View</li>
               <li style={{marginTop: '0.4vh'}}>
                 <Switch 
                     onChange={onViewToggleChange} 
-                    checked={checkedState}
+                    checked={user.preferredView === 'Operator'}
                     offColor={'#00ACC1'}
                     onColor={'#1E88E5'}
                     uncheckedIcon={false}
@@ -60,13 +60,13 @@ const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selec
                     height={20}
                 />
               </li>
-              <li style={{marginLeft: '1vw', fontWeight: checkedState == true && 'bold'}}>Operator View</li>
+              <li style={{marginLeft: '1vw', fontWeight: user.preferredView === 'Operator' && 'bold'}}>Operator View</li>
             </ul>
           </div>
         </nav>
       </div>
-      {/*user.preferredView === 'Engineer' ? <RequestJobModal/> : '<CreateBuildModal/>'*/}
-      <RequestJobModal/>
+      {user.preferredView === 'Engineer' ? <RequestJobModal/> : <CreateBuildModal/>}
+      {/* <RequestJobModal/> */}
       
       
 
