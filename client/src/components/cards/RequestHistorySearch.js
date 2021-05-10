@@ -99,12 +99,12 @@ const RequestHistorySearch = ({ getJobs }) => {
 
   return (
     <div>
-      <div style={{width: '100%', height: '150px' }}>
+      <div style={{width: '100%', height: '12vh' }}>
         <div
           className='grey lighten-2'
-          style={{ position: 'fixed', width: '100%', height: '150px', zIndex: '1' }} //keeps filter options displayed on page
+          style={{ position: 'fixed', width: '100%', height: '12vh', zIndex: '1' }} //keeps filter options displayed on page
         >
-          <div className='row'>
+          <div className='row' style={{marginBottom: '0px'}}>
           <div className='col s1'>
                 <label htmlFor='job_number'>Job Number:</label>
                 <input name='job_number' placeholder="#" id="job_number" type="number" value={job_number} onChange={requestSearchOnChange}/>
@@ -164,6 +164,8 @@ const RequestHistorySearch = ({ getJobs }) => {
                 <label htmlFor='projectName'>Project Name:</label>
                 <input placeholder="" type="text" id="projectName" name='projectName' value={projectName} onChange={requestSearchOnChange}/>
             </div>
+          </div>
+          <div className="row" style={{marginBottom: '0px'}}>
             <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={requestSearchOnSubmit}>Submit
                 <i className="material-icons right">send</i>
             </button>
