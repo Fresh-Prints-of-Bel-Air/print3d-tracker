@@ -64,10 +64,10 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
 
   return (
     <div>
-      <div style={{width: '100%', height: '12vh' }}>
+      <div style={{width: '100%', height: '23vh' }}>
         <div
           className='grey lighten-2'
-          style={{ position: 'fixed', width: '100%', height: '12vh', zIndex: '1' }} //keeps filter options displayed on page
+          style={{ position: 'fixed', width: '100%', height: '23vh', zIndex: '1' }} //keeps filter options displayed on page
         >
           <div className='row'>
             <div className='col s2'>
@@ -121,13 +121,13 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
                 <label htmlFor='projectName'>Project Name:</label>
                 <input placeholder="" type="text" id="project" name='project' value={project} onChange={onChange}/>
             </div>
-            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
+            <button style={{margin: '1vh'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
                 <i className="material-icons right">send</i>
             </button>
-            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
+            <button style={{margin: '1vh', height: '4vh'}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
                 <i className="material-icons right">content_copy</i>
             </button>
-            <button style={{'margin': '20px'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearSearch}>Clear
+            <button style={{margin: '1vh'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearSearch}>Clear
                 <i className="material-icons right">clear</i>
             </button>
           </div>

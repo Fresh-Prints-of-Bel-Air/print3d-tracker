@@ -54,7 +54,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
   
   return (
     <div className="navbar-fixed">
-      <nav className='black' style={{maxHeight: '5vh'}}>
+      <nav className='black' style={{maxHeight: '11vh'}}>
         <div className='nav-wrapper'>
           <ul id='nav-mobile' className='left hide-on-med-and-down'>
             <img alt="Altaviz" src="/images/AltaViz.jpg" style={{maxWidth:'30%', maxHeight:'100%', filter: 'brightness(180%)'}}></img>
