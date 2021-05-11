@@ -62,6 +62,8 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
     });
   }
 
+  const labelFontSize = '1.8vh';
+  const inputFontSize = '2vh';
   return (
     <div>
       <div style={{width: '100%', height: '23vh' }}>
@@ -69,13 +71,14 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
           className='grey lighten-2'
           style={{ position: 'fixed', width: '100%', height: '23vh', zIndex: '1' }} //keeps filter options displayed on page
         >
-          <div className='row'>
+          <div className='row' style={{ marginBottom: '3.5vh' }}>
             <div className='col s2'>
-              <label htmlFor='status'>Status:</label>
+              <label htmlFor='status' style={{fontSize: labelFontSize}}>Status:</label>
               <select 
                 name='status' 
                 value={status} 
                 onChange={onChange}
+                style={{fontSize: inputFontSize}}
               >
                 <option value='' disabled selected>Select</option>
                 <option value='Build File Ready'>Build File Ready</option>
@@ -85,50 +88,55 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
                 <option value='Build Delivered'>Build Delivered</option>
               </select>
             </div>
-            <div className='col s2'>
-              <label htmlFor='startedFrom'>Builds Started From: </label>
+            <div className='col s2' >
+              <label htmlFor='startedFrom' style={{fontSize: labelFontSize}}>Builds Started From: </label>
               <input
                 name='startedFrom'
                 id='startedFrom'
                 type='date'
                 onChange={onChange}
                 value={startedFrom}
+                style={{fontSize: inputFontSize}}
               />
             </div>
             <div className='col s2'>
-              <label htmlFor='startedTo'>...To:</label>
-              <input name='startedTo' id='startedTo' type='date' value={startedTo} onChange={onChange} />
+              <label htmlFor='startedTo' style={{fontSize: labelFontSize}}>...To:</label>
+              <input name='startedTo' id='startedTo' type='date' value={startedTo} onChange={onChange} style={{fontSize: inputFontSize}}/>
             </div>
             <div className='col s2'>
-            <label htmlFor='deliveredFrom'>Builds Delivered From: </label>
+            <label htmlFor='deliveredFrom' style={{fontSize: labelFontSize}}>Builds Delivered From: </label>
               <input
                 name='deliveredFrom'
                 id='deliveredFrom'
                 type='date'
                 onChange={onChange}
                 value={deliveredFrom}
+                style={{fontSize: inputFontSize}}
               />
             </div>
             <div className='col s2'>
-              <label htmlFor='deliveredTo'>...To:</label>
-              <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={onChange} />
+              <label htmlFor='deliveredTo' style={{fontSize: labelFontSize}}>...To:</label>
+              <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={onChange} style={{fontSize: inputFontSize}}/>
             </div>
             <div className='col s1'>
-                <label htmlFor='operatorName'>Operator Name:</label>
-                <input name='operator' placeholder="First/Last" id="operatorName" type="text" value={operator} onChange={onChange}/>
+                <label htmlFor='operatorName' style={{fontSize: labelFontSize}}>Operator Name:</label>
+                <input name='operator' placeholder="First/Last" id="operatorName" type="text" value={operator} onChange={onChange} style={{fontSize: inputFontSize}}/>
             </div>
             <div className='col s1'>
-                <label htmlFor='projectName'>Project Name:</label>
-                <input placeholder="" type="text" id="project" name='project' value={project} onChange={onChange}/>
+                <label htmlFor='projectName' style={{fontSize: labelFontSize}}>Project Name:</label>
+                <input placeholder="" type="text" id="project" name='project' value={project} onChange={onChange} style={{fontSize: inputFontSize}}/>
             </div>
-            <button style={{margin: '1vh'}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
-                <i className="material-icons right">send</i>
+          </div>
+
+          <div className="row">
+            <button style={{margin: '1vh', height: '5.5vh', width: "16vh", fontSize: "1.9vh"}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
+                <i className="material-icons right" style={{fontSize: "1.6vh"}}>send</i>
             </button>
-            <button style={{margin: '1vh', height: '4vh'}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
-                <i className="material-icons right">content_copy</i>
+            <button style={{margin: '1vh', height: '5.5vh', width: "16vh", fontSize: "1.9vh"}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
+                <i className="material-icons right" style={{fontSize: "1.6vh"}}>content_copy</i>
             </button>
-            <button style={{margin: '1vh'}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearSearch}>Clear
-                <i className="material-icons right">clear</i>
+            <button style={{margin: '1vh', height: '5.5vh', width: "16vh", fontSize: "1.9vh"}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearSearch}>Clear
+                <i className="material-icons right" style={{fontSize: "1.6vh"}}>clear</i>
             </button>
           </div>
         </div>
