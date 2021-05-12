@@ -43,8 +43,7 @@ export const Register = ({ user, register, ...rest }) => {
         password,
       });
     } else {
-      console.log('error, passwords do not match or a field is empty');
-      // create some alert?
+      alert('error, passwords do not match or a field is empty');
     }
   };
 
@@ -101,6 +100,18 @@ export const Register = ({ user, register, ...rest }) => {
               onChange={onChange}
             />
             <label htmlFor='password2'>Confirm Password</label>
+          </div>
+        </div>
+        <div className='row'>
+          <div className='input-field col s4 offset-s4'>
+            <input
+              id='regKey'
+              name='regKey'
+              type='text'
+              className='validate'
+              onChange={onChange}
+            />
+            <label htmlFor='password2'>Registration Key</label>
           </div>
         </div>
         <div className='row'>

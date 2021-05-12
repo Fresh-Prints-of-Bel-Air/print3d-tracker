@@ -3,7 +3,14 @@ import { connect } from 'react-redux';
 import {getBuilds} from '../../actions/buildActions';
 import M from 'materialize-css';
 
-const BuildSearch= ({build: {builds}, getBuilds}) => {
+const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
+  //formDimensions for 1080p
+  // height: '20vh',
+  // formMarginBtm: '8.5vh',
+  // buttonHeight: '4vh',
+  // buttonWidth: '7vw',
+  // listSize: '73.2vh'
+
   const [userFormData, setUserFormData] = useState({
     status: '',
     startedFrom: '',
@@ -15,9 +22,13 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
   });
   const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
 
+  
+
   useEffect(() => {
     M.AutoInit();
     console.log("UseEffect called, state is: ");
+    console.log("Screen Dimensions: ");
+    
     //pull builds from API with current filter values
   },[status]);
 
@@ -62,23 +73,22 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
     });
   }
 
-  const labelFontSize = '1.8vh';
-  const inputFontSize = '2vh';
+  const labelFontSize = '1.3vh';
+
+
   return (
     <div>
-      <div style={{width: '100%', height: '23vh' }}>
         <div
           className='grey lighten-2'
-          style={{ position: 'fixed', width: '100%', height: '23vh', zIndex: '1' }} //keeps filter options displayed on page
+          style={{ position: 'fixed', width: '100%', height: formDimensions.height, zIndex: '1' }} //keeps filter options displayed on page
         >
-          <div className='row' style={{ marginBottom: '3.5vh' }}>
+          <div className='row' style={{ marginBottom: formDimensions.formMarginBtm }}>
             <div className='col s2'>
               <label htmlFor='status' style={{fontSize: labelFontSize}}>Status:</label>
               <select 
                 name='status' 
                 value={status} 
                 onChange={onChange}
-                style={{fontSize: inputFontSize}}
               >
                 <option value='' disabled selected>Select</option>
                 <option value='Build File Ready'>Build File Ready</option>
@@ -96,12 +106,11 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
                 type='date'
                 onChange={onChange}
                 value={startedFrom}
-                style={{fontSize: inputFontSize}}
               />
             </div>
             <div className='col s2'>
               <label htmlFor='startedTo' style={{fontSize: labelFontSize}}>...To:</label>
-              <input name='startedTo' id='startedTo' type='date' value={startedTo} onChange={onChange} style={{fontSize: inputFontSize}}/>
+              <input name='startedTo' id='startedTo' type='date' value={startedTo} onChange={onChange}/>
             </div>
             <div className='col s2'>
             <label htmlFor='deliveredFrom' style={{fontSize: labelFontSize}}>Builds Delivered From: </label>
@@ -111,37 +120,35 @@ const BuildSearch= ({build: {builds}, getBuilds}) => {
                 type='date'
                 onChange={onChange}
                 value={deliveredFrom}
-                style={{fontSize: inputFontSize}}
               />
             </div>
             <div className='col s2'>
               <label htmlFor='deliveredTo' style={{fontSize: labelFontSize}}>...To:</label>
-              <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={onChange} style={{fontSize: inputFontSize}}/>
+              <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={onChange}/>
             </div>
             <div className='col s1'>
                 <label htmlFor='operatorName' style={{fontSize: labelFontSize}}>Operator Name:</label>
-                <input name='operator' placeholder="First/Last" id="operatorName" type="text" value={operator} onChange={onChange} style={{fontSize: inputFontSize}}/>
+                <input name='operator' placeholder="First/Last" id="operatorName" type="text" value={operator} onChange={onChange}/>
             </div>
             <div className='col s1'>
                 <label htmlFor='projectName' style={{fontSize: labelFontSize}}>Project Name:</label>
-                <input placeholder="" type="text" id="project" name='project' value={project} onChange={onChange} style={{fontSize: inputFontSize}}/>
+                <input placeholder="" type="text" id="project" name='project' value={project} onChange={onChange}/>
             </div>
           </div>
 
           <div className="row">
-            <button style={{margin: '1vh', height: '5.5vh', width: "16vh", fontSize: "1.9vh"}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
-                <i className="material-icons right" style={{fontSize: "1.6vh"}}>send</i>
+            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
+                <i className="material-icons right" style={{fontSize: "1.2vh"}}>send</i>
             </button>
-            <button style={{margin: '1vh', height: '5.5vh', width: "16vh", fontSize: "1.9vh"}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
-                <i className="material-icons right" style={{fontSize: "1.6vh"}}>content_copy</i>
+            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
+                <i className="material-icons right" style={{fontSize: "1.2vh"}}>content_copy</i>
             </button>
-            <button style={{margin: '1vh', height: '5.5vh', width: "16vh", fontSize: "1.9vh"}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearSearch}>Clear
-                <i className="material-icons right" style={{fontSize: "1.6vh"}}>clear</i>
+            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearSearch}>Clear
+                <i className="material-icons right" style={{fontSize: "1.2vh"}}>clear</i>
             </button>
           </div>
         </div>
       </div>
-    </div>
     
   ); // style={{"font-weight": "bold", "color" : "black" }}
 };
