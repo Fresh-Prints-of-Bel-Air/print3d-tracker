@@ -16,7 +16,7 @@ const BuildList = ({build: {builds}, formDimensions}) => {
     <div style={{backgroundImage: builds.length !== 0 && "url(/images/mountain_low_contrast.jpg)", maxHeight: formDimensions.listSize, overflow: 'auto'}}>
          
           {builds.length === 0 ? (
-            <p className='center' style={{backgroundColor: 'white', opacity: '1.0', overflow: 'none'}}>No builds to show...</p>
+            <p className='center' style={{backgroundColor: 'white', opacity: '1.0'}}>No builds to show...</p>
           ) : (
             builds.map((buildEntry) => <BuildItem build={buildEntry} key={buildEntry._id} />)
           )}
