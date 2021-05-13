@@ -4,12 +4,6 @@ import {getBuilds} from '../../actions/buildActions';
 import M from 'materialize-css';
 
 const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
-  //formDimensions for 1080p
-  // height: '20vh',
-  // formMarginBtm: '8.5vh',
-  // buttonHeight: '4vh',
-  // buttonWidth: '7vw',
-  // listSize: '73.2vh'
 
   const [userFormData, setUserFormData] = useState({
     status: '',
@@ -21,8 +15,6 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
     project: '',
   });
   const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
-
-  
 
   useEffect(() => {
     M.AutoInit();
@@ -74,7 +66,6 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
   }
 
   const labelFontSize = '1.3vh';
-
 
   return (
     <div>
