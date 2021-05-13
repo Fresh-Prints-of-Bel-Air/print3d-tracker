@@ -51,35 +51,41 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
   }
 
   // click event function for Logout link
-  const navLinkStyle = { backgroundColor: '#1565c0' }; // blue darken-3
+  const navLinkStyle = { backgroundColor: '#1565c0', height: '6.8vh'}; // blue darken-3
+  const navLinkClass = "valign-wrapper"
   const onLogout = () => logout();
   
   return (
-    <div className="navbar-fixed" style={{backgroundColor: 'black'}}>
-      <nav className='black' style={{maxHeight: window.screen.height * window.devicePixelRatio > 1080 ? '5vh' : '6.8vh'}}>
-        <div className='nav-wrapper'>
-          <ul id='nav-mobile' className='left hide-on-med-and-down'>
-            <img alt="Altaviz" src="/images/AltaViz.jpg" style={{maxWidth:'30%', maxHeight:'100%', filter: 'brightness(180%)'}}></img>
-          </ul>
-          <ul id='nav-mobile' className='right hide-on-med-and-down'>
+    <div className="navbar-fixed" style={{height: '6.8vh'}}>
+      <nav className='black' style={{height: '6.8vh'}}>
+        <div className='nav-wrapper' style={{height: '6.8vh'}}>
+          <a href="#" className="brand-logo">
+            <div className="valign-wrapper" style={{height: '6.8vh'}}>
+              <img alt="Altaviz" src="/images/AltaViz.jpg" style={{maxWidth:'80%', maxHeight:'100%', filter: 'brightness(180%)'}}></img>
+            </div>
+          </a>     
+          <ul id='nav-mobile' className='right hide-on-med-and-down' style={{height: '6.8vh'}}>
             <li>
-              <NavLink to='/' exact activeStyle={navLinkStyle}>Home</NavLink>
+                <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Home</NavLink>
             </li>
             <li>
-              <NavLink to='build-history' activeStyle={navLinkStyle}>Build History</NavLink>
-             </li>
-             <li>
-              <NavLink to='request-history' activeStyle={navLinkStyle}>Request History</NavLink>
-             </li>
+              <NavLink to='build-history' className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Build History</NavLink>
+            </li>
+            <li>
+              <NavLink to='request-history' className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Request History</NavLink>
+            </li>
             {(localStorage.getItem("token") !== null) && 
-              <li>
+              <li style={{height: '6.8vh'}}>
                   {/* need to make sure the "pulse" class is removed if there are no unread notifications */}
-                  <a style={{userSelect: 'none'}} className={`btn-floating btn blue ${notificationStatus.unread ? "pulse" : ""}`} onMouseDown={!notificationStatus.showNotifications ? showNotifications : undefined}><i class="material-icons">notifications_none</i></a>
+                  <div className="valign-wrapper" style={{height: '6.8vh'}}>
+                    <a style={{userSelect: 'none'}} className={`btn-floating btn blue  ${notificationStatus.unread ? "pulse" : ""}`} onMouseDown={!notificationStatus.showNotifications ? showNotifications : undefined}><i class="material-icons">notifications_none</i></a>
+                  </div>
+                  
               </li>
             }
             {(localStorage.getItem("token") !== null) &&
               <li>
-                <NavLink to='login' activeStyle={navLinkStyle} onClick={onLogout}>Logout</NavLink>
+                <NavLink to='login' className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}} onClick={onLogout}>Logout</NavLink>
               </li>   
             }
           </ul>
