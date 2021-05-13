@@ -16,6 +16,8 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
   
   useEffect(() => {
     M.AutoInit();
+    console.log(window.screen.height);
+    console.log(window.devicePixelRatio);
     if(user){
       let i;
       setNotificationStatus({...notificationStatus, unread: false});
@@ -53,7 +55,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
   const onLogout = () => logout();
   
   return (
-    <div className="navbar-fixed">
+    <div className="navbar-fixed" style={{backgroundColor: 'black'}}>
       <nav className='black' style={{maxHeight: window.screen.height * window.devicePixelRatio > 1080 ? '5vh' : '6.8vh'}}>
         <div className='nav-wrapper'>
           <ul id='nav-mobile' className='left hide-on-med-and-down'>
