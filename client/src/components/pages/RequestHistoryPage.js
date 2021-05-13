@@ -18,7 +18,7 @@ const RequestHistoryPage = () => {
   
   useEffect(() => {
     if(window.screen.height * window.devicePixelRatio > 1080)
-      setFormDimensions({...formDimensions, height: '16vh', formMarginBtm: '3vh', listSize: '79vh'});
+      setFormDimensions({...formDimensions, height: '16vh', formMarginBtm: '2.5vh', listSize: '79vh'});
   }, []);
   return (
     <div>
