@@ -11,9 +11,9 @@ import M from 'materialize-css';
 
 const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdArray}) => {
   
-  //const [jobMap, setJobMap] = useState(new Map()); //jobMap will keep track of build quantities for each job
+  // const [jobMap, setJobMap] = useState(new Map()); 
   const [buildForm, setBuildForm] = useState({
-    jobMap: new Map(),
+    jobMap: new Map(), //jobMap will keep track of build quantities for each job
     associatedJobs: [],
     partsBuilding: [],
     material: '',
@@ -31,15 +31,37 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
         job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0}))
       ]
     ))))
-    
   });
 //key: job.id, value: array of part objects (with quantity building)...used to ensure at least 1 part is being built for a job whose project is added to the project list
 
   const [buildState, setBuildState] = useState({
     upToDate: true,
   });
+
+  useEffect(() => {
+    // making sure jobMap and jobPartQuantityMap are initialized
+    if (buildForm.jobMap.size === 0 || buildForm.jobPartQuantityMap.size === 0) 
+      setBuildForm({
+        ...buildForm, 
+        jobMap: new Map(userJobs.map((job) => [job._id, job])),
+        jobPartQuantityMap: new Map((userJobs.map((job) => (
+          [
+            job._id, 
+            job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0}))
+          ]
+        ))))
+      })
+  },[userJobs]);
+
   useEffect(() => {
     M.AutoInit();
+
+    console.log("useEffect CreateBuildModal");
+    console.log("userJobs");
+    console.log(userJobs);
+    console.log("userJobs.map((job) => [job._id, job])");
+    console.log(userJobs.map((job) => [job._id, job]));
+
     if(buildState.upToDate === false){ //If the jobs are not up to date with the database, refresh them
       getJobsByIdArray([...user.jobQueue]);
       let jobArr = userJobs.map((job) => [job._id, job]);
@@ -119,15 +141,26 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
 
     //update the jobMap, which will be used to update the job in the database
     //also update the jobPartQuantityMap, which is used to check if a given job actually has any parts being built for it (so we can add it's associated project to the build)
+    console.log("userJobs");
+    console.log(userJobs);
+    console.log("[...buildForm.jobMap]");
+    console.log([...buildForm.jobMap]);
+    console.log("jobID");
+    console.log(jobID);
+    console.log("buildForm.jobMap.get(jobID");
+    console.log(buildForm.jobMap.get(jobID));
     let copyJob = {...buildForm.jobMap.get(jobID)};
-    
+    console.log("copyJob");
+    console.log(copyJob);
+
+    // ! this being done every time anything changes in the quantity form
     copyJob.requestedParts.forEach((part) => {
       if(part.name === partBuilding){
         part.building += buildQuantity;
         part.remaining -= buildQuantity;
       }
     });
-    let copyArray = buildForm.jobPartQuantityArray.get(jobID);
+    let copyArray = buildForm.jobPartQuantityMap.get(jobID);
     copyArray.forEach((part) => {
       if(part.partName === partBuilding)
        part.quantityBuilding = buildQuantity;
@@ -136,9 +169,6 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
       jobMap: new Map([...prev.jobMap, [jobID, copyJob]]),
       jobPartQuantityMap: new Map([...prev.jobPartQuantityMap, [jobID, copyArray]])
     })); 
-    
-    
-    
   }
 
   const jobsAreUpToDate = async (updatedJobs) => { //read the DB before writing, comparing the lastUpdated fields of the jobs held therein to the ones being sent for update
@@ -185,9 +215,9 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
             :
             <div>
               {/* create a select dropdown with all of the jobs that have yet to be completed */}
-              {/* {(userJobs.length === 0 || !userJobs )? <div>Please accept jobs to start a build!</div> : userJobs.map((job, index) => (
+               {(userJobs.length === 0 || !userJobs )? <div>Please accept jobs to start a build!</div> : userJobs.map((job, index) => (
                 <BuildQuantityForm job={job} id={index} handleQuantityChange={handleQuantityChange}/>)
-              )} */}
+              )} 
               <div className="row">
               <div className='col s6'>
                 <div className="file-field input-field">
