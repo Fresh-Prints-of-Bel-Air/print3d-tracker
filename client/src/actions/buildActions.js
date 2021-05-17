@@ -6,6 +6,7 @@ import {
   UPDATE_BUILD,
   BUILDS_ERROR,
   SET_LOADING,
+  FAILED_SUBMISSION,
 } from './types';
 
 //Get builds from server that match filter (if any) and save to local state
@@ -63,6 +64,13 @@ export const addBuild = (build) => async (dispatch) => {
       payload: err.response.data.msg
     });
   }
+}
+
+export const handleFailedSubmission = (buildSubmission) => async (dispatch) => {
+  dispatch({
+    type: FAILED_SUBMISSION,
+    payload: buildSubmission,
+  });
 }
 
 //Delete a build

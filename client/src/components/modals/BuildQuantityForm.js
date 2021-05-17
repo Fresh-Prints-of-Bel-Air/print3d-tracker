@@ -3,19 +3,21 @@ import { Fragment } from 'react';
 import Select from 'react-select';
 
 const BuildQuantityForm = ({job, handleQuantityChange}) => {
-  const [partQuantities, setPartQuantities] = useState(job.requestedParts.map((job) => 0));
+  const [partQuantities, setPartQuantities] = useState(job.requestedParts.map((part) => 0));
   
   const onChange = (option, index, partName) => {
     console.log(option);
     console.log(index);
-    let quantityChange = option.value - partQuantities[index]; // new value minus old
+    //let quantityChange = option.value - partQuantities[index]; // new value minus old
+    //console.log("quantityChange");
+    //console.log(quantityChange);
     let quantityArr = [...partQuantities];
     console.log("QuantityArr");
     console.log(quantityArr);
     quantityArr[index] = option.value;
     setPartQuantities(quantityArr);
     // if(isIncluded) 
-    handleQuantityChange(job._id, partName, quantityChange);
+    handleQuantityChange(job._id, partName, parseInt(option.value));
   }
   return (
     <Fragment>
@@ -28,7 +30,7 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
             </div>
             <div className="col s3 offset-s2">
               <Select
-                options={[...Array(part.remaining * 2).keys()].map((value) => ({value: value.toString(), label: value.toString()}))}
+                options={[...Array(part.remaining * 2 + 1).keys()].map((value) => ({value: value.toString(), label: value.toString()}))}
                 onChange={(option) => onChange(option, index, part.name)}
               />
             </div>

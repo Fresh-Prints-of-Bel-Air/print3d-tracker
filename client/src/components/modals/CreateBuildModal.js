@@ -28,7 +28,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     jobPartQuantityMap: new Map((userJobs.map((job) => (
       [
         job._id, 
-        job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0}))
+        job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0})),
       ]
     ))))
   });
@@ -43,7 +43,15 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     if (buildForm.jobMap.size === 0 || buildForm.jobPartQuantityMap.size === 0) 
       setBuildForm({
         ...buildForm, 
-        jobMap: new Map(userJobs.map((job) => [job._id, job])),
+        jobMap: new Map(userJobs.map((job) => 
+          [
+            job._id, 
+            {
+              ...job, 
+              requestedParts: job.requestedParts.map((partObj) => ({...partObj})), 
+              operators: [...job.acceptingOperators]
+            }
+          ])),
         jobPartQuantityMap: new Map((userJobs.map((job) => (
           [
             job._id, 
@@ -52,6 +60,11 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
         ))))
       })
   },[userJobs]);
+
+  useEffect(() => {
+    console.log("UseEffect Buildform");
+    console.log(buildForm);
+  },[buildForm]);
 
   useEffect(() => {
     M.AutoInit();
@@ -64,10 +77,17 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
 
     if(buildState.upToDate === false){ //If the jobs are not up to date with the database, refresh them
       getJobsByIdArray([...user.jobQueue]);
-      let jobArr = userJobs.map((job) => [job._id, job]);
       setBuildForm({
         ...buildForm, 
-        jobMap: new Map(jobArr), 
+        jobMap: new Map(userJobs.map((job) => 
+          [
+            job._id, 
+            {
+              ...job, 
+              requestedParts: job.requestedParts.map((partObj) => ({...partObj})), 
+              operators: [...job.acceptingOperators]
+            }
+          ])), 
         jobPartQuantityMap: new Map((userJobs.map((job) => (
           [ job._id, 
             job.requestedParts.map((part) => ({
@@ -141,6 +161,8 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
 
     //update the jobMap, which will be used to update the job in the database
     //also update the jobPartQuantityMap, which is used to check if a given job actually has any parts being built for it (so we can add it's associated project to the build)
+
+
     console.log("userJobs");
     console.log(userJobs);
     console.log("[...buildForm.jobMap]");
@@ -149,18 +171,29 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     console.log(jobID);
     console.log("buildForm.jobMap.get(jobID");
     console.log(buildForm.jobMap.get(jobID));
-    let copyJob = {...buildForm.jobMap.get(jobID)};
+    
+    
+    //copyJob is used to update the form state
+    let copyJob = JSON.parse(JSON.stringify(buildForm.jobMap.get(jobID)));
+    
+    
     console.log("copyJob");
     console.log(copyJob);
 
-    // ! this being done every time anything changes in the quantity form
+    //Updates parts remaining when the form field changes
     copyJob.requestedParts.forEach((part) => {
       if(part.name === partBuilding){
-        part.building += buildQuantity;
-        part.remaining -= buildQuantity;
+        part.building = buildQuantity;
+        if(part.quantity - buildQuantity <= 0)
+          part.remaining = 0;
+        else
+          part.remaining = part.quantity - buildQuantity;
       }
     });
-    let copyArray = buildForm.jobPartQuantityMap.get(jobID);
+    //let copyArray = buildForm.jobPartQuantityMap.get(jobID);
+    let copyArray = JSON.parse(JSON.stringify(buildForm.jobPartQuantityMap.get(jobID)));
+    console.log("copyArray");
+    console.log(copyArray);
     copyArray.forEach((part) => {
       if(part.partName === partBuilding)
        part.quantityBuilding = buildQuantity;
