@@ -19,6 +19,7 @@ export const UPDATE_BUILD = 'UPDATE_BUILD';
 export const GET_BUILDS = 'GET_BUILDS';
 export const DELETE_BUILD = 'DELETE_BUILDS';
 export const BUILDS_ERROR = 'BUILDS_ERROR';
+export const FAILED_SUBMISSION = 'FAILED_SUBMISSION';
 
 // Job Types
 export const GET_JOBS = 'GET_JOBS';

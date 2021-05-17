@@ -6,12 +6,14 @@ import {
   BUILDS_ERROR,
   UPDATE_BUILD,
   CLEAR_ERRORS,
+  FAILED_SUBMISSION
  
 } from '../actions/types';
 
 const initialState = {
   loading: true,
   builds: [],
+  lastFailedSubmission: null,
   error: null,
 };
 
@@ -38,6 +40,13 @@ export default (state = initialState, action) => {
         loading: false,
         error: null,
       }
+    case FAILED_SUBMISSION:
+    return {
+      ...state,
+      lastFailedSubmission: action.payload,
+      loading: false,
+      error: null,
+    }
     case ADD_BUILD:
       return {
         ...state,

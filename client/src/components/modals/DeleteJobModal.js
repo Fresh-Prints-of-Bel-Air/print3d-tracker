@@ -32,7 +32,7 @@ const DeleteJobModal = ({ user: { user }, jobNumber, jobID, updateUser, deleteJo
                 <div className="grey darken-4">
                     <ul>
                         <li className="left-align">
-                            - If you wish to keep a record of the request, use Edit > Change Status to Cancelled instead.
+                            - If you wish to keep a record of the request, use Edit &gt; Change Status to Cancelled instead.
                         </li>
                         <li className="left-align">
                             - If the deletion is to correct some mistakes, use the Edit button.
@@ -42,11 +42,11 @@ const DeleteJobModal = ({ user: { user }, jobNumber, jobID, updateUser, deleteJo
                         </li>
                         <li className="left-align">
                             - If you want to redo the request with fewer parts, it is suggested to 
-                            use Edit > Change Status to Complete when you have received the parts you do want.
+                            use Edit &gt; Change Status to Complete when you have received the parts you do want.
                         </li>
                         <li className="left-align">
                             - If the request must be redone,   
-                            Use Create Job > Refill to fill in the form with the values of the
+                            Use Create Job &gt; Refill to fill in the form with the values of the
                             last request for your convenience.
                         </li>
                     </ul>

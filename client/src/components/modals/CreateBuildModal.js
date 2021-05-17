@@ -11,9 +11,9 @@ import M from 'materialize-css';
 
 const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdArray}) => {
   
-  //const [jobMap, setJobMap] = useState(new Map()); //jobMap will keep track of build quantities for each job
+  // const [jobMap, setJobMap] = useState(new Map()); 
   const [buildForm, setBuildForm] = useState({
-    jobMap: new Map(),
+    jobMap: new Map(), //jobMap will keep track of build quantities for each job
     associatedJobs: [],
     partsBuilding: [],
     material: '',
@@ -28,24 +28,66 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     jobPartQuantityMap: new Map((userJobs.map((job) => (
       [
         job._id, 
-        job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0}))
+        job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0})),
       ]
     ))))
-    
   });
 //key: job.id, value: array of part objects (with quantity building)...used to ensure at least 1 part is being built for a job whose project is added to the project list
 
   const [buildState, setBuildState] = useState({
     upToDate: true,
   });
+
   useEffect(() => {
-    M.AutoInit();
-    if(buildState.upToDate === false){ //If the jobs are not up to date with the database, refresh them
-      getJobsByIdArray([...user.jobQueue]);
-      let jobArr = userJobs.map((job) => [job._id, job]);
+    // making sure jobMap and jobPartQuantityMap are initialized
+    if (buildForm.jobMap.size === 0 || buildForm.jobPartQuantityMap.size === 0) 
       setBuildForm({
         ...buildForm, 
-        jobMap: new Map(jobArr), 
+        jobMap: new Map(userJobs.map((job) => 
+          [
+            job._id, 
+            {
+              ...job, 
+              requestedParts: job.requestedParts.map((partObj) => ({...partObj})), 
+              operators: [...job.acceptingOperators]
+            }
+          ])),
+        jobPartQuantityMap: new Map((userJobs.map((job) => (
+          [
+            job._id, 
+            job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0}))
+          ]
+        ))))
+      })
+  },[userJobs]);
+
+  useEffect(() => {
+    console.log("UseEffect Buildform");
+    console.log(buildForm);
+  },[buildForm]);
+
+  useEffect(() => {
+    M.AutoInit();
+
+    console.log("useEffect CreateBuildModal");
+    console.log("userJobs");
+    console.log(userJobs);
+    console.log("userJobs.map((job) => [job._id, job])");
+    console.log(userJobs.map((job) => [job._id, job]));
+
+    if(buildState.upToDate === false){ //If the jobs are not up to date with the database, refresh them
+      getJobsByIdArray([...user.jobQueue]);
+      setBuildForm({
+        ...buildForm, 
+        jobMap: new Map(userJobs.map((job) => 
+          [
+            job._id, 
+            {
+              ...job, 
+              requestedParts: job.requestedParts.map((partObj) => ({...partObj})), 
+              operators: [...job.acceptingOperators]
+            }
+          ])), 
         jobPartQuantityMap: new Map((userJobs.map((job) => (
           [ job._id, 
             job.requestedParts.map((part) => ({
@@ -119,15 +161,39 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
 
     //update the jobMap, which will be used to update the job in the database
     //also update the jobPartQuantityMap, which is used to check if a given job actually has any parts being built for it (so we can add it's associated project to the build)
-    let copyJob = {...buildForm.jobMap.get(jobID)};
+
+
+    console.log("userJobs");
+    console.log(userJobs);
+    console.log("[...buildForm.jobMap]");
+    console.log([...buildForm.jobMap]);
+    console.log("jobID");
+    console.log(jobID);
+    console.log("buildForm.jobMap.get(jobID");
+    console.log(buildForm.jobMap.get(jobID));
     
+    
+    //copyJob is used to update the form state
+    let copyJob = JSON.parse(JSON.stringify(buildForm.jobMap.get(jobID)));
+    
+    
+    console.log("copyJob");
+    console.log(copyJob);
+
+    //Updates parts remaining when the form field changes
     copyJob.requestedParts.forEach((part) => {
       if(part.name === partBuilding){
-        part.building += buildQuantity;
-        part.remaining -= buildQuantity;
+        part.building = buildQuantity;
+        if(part.quantity - buildQuantity <= 0)
+          part.remaining = 0;
+        else
+          part.remaining = part.quantity - buildQuantity;
       }
     });
-    let copyArray = buildForm.jobPartQuantityArray.get(jobID);
+    //let copyArray = buildForm.jobPartQuantityMap.get(jobID);
+    let copyArray = JSON.parse(JSON.stringify(buildForm.jobPartQuantityMap.get(jobID)));
+    console.log("copyArray");
+    console.log(copyArray);
     copyArray.forEach((part) => {
       if(part.partName === partBuilding)
        part.quantityBuilding = buildQuantity;
@@ -136,9 +202,6 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
       jobMap: new Map([...prev.jobMap, [jobID, copyJob]]),
       jobPartQuantityMap: new Map([...prev.jobPartQuantityMap, [jobID, copyArray]])
     })); 
-    
-    
-    
   }
 
   const jobsAreUpToDate = async (updatedJobs) => { //read the DB before writing, comparing the lastUpdated fields of the jobs held therein to the ones being sent for update
@@ -185,9 +248,9 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
             :
             <div>
               {/* create a select dropdown with all of the jobs that have yet to be completed */}
-              {/* {(userJobs.length === 0 || !userJobs )? <div>Please accept jobs to start a build!</div> : userJobs.map((job, index) => (
+               {(userJobs.length === 0 || !userJobs )? <div>Please accept jobs to start a build!</div> : userJobs.map((job, index) => (
                 <BuildQuantityForm job={job} id={index} handleQuantityChange={handleQuantityChange}/>)
-              )} */}
+              )} 
               <div className="row">
               <div className='col s6'>
                 <div className="file-field input-field">
