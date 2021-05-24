@@ -56,7 +56,10 @@ export const addBuild = (build, associatedJobs) => async (dispatch) => {
       }
     }
     setLoading();
-    const buildRes = await axios.post('/api/builds', build, config);
+    const projectSet = new Set();
+    associatedJobs.forEach((job) => projectSet.add(job.projectName));
+    const projectArray = Array.from(projectSet);
+    const buildRes = await axios.post('/api/builds', {...build, projects: [...projectArray]} , config);
     console.log("buildRes");
     console.log(buildRes);
 
