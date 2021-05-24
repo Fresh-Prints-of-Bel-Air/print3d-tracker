@@ -1,12 +1,15 @@
 import axios from 'axios';
+import { keyDown } from 'materialize-css';
 import {
   GET_BUILDS,
   ADD_BUILD,
   DELETE_BUILD,
   UPDATE_BUILD,
   BUILDS_ERROR,
+  UPDATE_JOBS,
   SET_LOADING,
   FAILED_SUBMISSION,
+  JOBS_ERROR,
 } from './types';
 
 //Get builds from server that match filter (if any) and save to local state
@@ -44,7 +47,8 @@ export const getBuilds = (filter) => async (dispatch) => {
 }
 
 //Add a build, and save to local state
-export const addBuild = (build) => async (dispatch) => {
+//AssociatedJobs is an array of [ job ]. The jobs each have updated quantities, and need to have the new build ID added.
+export const addBuild = (build, associatedJobs) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -52,13 +56,58 @@ export const addBuild = (build) => async (dispatch) => {
       }
     }
     setLoading();
-    const res = await axios.post('/api/builds', build, config);
+    const buildRes = await axios.post('/api/builds', build, config);
+    console.log("buildRes");
+    console.log(buildRes);
 
     dispatch({
       type: ADD_BUILD,
-      payload: res.data,
+      payload: buildRes.data,
     });
+    try {
+      console.log('associatedJobs');
+      console.log(associatedJobs);
+      
+      //update each associated job to include the ID of the newly added Build
+      associatedJobs.forEach(async (job) => {
+        let updatedJob = {...job, builds: [...job.builds, buildRes.data._id]};
+        const jobUpdateRes = await axios.put(`/api/jobs/${job._id}`, updatedJob, config);
+      });
+      
+
+      //"Get" the updated jobs from the database to update jobs in Redux
+      try {
+        setLoading();
+        let jobIdArray = associatedJobs.map((job) => job._id);
+        const jobRes = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray: [...jobIdArray] } });
+        console.log("associatedJobs in getJobsByIdArray (addBuild)");
+        console.log(associatedJobs);
+        console.log("getJobByIdArray res (addBuild)");
+        console.log(jobRes);
+        dispatch({
+            type: UPDATE_JOBS,
+            payload: jobRes.data,
+        });
+
+      }  catch (err) {
+          dispatch({
+              type: JOBS_ERROR,
+              payload: err.response.statusText,
+          });
+          console.error('getJobsByIdArray error.');
+      }
+
+    } catch (err) {
+      console.log("update jobs error");
+      console.log(err);
+      dispatch({
+        type: JOBS_ERROR,
+        payload: err.response.data.msg
+      });
+    }
   } catch (err) {
+    console.log("builds error");
+    console.log(err);
     dispatch({
       type: BUILDS_ERROR,
       payload: err.response.data.msg

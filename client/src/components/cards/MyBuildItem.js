@@ -35,7 +35,7 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                     {dateStarted && dateStarted.split('T')[0]}
                   </div>
                   <div className="col s6 center">
-                    Associated Jobs
+                    For Associated Jobs
                   </div>
                   <div className="col s3 center grey darken-2">
                     STATUS: {status}

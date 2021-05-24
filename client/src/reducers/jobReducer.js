@@ -6,6 +6,7 @@ import {
     SET_LOADING,
     ADD_JOB,
     UPDATE_JOB,
+    UPDATE_JOBS,
     DELETE_JOB,
     SET_VIEW,
     RESET_JOB_STATE,   
@@ -68,6 +69,20 @@ export default (state = initialState, action) => {
                 jobs: state.jobs.map(job => job.id === action.payload.id ? action.payload : job),
                 loading: false,
                 error: null,
+            }
+        case UPDATE_JOBS:
+            return {
+                ...state,
+                jobs: state.jobs.map(job => {
+                    let returnJob = job;
+                    action.payload.forEach(updatedJob => {
+                        if(job._id === updatedJob._id)
+                            returnJob = updatedJob;
+                    })
+                    return returnJob;
+                }),
+                loading: false,
+                error: null
             }
         case DELETE_JOB: 
             return {

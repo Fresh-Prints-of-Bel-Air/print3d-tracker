@@ -30,6 +30,8 @@ export const getJobsByIdArray = (jobIdArray, user) => async (dispatch) => { //fo
     setLoading();
     try {
         const res = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray } });
+        console.log("JobIdArray in getJobsByIdArray action");
+        console.log(jobIdArray);
         console.log("getJobByIdArray res");
         console.log(res);
         dispatch({

@@ -22,8 +22,8 @@ export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
         // console.log("jobID");
         // console.log(jobID);
         if (jobQueueItemID == jobID) {
-          //console.log("true");
-          //console.log(`end check for ${jobID}`);
+          // console.log("true");
+          // console.log(`end check for ${jobID}`);
           isAccepted = true;
         } else {
           //console.log("false");

@@ -5,8 +5,13 @@ const BuildSchema = mongoose.Schema({
   build_number: {type: Number, default: 0},
   associatedJobs: [
     {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: 'jobs',
+      id: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'jobs'
+      },
+      jobNumber: {
+        type: Number
+      }
     },
   ],
   partsBuilding: [

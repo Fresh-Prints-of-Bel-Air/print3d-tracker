@@ -16,6 +16,7 @@ router.get(
   async (req, res) => {
     try {
       const jobs = await Job.find().where('_id').in(req.query.jobIdArray).exec();
+      console.log(req);
       console.log("req.query.jobIdArray");
       console.log(req.query.jobIdArray);
       console.log("multipleJobsById jobs");
@@ -110,7 +111,7 @@ router.get(
       try {
         const newJob = new Job({
           ...req.body,
-          lastUpdated: Date.now
+          lastUpdated: Date.now()
         });
   
         const job = await newJob.save();
@@ -121,6 +122,35 @@ router.get(
       }
     }
   );
+  //@route PUT api/jobs/updateMany
+  //@desc Update multiple jobs. Expected to be supplied with the filter (ids of documents to update) and the update to apply
+  
+  //format of action containing filter and update: 
+  // let action = {
+  //   filter: { _id: { $in: associatedJobs } },
+  //   updateToApply: { $push: { builds: buildRes._id } }
+  // }
+
+  //@access Public
+  router.put(
+    '/updateMany',
+    //auth,
+    [],
+   async (req, res) => {
+
+    try {
+      console.log(req.body);
+      let updatedJobs = await Job.updateMany(req.body.filter, req.body.updateToApply);
+      res.json(updatedJobs);
+
+    } catch (err) {
+
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    }
+  });
+
+
   //@route PUT api/jobs
   //@desc Update a job. Frontend prefills fields with existing values. User may update certain values (not empty).
   //@access Public
@@ -135,12 +165,11 @@ router.get(
     //     return res.status(400).json({ errors: errors.array() });
     //   }
 
-      const { requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, 
-        material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = req.body;
+      const { projectName, dateRequested, dateNeeded, completionDate, folderLocation, 
+        material, resolution, priority, deliverTo, status, lastUpdated, notes, acceptingOperators, requestedParts, builds } = req.body;
         
       const updateFields = {};
       updateFields.lastUpdated = Date.now;
-      if(requester) updateFields.requester = requester;
       if(projectName) updateFields.projectName = projectName;
       if(dateRequested) updateFields.dateRequested = dateRequested;
       if(dateNeeded) updateFields.dateNeeded = dateNeeded;
@@ -151,9 +180,10 @@ router.get(
       if(priority) updateFields.priority = priority;
       if(deliverTo) updateFields.deliverTo = deliverTo;
       if(status) updateFields.status = status;
+      if(lastUpdated) updateFields.lastUpdated = lastUpdated;
       if(notes) updateFields.notes = notes;
       if(requestedParts) updateFields.requestedParts = requestedParts;
-      if(folderLocation) updateFields.folderLocation = folderLocation;
+      if(acceptingOperators) updateFields.acceptingOperators = acceptingOperators;
       if(builds) updateFields.builds = builds;
       
       try {
