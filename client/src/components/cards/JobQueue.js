@@ -11,7 +11,7 @@ export const JobQueue = ({ job: { userJobs }, user: { user }, getJobsByIdArray }
         console.log(user);
         console.log("User's requested-job IDs:");
         console.log(user.jobQueue);
-        getJobsByIdArray(user.jobQueue);
+        getJobsByIdArray(user.jobQueue); // put into the CreateBuildModal useEffect
     }, [user]);
 
     return (

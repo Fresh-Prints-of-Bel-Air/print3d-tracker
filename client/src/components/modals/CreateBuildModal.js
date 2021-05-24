@@ -41,8 +41,12 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
   });
 
   useEffect(() => {
+    getJobsByIdArray(user.jobQueue); // populate the state with the jobs from the user's jobQueue
+  },[]);
+
+  useEffect(() => {
     // making sure jobMap and jobPartQuantityMap are initialized
-    if (buildForm.jobMap.size === 0 || buildForm.jobPartQuantityMap.size === 0) 
+    // if (buildForm.jobMap.size === 0 || buildForm.jobPartQuantityMap.size === 0) 
       setBuildForm({
         ...buildForm, 
         jobMap: new Map(userJobs.map((job) => 
@@ -53,20 +57,18 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
               requestedParts: job.requestedParts.map((partObj) => ({...partObj})), 
               //operators: [...job.acceptingOperators]
             }
-          ])),
-        jobPartQuantityMap: new Map((userJobs.map((job) => (
+          ]
+        )),
+        jobPartQuantityMap: new Map(userJobs.map((job) => 
           [
             job._id, 
             job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0}))
           ]
-        ))))
+        ))
       })
   },[userJobs]);
 
-  useEffect(() => {
-    console.log("UseEffect Buildform");
-    console.log(buildForm);
-  },[buildForm]);
+  
 
   useEffect(() => {
     M.AutoInit();
@@ -263,35 +265,45 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     //     quantityBuilding: 0
     //   }))
     // ]
-    let associatedJobs = [];
-    let associatedJobIDs = [];
+    let associatedJobs = new Map();
+    let associatedJobIDs = new Set();
     let partsBuilding = [];
     
     if(jobsAreUpToDate(Array.from(buildForm.jobMap.values()))){
       //iterate over the jobPartQuantityMap. Any job having at least 1 part being built is added to associated jobs for the build
       for(let [jobID, partList] of buildForm.jobPartQuantityMap){
         let partIsBeingBuilt = false;
-
         let i;
         for(i = 0; i < partList.length; i++){
           if(partList[i].quantityBuilding > 0){
             let associatedJob = buildForm.jobMap.get(jobID);
             partIsBeingBuilt = true;
-            associatedJobs.push({ jobID, jobNumber: associatedJob.job_number});
-            associatedJobIDs.push(jobID);
-            partsBuilding.push({name: partList[i].partName, quantity: partList[i].quantityBuilding, job: associatedJob.job_number }); 
-            break;
+            associatedJobs.set([jobID, { jobID, jobNumber: associatedJob.job_number}]);
+            // associatedJobs.push({ jobID, jobNumber: associatedJob.job_number});
+            associatedJobIDs.add(jobID);
+            partsBuilding.push({
+              name: partList[i].partName, 
+              quantity: partList[i].quantityBuilding, 
+              jobNumber: associatedJob.job_number 
+            }); 
           }
         }
       }
       //create an array of jobs from jobMap containing only jobs that have a part being built for them in the form
-      
-      let jobsToUpdateArray = Array.from(buildForm.jobMap.values()).filter((job) => associatedJobIDs.includes(job._id));
+      const associatedJobIDsArray = Array.from(associatedJobIDs); // associatedJobIDs is a Set 
+      let jobsToUpdateArray = Array.from(buildForm.jobMap.values()).filter((job) => associatedJobIDsArray.includes(job._id));
       
       //send the buildForm to be posted to the database, minus the map data structures
       const {jobMap, jobPartQuantityMap, ...buildToPost} = buildForm;
 
-      addBuild({...buildToPost, associatedJobs, partsBuilding}, jobsToUpdateArray);
+      addBuild(
+        { 
+          ...buildToPost, 
+          associatedJobs: Array.from(associatedJobs.values()), // associatedJobs is a Map
+          partsBuilding 
+        }, 
+        jobsToUpdateArray
+      );
 
     }
   
@@ -308,7 +320,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
       {/*select from available jobs that haven't yet been completed*/}
       <div id='buildModal'className='modal modal-fixed-footer'>
         <div className="modal-content">
-          <h4 className="">Create Build</h4>
+          <h4 className="center">Create Build</h4>
           {buildState.upToDate === false ? 
             <div>
               One or more jobs are not up to date. Please try again.

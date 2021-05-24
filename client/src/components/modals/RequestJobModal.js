@@ -110,7 +110,7 @@ const RequestJobModal = ({ job: { lastCreatedJobID }, user: { user }, addJob, up
         <div>
             <div id="jobModal" className="modal modal-fixed-footer ">
                 <div className="modal-content">
-                    <h4 className="">Create Print Job Request</h4>
+                    <h4 className="center">Create Print Job Request</h4>
                     <div className='row'>
                         <div className='col s12'>
                             <div className="file-field input-field">

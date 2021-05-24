@@ -65,24 +65,31 @@ const MyJobListItem = ({user: { user }, jobData, jobID, updateUser, deleteJob, s
                 </div>
 
                 <div className="row" style={{ margin: 0 }}>
-                  <div className="col s3"></div>
-                  <div className="col s5 align-left blue darken-4">Part</div>
-                  <div className="col s1 align-right cyan darken-4">Qty</div>
-                  <div className="col s3"></div>
+                  <div className="col s1"></div>
+                  <div className="col s4 align-left truncate" style={{ backgroundColor: "#043085"}}>Part</div>
+                  <div className="col s2 align-right blue darken-4 truncate">Quantity</div>
+                  <div className="col s2 align-right teal darken-3 truncate">Remaining</div>
+                  <div className="col s2 align-right teal darken-4 truncate">Building</div>
+                  
+                  <div className="col s1"></div>
                 </div>
                 {requestedParts && requestedParts.map((partEntry, index) => { return index % 2 ? ( 
                     <div className="row" key={index} style={{ margin: 0 }}>
-                      <div className="col s3"></div>
-                      <div className="col s5 align-left blue darken-3">{partEntry.name}</div>
-                      <div className="col s1 align-right cyan darken-3">{partEntry.quantity}</div>
-                      <div className="col s3"></div>
+                      <div className="col s1"></div>
+                      <div className="col s4 align-left blue darken-4 truncate">{partEntry.name}</div>
+                      <div className="col s2 align-right blue darken-3">{partEntry.quantity}</div>
+                      <div className="col s2 align-right cyan darken-3">{partEntry.remaining}</div>
+                      <div className="col s2 align-right cyan darken-4">{partEntry.building ? partEntry.building : 0}</div>
+                      <div className="col s1"></div>
                     </div>
                   ) : (
                     <div className="row" key={index} style={{ margin: 0 }}>
-                      <div className="col s3"></div>
-                      <div className="col s5 align-left blue darken-1">{partEntry.name}</div>
-                      <div className="col s1 align-right cyan darken-1">{partEntry.quantity}</div>
-                      <div className="col s3"></div>
+                      <div className="col s1"></div>
+                      <div className="col s4 align-left blue darken-2 truncate">{partEntry.name}</div>
+                      <div className="col s2 align-right blue darken-1">{partEntry.quantity}</div>
+                      <div className="col s2 align-right cyan darken-1">{partEntry.remaining}</div>
+                      <div className="col s2 align-right cyan darken-2">{partEntry.building ? partEntry.building : 0}</div>
+                      <div className="col s1"></div>
                     </div>
                   )
                 })}

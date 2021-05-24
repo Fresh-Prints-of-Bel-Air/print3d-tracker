@@ -33,15 +33,15 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
   return (
     <Fragment>
     <div className="row">Parts for job# {job.job_number} from requester {job.requester}: </div>
-    <div className="row" style={{overflow: 'auto', height:'16vh', maxHeight: '25vh'}}>
-      {job.requestedParts.filter((part) => part.remaining > 0).map((part, index) => 
+    <div className="row">
+      {job.requestedParts.map((part, index) => 
           <div className="row" key={index}>
             <div className="col s3">
               <label htmlFor="partQuantity">{`Quantity for ${part.name} (${part.remaining} remaining): `}</label>
             </div>
             <div className="col s3 offset-s2">
               <Select
-                options={[...Array(part.remaining * 2 + 1).keys()].map((value) => ({value: value.toString(), label: value.toString()}))}
+                options={[...Array(part.quantity * 2 + 1).keys()].map((value) => ({value: value.toString(), label: value.toString()}))}
                 onChange={(option) => onChange(option, index, part.name)}
                 defaultValue={{value: '0', label: '0'}}
               />

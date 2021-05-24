@@ -18,7 +18,7 @@ const BuildSchema = mongoose.Schema({
     {
       name: String,
       quantity: Number,
-      job: String
+      jobNumber: String
     },
   ],
   material: {
