@@ -5,29 +5,35 @@ import { getJobsByIdArray } from '../../actions/jobActions';
 import JobCard from './JobCard';
 import MyJobListItem from './MyJobListItem';
 import M from 'materialize-css/dist/js/materialize.min.js';
-// the list of the user's requested jobs
+// userJobs the list of the user's requested jobs, rename
 
-export const MyJobList = ({ job: { jobs, userJobs }, user: { user }, getJobs, getJobsByIdArray }) => {
+export const MyJobList = ({ job: { userJobs }, user: { user }, getJobsByIdArray }) => {
+    // useEffect(() => {
+    //     M.AutoInit();
+    //     console.log("user is: ");
+    //     console.log(user);
+    //     console.log("User's requested-job IDs:");
+    //     console.log(user.requestedJobs);
+    //     // getJobsByIdArray(user.requestedJobs);
+    //     //getJobs({});
+    //     console.log("jobs contains: ");
+    //     console.log(jobs);
+    // }, [jobs]);
+
     useEffect(() => {
         M.AutoInit();
-        console.log("user is: ");
-        console.log(user);
-        console.log("User's requested-job IDs:");
-        console.log(user.requestedJobs);
         getJobsByIdArray(user.requestedJobs);
-        //getJobs({});
-    }, [jobs]);
+    }, [user]);
 
-    const [jobIdForModal, setJobIdForModal] = useState(0);
+    // const [jobIdForModal, setJobIdForModal] = useState(0);
 
-    const handleCardButtonClick = (cardJobId) => {
-        setJobIdForModal(cardJobId);
-    }
+    // const handleCardButtonClick = (cardJobId) => {
+    //     setJobIdForModal(cardJobId);
+    // }
 
     return (
         <div>
-            {userJobs && userJobs.map((job) => <MyJobListItem jobData={job} key={job._id} jobID={job._id} handleCardButtonClick={handleCardButtonClick}/>)}
-            
+            {userJobs && userJobs.map((job) => <MyJobListItem jobData={job} key={job._id} jobID={job._id}/>)}
         </div>
         
     )

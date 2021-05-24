@@ -120,9 +120,9 @@ export const addJob = (job, user) => async (dispatch) => { //can also update the
     let jobResponse;
     try{
         jobResponse = await axios.post('/api/jobs', job, config);
-        console.log(jobResponse.data._id);
-        console.log('user is: ');
-        console.log(user);
+        // console.log(jobResponse.data._id);
+        // console.log('user is: ');
+        // console.log(user);
         dispatch({
             type: ADD_JOB,
             payload: jobResponse.data,
