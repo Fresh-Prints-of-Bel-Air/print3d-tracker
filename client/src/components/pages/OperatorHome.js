@@ -2,6 +2,7 @@ import React from 'react';
 import JobCard from '../cards/JobCard';
 import MyBuildList from '../cards/MyBuildList';
 import JobList from '../cards/JobList';
+import { MyJobList } from '../cards/MyJobList';
 
 const OperatorHome = () => {
   return (
@@ -34,7 +35,7 @@ const OperatorHome = () => {
               <JobList/>
             </div>
             <div style={{height: '100vh', width: '41vw', overflow: 'auto'}}>
-              <MyBuildList/>
+              <MyJobList/>
             </div>
           </div>
       </div>

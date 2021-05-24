@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Fragment } from 'react';
 import Select from 'react-select';
 
@@ -6,13 +6,16 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
   const [partQuantities, setPartQuantities] = useState({
     quantities: job.requestedParts.map((part) => 0),
     partName: "",
-    quantityChange: null,
+    quantityChange: 0,
+    firstUpdate: true
   });
 
   useEffect(() => {
     
-    handleQuantityChange(job._id, partQuantities.partName, partQuantities.quantityChange);
-
+    //do not run these effects on first render, when no form changes have been made
+    if(!partQuantities.firstUpdate){
+      handleQuantityChange(job._id, partQuantities.partName, partQuantities.quantityChange);
+    }
   }, [partQuantities]);
   
   const onChange = (option, index, partName) => {
@@ -25,14 +28,12 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
     console.log("QuantityArr");
     console.log(quantityArr);
     quantityArr[index] = option.value;
-    setPartQuantities({ quantities: quantityArr, partName: partName, quantityChange: quantityChange });
-    // if(isIncluded) 
-    
+    setPartQuantities({ quantities: quantityArr, partName: partName, quantityChange: quantityChange, firstUpdate: false });
   }
   return (
     <Fragment>
     <div className="row">Parts for job# {job.job_number} from requester {job.requester}: </div>
-    <div className="row" style={{overflow: 'auto', maxHeight: '22vh'}}>
+    <div className="row" style={{overflow: 'auto', height:'16vh', maxHeight: '25vh'}}>
       {job.requestedParts.filter((part) => part.remaining > 0).map((part, index) => 
           <div className="row" key={index}>
             <div className="col s3">

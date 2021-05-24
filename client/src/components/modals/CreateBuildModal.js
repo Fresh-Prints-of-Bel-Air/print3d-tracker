@@ -187,15 +187,15 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     //this whole logic is flawed
     copyJob.requestedParts.forEach((part) => {
       if(part.name === partBuilding){
-        part.building = buildQuantity; //Should be +buildQuantity?
-        if(part.quantity - buildQuantity <= 0){
+        part.building += buildQuantity; //Should be +buildQuantity?
+        if(part.quantity - part.building <= 0){
           part.remaining = 0;
           console.log("parts remaining is now 0");
         }
         else
-          part.remaining = part.quantity - buildQuantity;
-        }
-      });
+          part.remaining = part.quantity - part.building;
+      }
+    });
     //let copyArray = buildForm.jobPartQuantityMap.get(jobID);
     let copyArray = JSON.parse(JSON.stringify(buildForm.jobPartQuantityMap.get(jobID)));
     console.log("copyArray");
