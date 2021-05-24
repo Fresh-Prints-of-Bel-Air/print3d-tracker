@@ -78,7 +78,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
               <li style={{height: '6.8vh'}}>
                   {/* need to make sure the "pulse" class is removed if there are no unread notifications */}
                   <div className="valign-wrapper" style={{height: '6.8vh'}}>
-                    <a style={{userSelect: 'none'}} className={`btn-floating btn blue  ${notificationStatus.unread ? "pulse" : ""}`} onMouseDown={!notificationStatus.showNotifications ? showNotifications : undefined}><i class="material-icons">notifications_none</i></a>
+                    <a style={{userSelect: 'none'}} className={`btn-floating btn blue  ${notificationStatus.unread ? "pulse" : ""}`} onMouseDown={!notificationStatus.showNotifications ? showNotifications : undefined}><i className="material-icons">notifications_none</i></a>
                   </div>
                   
               </li>

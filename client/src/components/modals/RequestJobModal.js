@@ -67,9 +67,11 @@ const RequestJobModal = ({ job: { lastCreatedJobID }, user: { user }, addJob, up
 
     const handleQuantityChange = (e) => { 
         let copyArray = requestedParts;
-        // e.target.name is the index given to the component as a name. RequestedPartsList is an array of objects.
+        // e.target.name is the index given to the component as a name. requestedParts is an array of objects.
         copyArray[e.target.name].quantity = e.target.value;
         copyArray[e.target.name].remaining = e.target.value; 
+        copyArray[e.target.name].building = 0; //defaults to zero 
+        
         // Can't edit one index of a useState array. Must completely overwrite array 
         setJobForm({ 
             ...jobForm,

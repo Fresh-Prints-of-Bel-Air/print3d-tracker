@@ -17,19 +17,19 @@ export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
     const checkIfJobAccepted = (jobID) => {
       let isAccepted = false;
       user.jobQueue.forEach((jobQueueItemID) => { 
-        console.log("jobQueueItemID");
-        console.log(jobQueueItemID);
-        console.log("jobID");
-        console.log(jobID);
+        // console.log("jobQueueItemID");
+        // console.log(jobQueueItemID);
+        // console.log("jobID");
+        // console.log(jobID);
         if (jobQueueItemID == jobID) {
-          console.log("true");
-          console.log(`end check for ${jobID}`);
+          // console.log("true");
+          // console.log(`end check for ${jobID}`);
           isAccepted = true;
         } else {
-          console.log("false");
+          //console.log("false");
         }
       });
-      console.log(`end check for ${jobID} (FALSE)`);
+      //console.log(`end check for ${jobID} (FALSE)`);
       return isAccepted;
     }
 

@@ -260,7 +260,7 @@ router.put(
       const build = await Build.findById(req.params.id);
       if(!build) return res.status(404).json({msg: 'Build not found'});
  
-      const {associatedJobs, partsBuilding, material, resolution, dateStarted, dateDelivered, estPrintTime, status, buildFileName, buildFilePath, operators} = req.body;
+      const {associatedJobs, partsBuilding, material, resolution, dateStarted, dateDelivered, estPrintTime, status, projects, buildFileName, buildFilePath, operators} = req.body;
       
       const buildFields = {};
       if(associatedJobs) buildFields.associatedJobs = associatedJobs;
@@ -271,6 +271,7 @@ router.put(
       if(dateDelivered) buildFields.dateDelivered = dateDelivered;
       if(estPrintTime) buildFields.estPrintTime = estPrintTime;
       if(status) buildFields.status = status;
+      if(projects) buildFields.projects = projects;
       if(buildFileName) buildFields.buildFileName = buildFileName;
       if(buildFilePath) buildFields.buildFilePath = buildFilePath;
       if(operators) buildFields.operators = operators;
