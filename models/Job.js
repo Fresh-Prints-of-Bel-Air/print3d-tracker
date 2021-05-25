@@ -17,12 +17,9 @@ const JobSchema = mongoose.Schema({
     },
     dateRequested: { //on card
         type: Date,
-        default: Date.now,
-        required: true
     },
     dateNeeded: {
         type: Date,
-        default: Date.now,
     },
 
     // Set when Job is complete, all parts delivered
@@ -55,7 +52,6 @@ const JobSchema = mongoose.Schema({
     },
     lastUpdated: {
         type: Date,
-        default: Date.now,
         required: true,
     },
 

@@ -30,6 +30,8 @@ export const getJobsByIdArray = (jobIdArray, user) => async (dispatch) => { //fo
     setLoading();
     try {
         const res = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray } });
+        console.log("JobIdArray in getJobsByIdArray action");
+        console.log(jobIdArray);
         console.log("getJobByIdArray res");
         console.log(res);
         dispatch({
@@ -120,9 +122,9 @@ export const addJob = (job, user) => async (dispatch) => { //can also update the
     let jobResponse;
     try{
         jobResponse = await axios.post('/api/jobs', job, config);
-        console.log(jobResponse.data._id);
-        console.log('user is: ');
-        console.log(user);
+        // console.log(jobResponse.data._id);
+        // console.log('user is: ');
+        // console.log(user);
         dispatch({
             type: ADD_JOB,
             payload: jobResponse.data,

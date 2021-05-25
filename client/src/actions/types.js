@@ -27,6 +27,7 @@ export const JOBS_ERROR = 'JOBS_ERROR';
 export const DELETE_JOB = 'DELETE_JOB';
 export const ADD_JOB = 'ADD_JOB';
 export const UPDATE_JOB = 'UPDATE_JOB';
+export const UPDATE_JOBS = 'UPDATE_JOBS';
 export const SET_VIEW = 'SET_VIEW';
 export const GET_USER_JOBS = 'GET_USER_JOBS';
 export const RESET_JOB_STATE = 'RESET_JOB_STATE';
