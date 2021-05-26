@@ -5,6 +5,7 @@ import {
     JOBS_ERROR,
     SET_LOADING,
     ADD_JOB,
+    ACCEPT_JOB,
     UPDATE_JOB,
     UPDATE_JOBS,
     DELETE_JOB,
@@ -62,6 +63,13 @@ export default (state = initialState, action) => {
                 jobs: [...state.jobs, action.payload],
                 loading: false,
                 error: null,
+            }
+        case ACCEPT_JOB:
+            return {
+                ...state,
+                userJobs: [...state.userJobs, action.payload], 
+                loading: false,
+                error: null
             }
         case UPDATE_JOB:
             return {

@@ -25,15 +25,38 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
     //   //updatejob, adding the user to the job's operators list
     //   updateJob({...job, acceptingOperators: [...job.acceptingOperators, user._id]});
     // }
+
+    const colors = {
+        blueD7: ["#00003E", "#080836", "#0F0F2E"],
+        blueD6: ["#000065", "#0D0D59", "#1A1A4D"],
+        blueD5: ["#043085", '#153575',"#243A65"],
+        blueD4: ['#0d47a1', "#204C8D", "#324F7B"],
+        blueD3: ['#1565c0', "#2B67AB", "#406896"],
+        blueD2: ['#1976d2', '#3075BB', "#4875A3"],
+        blueD1: ['#1e88e5', "#3887CC", "#5185B3"],
+        tealD4: ['#004d40', "#0A4339", "#133933"],
+        tealD3: ['#00695c', "#0D5E54", "#1B504A"],
+        cyanD4: ["#006064", "#0D5759", "#1A4B4D"],
+        cyanD3: ["#00838f", "#12747D", "#24656B"],
+        cyanD2: ["#0097a7", "#158793", "#2A767E"],
+        cyanD1: ["#00acc1", "#1899AA", "#308691"]
+      }
+      
+      const { blueD7, blueD6, blueD5, blueD4, blueD3, blueD2, blueD1, tealD4, tealD3, cyanD4, cyanD3, cyanD2, cyanD1 } = colors;
+  
+      // enum set up so saturation value lines up with array index of color properties of colors
+      const satEnum = Object.freeze({ FULL: 0, HIGH: 1, MEDIUM: 2 }); 
+      const { FULL, HIGH, MEDIUM } = satEnum;  
+      const SAT = MEDIUM; // sets level of saturation -- set by developer here
     
     return (
-        <div className="card hoverable" style={{ backgroundColor: '#000065', marginTop: '0px', marginBottom: '15px'}}>
+        <div className="card hoverable" style={{ backgroundColor: blueD6[SAT], marginTop: '0px', marginBottom: '15px'}}>
               <div className="card-content white-text" style={{ padding: 0 }}>
-                <div className="row" style={{ margin: 0, backgroundColor: '#043085'}}>
-                  <div className="col s1" style={{ backgroundColor: '#00003E'}}>
+                <div className="row" style={{ margin: 0, backgroundColor: blueD5[SAT]}}>
+                  <div className="col s1" style={{ backgroundColor: blueD7[SAT]}}>
                     #{build_number}
                   </div>
-                  <div className="col s2 blue darken-3 center">
+                  <div className="col s2 center" style={{ backgroundColor: blueD3[SAT]}}>
                     {dateStarted && dateStarted.split('T')[0]}
                   </div>
                   <div className="col s6 center">
@@ -41,16 +64,16 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                       && associatedJobs.map((jobIDandNumObj) => jobIDandNumObj.jobNumber).join(", ")
                     }
                   </div>
-                  <div className="col s3 center blue darken-3">
+                  <div className="col s3 center" style={{ backgroundColor: blueD3[SAT]}}>
                     STATUS: {status}
                   </div>
                 </div>
 
-                <div className="row" style={{ backgroundColor: '#043085' }}>
+                <div className="row" style={{ backgroundColor: blueD5[SAT] }}>
                   <div className="col s3 center truncate">
                     {projects.join(", ")}
                   </div>
-                  <div className="col s6 center blue darken-3">
+                  <div className="col s6 center" style={{ backgroundColor: blueD3[SAT]}}>
                     {buildFilePath}\ {buildFileName}
                   </div>
                   <div className="col s3 center">
@@ -87,35 +110,35 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                 <div className="row">
                 </div>
                 
-                <div className="row teal darken-3" style={{ margin: 0 }}>
+                <div className="row" style={{ margin: 0, backgroundColor: tealD3[SAT] }}>
                   <div className="col s1" style={{ padding: 2 }}>
                     
                   </div>
-                  <div className="col s3 center teal darken-4">
+                  <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
                     Material:
                   </div>
                   <div className="col s4 center">
                     Date Started:
                     {/* Deliver To: {deliverTo ? deliverTo : "Unknown"} */}
                   </div>
-                  <div className="col s3 center teal darken-4">
+                  <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
                     Resolution:
                   </div>
                   <div className="col s1" style={{ padding: 2 }}>
                     
                   </div>
                 </div>
-                <div className="row teal darken-3" style={{ margin: 0 }}>
+                <div className="row" style={{ margin: 0, backgroundColor: tealD3[SAT] }}>
                   <div className="col s1" style={{ padding: 2 }}>
                     
                   </div>
-                  <div className="col s3 center teal darken-4">
+                  <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
                     {material}
                   </div>
                   <div className="col s4 center">
                      {dateStarted && dateStarted.split('T')[0]}
                   </div>
-                  <div className="col s3 center teal darken-4">
+                  <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
                     {resolution} 
                   </div>
                 </div>
