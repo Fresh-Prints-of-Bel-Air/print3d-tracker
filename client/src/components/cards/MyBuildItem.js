@@ -46,7 +46,7 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                   </div>
                 </div>
 
-                <div className="row blue darken-4">
+                <div className="row" style={{ backgroundColor: '#043085' }}>
                   <div className="col s3 center truncate">
                     {projects.join(", ")}
                   </div>
@@ -70,7 +70,7 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                       <div className="col s2"></div>
                       <div className="col s4 align-left grey darken-3 truncate">{partEntry.name}</div>
                       <div className="col s2 align-right grey darken-2">{partEntry.quantity}</div>
-                      <div className="col s2 align-right grey darken-3">{partEntry.job}</div>
+                      <div className="col s2 align-right grey darken-3">{partEntry.jobNumber}</div>
                       <div className="col s2"></div>
                     </div>
                   ) : (
@@ -78,7 +78,7 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                       <div className="col s2"></div>
                       <div className="col s4 align-left grey darken-2 truncate">{partEntry.name}</div>
                       <div className="col s2 align-right grey darken-1">{partEntry.quantity}</div>
-                      <div className="col s2 align-right grey darken-2">{partEntry.job}</div>
+                      <div className="col s2 align-right grey darken-2">{partEntry.jobNumber}</div>
                       <div className="col s2"></div>
                     </div>
                   )
