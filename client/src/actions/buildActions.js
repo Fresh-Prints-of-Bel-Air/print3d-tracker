@@ -56,6 +56,8 @@ export const addBuild = (build, associatedJobs) => async (dispatch) => {
       }
     }
     setLoading();
+    console.log("addBuild action build argument");
+    console.log(build);
     const projectSet = new Set();
     associatedJobs.forEach((job) => projectSet.add(job.projectName));
     const projectArray = Array.from(projectSet);
