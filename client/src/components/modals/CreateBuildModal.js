@@ -68,8 +68,6 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
       })
   },[userJobs]);
 
-  
-
   useEffect(() => {
     M.AutoInit();
 
@@ -302,13 +300,18 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
           associatedJobs: Array.from(associatedJobs.values()), // associatedJobs is a Map
           partsBuilding 
         }, 
-        jobsToUpdateArray
+        jobsToUpdateArray,
+        {
+          ...user,
+          lastBuild: buildToPost
+        }
       );
 
     }
   
     console.log('buildForm onSubmit');
     console.log(buildForm);
+    
   }
 
 
@@ -421,6 +424,8 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
               </div>
               <div className="row">
                 Input up to two additional operators: 
+              </div>
+              <div className="row">
                 <div className="col s6">
                   <div className="input-field">
                     <input 

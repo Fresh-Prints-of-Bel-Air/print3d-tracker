@@ -7,9 +7,11 @@ import {
   UPDATE_BUILD,
   BUILDS_ERROR,
   UPDATE_JOBS,
+  UPDATE_USER,
   SET_LOADING,
   FAILED_SUBMISSION,
   JOBS_ERROR,
+  AUTH_ERROR
 } from './types';
 
 //Get builds from server that match filter (if any) and save to local state
@@ -48,7 +50,7 @@ export const getBuilds = (filter) => async (dispatch) => {
 
 //Add a build, and save to local state
 //AssociatedJobs is an array of [ job ]. The jobs each have updated quantities, and need to have the new build ID added.
-export const addBuild = (build, associatedJobs) => async (dispatch) => {
+export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
   try {
     const config = {
       headers: {
@@ -69,47 +71,62 @@ export const addBuild = (build, associatedJobs) => async (dispatch) => {
       type: ADD_BUILD,
       payload: buildRes.data,
     });
-    try {
-      console.log('associatedJobs');
-      console.log(associatedJobs);
-      
-      //update each associated job to include the ID of the newly added Build
-      associatedJobs.forEach(async (job) => {
-        let updatedJob = {...job, builds: [...job.builds, buildRes.data._id]};
-        const jobUpdateRes = await axios.put(`/api/jobs/${job._id}`, updatedJob, config);
-      });
-      
 
-      //"Get" the updated jobs from the database to update jobs in Redux
+    try { //update the user with the newly created build
+      
+      const updateUserRes = await axios.put(`/api/users/${user._id}`, user, config);
+      console.log("updated user with new build");
+      console.log(updateUserRes.data);
+      dispatch({type: UPDATE_USER, payload: updateUserRes.data});
+
       try {
-        setLoading();
-        let jobIdArray = associatedJobs.map((job) => job._id);
-        const jobRes = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray: [...jobIdArray] } });
-        console.log("associatedJobs in getJobsByIdArray (addBuild)");
+        console.log('associatedJobs');
         console.log(associatedJobs);
-        console.log("getJobByIdArray res (addBuild)");
-        console.log(jobRes);
-        dispatch({
-            type: UPDATE_JOBS,
-            payload: jobRes.data,
+        
+        //update each associated job to include the ID of the newly added Build
+        associatedJobs.forEach(async (job) => {
+          let updatedJob = {...job, builds: [...job.builds, buildRes.data._id]};
+          const jobUpdateRes = await axios.put(`/api/jobs/${job._id}`, updatedJob, config);
         });
-
-      }  catch (err) {
+        
+  
+        //"Get" the updated jobs from the database to update jobs in Redux
+        try {
+          setLoading();
+          let jobIdArray = associatedJobs.map((job) => job._id);
+          const jobRes = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray: [...jobIdArray] } });
+          console.log("associatedJobs in getJobsByIdArray (addBuild)");
+          console.log(associatedJobs);
+          console.log("getJobByIdArray res (addBuild)");
+          console.log(jobRes);
           dispatch({
-              type: JOBS_ERROR,
-              payload: err.response.statusText,
+              type: UPDATE_JOBS,
+              payload: jobRes.data,
           });
-          console.error('getJobsByIdArray error.');
+  
+        }  catch (err) {
+            dispatch({
+                type: JOBS_ERROR,
+                payload: err.response.statusText,
+            });
+            console.error('getJobsByIdArray error.');
+        }
+  
+      } catch (err) {
+        console.log("update jobs error");
+        console.log(err);
+        dispatch({
+          type: JOBS_ERROR,
+          payload: err.response.data.msg
+        });
       }
-
+      
     } catch (err) {
-      console.log("update jobs error");
+      console.log("Update user error in addBuild");
       console.log(err);
-      dispatch({
-        type: JOBS_ERROR,
-        payload: err.response.data.msg
-      });
+      dispatch({type: AUTH_ERROR});
     }
+
   } catch (err) {
     console.log("builds error");
     console.log(err);

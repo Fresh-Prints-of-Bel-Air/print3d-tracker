@@ -32,9 +32,9 @@ const UserSchema = mongoose.Schema({
   lastJobRequest: {
     type: Object,
   },
-  lastBuild: {
-    type: Object,
-  },
+  
+  lastBuild:  Object,
+  
   notifications: [{
     text: String,
     dateCreated: Date,

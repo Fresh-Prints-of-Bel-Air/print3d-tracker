@@ -108,7 +108,7 @@ router.put(
       if(!user) return res.status(404).json({msg: 'User not found'});
       console.log("updating user with the object: ");
       console.log(req.body);
-      const {name, preferredView, email, password, jobQueue, requestedJobs, lastJobRequest, notifications} = req.body;
+      const {name, preferredView, email, password, jobQueue, requestedJobs, lastJobRequest, lastBuild, notifications} = req.body;
       
       const userFields = {};
       if(name) userFields.name = name;
@@ -119,6 +119,7 @@ router.put(
       if(requestedJobs) userFields.requestedJobs = requestedJobs;
       if(lastJobRequest) userFields.lastJobRequest = lastJobRequest;
       if(notifications) userFields.notifications = notifications;
+      if(lastBuild) userFields.lastBuild = lastBuild;
 
       let updatedUser = await User.findByIdAndUpdate(
         req.params.id, 
