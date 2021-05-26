@@ -55,7 +55,7 @@ const JobCard = ({user: { user }, job, updateUser }) => {
                 <div className="row" style={{ margin: 0 }}>
                   <div className="col s1"></div>
                   <div className="col s4 align-left truncate" style={{ backgroundColor: "#043085"}}>Part</div>
-                  <div className="col s2 align-right blue darken-4 truncate">Quantity</div>
+                  <div className="col s2 align-right blue darken-4 truncate">Requested</div> {/* job quantity is the requested amount */}
                   <div className="col s2 align-right teal darken-3 truncate">Remaining</div>
                   <div className="col s2 align-right teal darken-4 truncate">Building</div>
                   

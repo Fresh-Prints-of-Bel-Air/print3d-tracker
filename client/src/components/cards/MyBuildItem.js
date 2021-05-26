@@ -12,6 +12,8 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
 
     useEffect(() => {
         M.AutoInit();
+        console.log(`build.associatedJobs for build number ${build.build_number}`);
+        console.log(build.associatedJobs);
       }, []);
     // const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = job;
 
@@ -23,30 +25,32 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
     //   //updatejob, adding the user to the job's operators list
     //   updateJob({...job, acceptingOperators: [...job.acceptingOperators, user._id]});
     // }
-
+    
     return (
-        <div className="card hoverable" style={{ backgroundColor: '#323840', marginTop: '0px', marginBottom: '15px'}}>
+        <div className="card hoverable" style={{ backgroundColor: '#000065', marginTop: '0px', marginBottom: '15px'}}>
               <div className="card-content white-text" style={{ padding: 0 }}>
-                <div className="row grey darken-3" style={{ margin: 0 }}>
-                  <div className="col s1 grey darken-4">
+                <div className="row" style={{ margin: 0, backgroundColor: '#043085'}}>
+                  <div className="col s1" style={{ backgroundColor: '#00003E'}}>
                     #{build_number}
                   </div>
-                  <div className="col s2 grey darken-2 center">
+                  <div className="col s2 blue darken-3 center">
                     {dateStarted && dateStarted.split('T')[0]}
                   </div>
                   <div className="col s6 center">
-                    For Associated Jobs
+                    Build for jobs: {(associatedJobs && (associatedJobs.length > 0) && associatedJobs[0] && associatedJobs[0].jobNumber) 
+                      && associatedJobs.map((jobIDandNumObj) => jobIDandNumObj.jobNumber).join(", ")
+                    }
                   </div>
-                  <div className="col s3 center grey darken-2">
+                  <div className="col s3 center blue darken-3">
                     STATUS: {status}
                   </div>
                 </div>
 
-                <div className="row grey darken-3">
+                <div className="row blue darken-4">
                   <div className="col s3 center truncate">
                     {projects.join(", ")}
                   </div>
-                  <div className="col s6 center grey darken-2">
+                  <div className="col s6 center blue darken-3">
                     {buildFilePath}\ {buildFileName}
                   </div>
                   <div className="col s3 center">
@@ -55,31 +59,27 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                 </div>
 
                 <div className="row" style={{ margin: 0 }}>
-                  <div className="col s1"></div>
-                  <div className="col s4 align-left truncate" style={{ backgroundColor: "#043085"}}>Part</div>
-                  <div className="col s2 align-right blue darken-4 truncate">Quantity</div>
-                  <div className="col s2 align-right teal darken-3 truncate">Remaining</div>
-                  <div className="col s2 align-right teal darken-4 truncate">Building</div>
-                  
-                  <div className="col s1"></div>
+                  <div className="col s2"></div>
+                  <div className="col s4 align-left grey darken-4 truncate">Part</div>
+                  <div className="col s2 align-right grey darken-3 truncate">Building</div> 
+                  <div className="col s2 align-right grey darken-4 truncate">Job</div>
+                  <div className="col s2"></div>
                 </div>
                 {partsBuilding && partsBuilding.map((partEntry, index) => { return index % 2 ? ( 
                     <div className="row" key={index} style={{ margin: 0 }}>
-                      <div className="col s1"></div>
-                      <div className="col s4 align-left blue darken-4 truncate">{partEntry.name}</div>
-                      <div className="col s2 align-right blue darken-3">{partEntry.quantity}</div>
-                      <div className="col s2 align-right cyan darken-3">{partEntry.job}</div>
-                      <div className="col s2 align-right cyan darken-4">{partEntry.building ? partEntry.building : 0}</div>
-                      <div className="col s1"></div>
+                      <div className="col s2"></div>
+                      <div className="col s4 align-left grey darken-3 truncate">{partEntry.name}</div>
+                      <div className="col s2 align-right grey darken-2">{partEntry.quantity}</div>
+                      <div className="col s2 align-right grey darken-3">{partEntry.job}</div>
+                      <div className="col s2"></div>
                     </div>
                   ) : (
                     <div className="row" key={index} style={{ margin: 0 }}>
-                      <div className="col s1"></div>
-                      <div className="col s4 align-left blue darken-2 truncate">{partEntry.name}</div>
-                      <div className="col s2 align-right blue darken-1">{partEntry.quantity}</div>
-                      <div className="col s2 align-right cyan darken-1">{partEntry.remaining}</div>
-                      <div className="col s2 align-right cyan darken-2">{partEntry.building ? partEntry.building : 0}</div>
-                      <div className="col s1"></div>
+                      <div className="col s2"></div>
+                      <div className="col s4 align-left grey darken-2 truncate">{partEntry.name}</div>
+                      <div className="col s2 align-right grey darken-1">{partEntry.quantity}</div>
+                      <div className="col s2 align-right grey darken-2">{partEntry.job}</div>
+                      <div className="col s2"></div>
                     </div>
                   )
                 })}
@@ -87,49 +87,50 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                 <div className="row">
                 </div>
                 
-                <div className="row grey darken-2" style={{ margin: 0 }}>
+                <div className="row teal darken-3" style={{ margin: 0 }}>
                   <div className="col s1" style={{ padding: 2 }}>
                     
                   </div>
-                  <div className="col s3 center grey darken-3">
+                  <div className="col s3 center teal darken-4">
                     Material:
                   </div>
                   <div className="col s4 center">
-                    Deliver To: {deliverTo ? deliverTo : "Unknown"}
+                    Date Started:
+                    {/* Deliver To: {deliverTo ? deliverTo : "Unknown"} */}
                   </div>
-                  <div className="col s3 center grey darken-3">
+                  <div className="col s3 center teal darken-4">
                     Resolution:
                   </div>
                   <div className="col s1" style={{ padding: 2 }}>
                     
                   </div>
                 </div>
-                <div className="row grey darken-2" style={{ margin: 0 }}>
+                <div className="row teal darken-3" style={{ margin: 0 }}>
                   <div className="col s1" style={{ padding: 2 }}>
                     
                   </div>
-                  <div className="col s3 center grey darken-3">
+                  <div className="col s3 center teal darken-4">
                     {material}
                   </div>
                   <div className="col s4 center">
-                    Date Started: {dateStarted && dateStarted.split('T')[0]}
+                     {dateStarted && dateStarted.split('T')[0]}
                   </div>
-                  <div className="col s3 center grey darken-3">
+                  <div className="col s3 center teal darken-4">
                     {resolution} 
                   </div>
                 </div>
-                <div className="row center" style={{ margin: 0 }}>
+                {/* <div className="row center" style={{ margin: 0 }}>
                   <div className="col s12">
                     <strong>NOTE: {notes}</strong>
                   </div>
-                </div>
+                </div> */}
               </div>
-              {user.preferredView === 'Operator' && (
+              {/* {user.preferredView === 'Operator' && (
                 <div className="card-action white-text" style={{marginBottom: '0px', padding: '8px'}}>
                   <div className="row" style={{marginBottom: '0px'}}>
                     <div className="col s4"></div>
                       <div className="col s4"></div>
-                      {/* <div className="col s4">
+                      <div className="col s4">
                         {acceptedState.accepted === false ? <button class="btn waves-effect teal waves-light" style={{margin: '5px'}} type="submit" name="action" onClick={acceptJob}>Accept Job
                         <i class="material-icons left">add_box</i>
                         </button> : 
@@ -138,10 +139,10 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                           <i className="material-icons" style={{margin: '3px', marginTop: '5px', paddingTop: '5px'}}>check</i> 
                         </div>
                         } 
-                      </div> */}
+                      </div>
                   </div>
                 </div>
-              )}
+              )} */}
         </div>
     )
 }

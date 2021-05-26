@@ -101,7 +101,7 @@ export const RequestHistoryItem = ( { job } ) => {
                             style={{marginLeft: '30px'}}
                         > event </i> 
                         <div className="col s2">
-                            Date Requested: <br/>{dateRequested.split('T')[0]}
+                            Date Requested: <br/>{dateRequested && dateRequested.split('T')[0]}
                         </div>
                              {status === 'Complete' ? 
                                 <i class="material-icons tooltipped col s1" 
