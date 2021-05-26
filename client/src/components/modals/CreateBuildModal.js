@@ -278,7 +278,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
           if(partList[i].quantityBuilding > 0){
             let associatedJob = buildForm.jobMap.get(jobID);
             partIsBeingBuilt = true;
-            associatedJobs.set([jobID, { jobID, jobNumber: associatedJob.job_number}]);
+            associatedJobs.set(jobID, { jobID, jobNumber: associatedJob.job_number});
             // associatedJobs.push({ jobID, jobNumber: associatedJob.job_number});
             associatedJobIDs.add(jobID);
             partsBuilding.push({
@@ -295,7 +295,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
       
       //send the buildForm to be posted to the database, minus the map data structures
       const {jobMap, jobPartQuantityMap, ...buildToPost} = buildForm;
-
+      
       addBuild(
         { 
           ...buildToPost, 

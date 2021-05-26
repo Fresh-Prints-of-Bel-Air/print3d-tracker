@@ -147,7 +147,7 @@ export const BuildItem = ( { build } ) => {
                                 <i className="material-icons tooltipped" style={{marginLeft: '30px'}} data-position="top" data-tooltip="Date Delivered">local_shipping</i>
                             </div>
                             <div className="col s2">
-                                Date Delivered: <br/>{dateDelivered.split('T')[0]}
+                                Date Delivered: <br/>{dateDelivered ? dateDelivered.split('T')[0] : 'Not yet delivered.'}
                             </div>
                         </div>
                         <div className="row">
