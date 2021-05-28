@@ -13,6 +13,26 @@ const isEmpty = (object) => { for(let i in object) { return false; } return true
 //@route GET api/builds
 //@desc Get a build
 //@access Public
+
+router.get(
+  '/multipleBuildsById',
+  auth,
+  [],
+  async (req, res) => {
+    try {
+      const buildList = await Build.find().where('_id').in(req.query.buildIdArray).exec();
+      console.log(req);
+      console.log("req.query.buildIdArray");
+      console.log(req.query.buildIdArray);
+      console.log("multipleBuildsById jobs");
+      console.log(buildList);
+      res.json(buildList);
+    } catch (err) {
+      console.error(err.message);
+      res.status(500).send('server error');
+    }
+});
+
 router.get(
   '/', 
   //auth, 

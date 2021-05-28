@@ -1,24 +1,25 @@
 import React, { useEffect } from 'react'
 import { connect } from 'react-redux';
 import { getBuilds } from '../../actions/buildActions';
-import { getJobsByIdArray } from '../../actions/jobActions';
+import { getBuildsByIdArray} from '../../actions/buildActions';
 import MyBuildItem from './MyBuildItem';
 
 // the list of the builds currently running (shown in operator view, right)
 
-export const MyBuildList = ({ build: { builds }, user: { user }, getBuilds }) => {
+export const MyBuildList = ({ build: { builds, userBuildList }, user: { user }, getBuildsByIdArray }) => {
     useEffect(() => {
         console.log("user is: ");
         console.log(user);
-        console.log("User's build IDs:");
-        console.log(builds);
-        getBuilds({ operators: [user.name] });
-        console.log(builds);
+        console.log("User's buildList:");
+        console.log(userBuildList);
+        // getBuilds({ operators: [user.name] });
+        getBuildsByIdArray(user.buildList);
+        console.log(userBuildList);
         // getJobsByIdArray(user.jobQueue);
     }, [user]);
 
     return (
-        builds && builds.map((build) => <MyBuildItem build={build} key={build._id} />)
+        userBuildList && userBuildList.map((build) => <MyBuildItem build={build} key={build._id} />)
     )
 }
 
@@ -27,4 +28,4 @@ const mapStateToProps = (state) => ({
   user: state.user
 })
 
-export default connect(mapStateToProps, { getBuilds })(MyBuildList);
+export default connect(mapStateToProps, { getBuildsByIdArray })(MyBuildList);

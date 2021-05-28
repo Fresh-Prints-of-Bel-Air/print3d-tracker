@@ -33,6 +33,10 @@ const UserSchema = mongoose.Schema({
     type: Object,
   },
   
+  buildList: [{
+    type: mongoose.Schema.Types.ObjectId,
+  }],
+
   lastBuild:  Object,
   
   notifications: [{

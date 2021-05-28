@@ -1,18 +1,21 @@
 import {
   ADD_BUILD,
   GET_BUILDS,
+  GET_USER_BUILD_LIST,
   DELETE_BUILD,
   SET_LOADING,
   BUILDS_ERROR,
   UPDATE_BUILD,
   CLEAR_ERRORS,
-  FAILED_SUBMISSION
+  FAILED_SUBMISSION,
+  
  
 } from '../actions/types';
 
 const initialState = {
   loading: true,
   builds: [],
+  userBuildList: [], // user's buildList
   lastFailedSubmission: null,
   error: null,
 };
@@ -26,6 +29,13 @@ export default (state = initialState, action) => {
         loading: false,
         error: null,
       };
+    case GET_USER_BUILD_LIST:
+      return {
+        ...state,
+        userBuildList: action.payload,
+        loading: false,
+        error: null
+      }
     case DELETE_BUILD:
       return {
         ...state,

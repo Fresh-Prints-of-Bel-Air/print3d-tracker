@@ -10,7 +10,8 @@ import {
     UPDATE_USER,
     AUTH_ERROR,
     SET_SELECTED_JOB_ID,
-    RESET_JOB_STATE
+    RESET_JOB_STATE,
+    ACCEPT_JOB
 
 } from './types';
 export const setLoading = () => async (dispatch) => {
@@ -26,7 +27,7 @@ export const resetJobState = () => async (dispatch) => {
     });
 }
 
-export const getJobsByIdArray = (jobIdArray, user) => async (dispatch) => { //for getting the User's jobs (requestedJobs or jobQueue)
+export const getJobsByIdArray = (jobIdArray) => async (dispatch) => { //for getting the User's jobs (requestedJobs or jobQueue)
     setLoading();
     try {
         const res = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray } });
@@ -87,6 +88,34 @@ export const deleteJob = (id) => async (dispatch) => {
             payload: err.response.statusText
         });
         console.error('Job delete error');
+    }
+}
+
+export const acceptJob = (job) => async (dispatch) => {
+    setLoading();
+    const config = {
+        headers: {
+          'Content-Type' : 'application/json',
+        }
+    }
+    try{
+        const res = await axios.put(`/api/jobs/${job.id}`, job, config);
+        dispatch({
+            type: UPDATE_JOB,
+            payload: job
+        });
+
+        dispatch({
+            type: ACCEPT_JOB,
+            payload: job
+        });
+
+    } catch (err) {
+        dispatch({
+            type: JOBS_ERROR,
+            payload: err.response.statusText
+        });
+        console.error('Job update error.');
     }
 }
 

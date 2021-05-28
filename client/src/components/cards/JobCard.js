@@ -2,10 +2,10 @@ import React, { useEffect, useState } from 'react'
 import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
-import { updateJob } from '../../actions/jobActions';
+import { acceptJob } from '../../actions/jobActions';
 // import 
 
-const JobCard = ({user: { user }, job, updateUser }) => {
+const JobCard = ({user: { user }, job, updateUser, acceptJob }) => {
     const [acceptedState, setAcceptedState] = useState({
       accepted: false,
     });
@@ -15,11 +15,11 @@ const JobCard = ({user: { user }, job, updateUser }) => {
       }, []);
     const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = job;
 
-    const acceptJob = () => {
+    const acceptJobOnClick = () => {
       setAcceptedState({...acceptedState, accepted: true});
       updateUser({...user, jobQueue: [...user.jobQueue, job._id]});
       //updatejob, adding the user to the job's operators list
-      updateJob({...job, acceptingOperators: [...job.acceptingOperators, user._id]});
+      acceptJob({...job, acceptingOperators: [...job.acceptingOperators, user._id]});
     }
 
     const colors = {
@@ -137,7 +137,7 @@ const JobCard = ({user: { user }, job, updateUser }) => {
                     <div className="col s4"></div>
                       <div className="col s4"></div>
                       <div className="col s4">
-                        {acceptedState.accepted === false ? <button class="btn waves-effect teal waves-light" style={{margin: '5px'}} type="submit" name="action" onClick={acceptJob}>Accept Job
+                        {acceptedState.accepted === false ? <button class="btn waves-effect teal waves-light" style={{margin: '5px'}} type="submit" name="action" onClick={acceptJobOnClick}>Accept Job
                         <i class="material-icons left">add_box</i>
                         </button> : 
                         <div>
@@ -153,7 +153,7 @@ const JobCard = ({user: { user }, job, updateUser }) => {
     )
 }
 const mapStateToProps = (state) => ({
-  user: state.user,
+  user: state.user
 });
 
-export default connect(mapStateToProps, { updateUser })(JobCard);
+export default connect(mapStateToProps, { updateUser, acceptJob })(JobCard);

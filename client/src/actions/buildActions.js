@@ -2,6 +2,7 @@ import axios from 'axios';
 import { keyDown } from 'materialize-css';
 import {
   GET_BUILDS,
+  GET_USER_BUILD_LIST,
   ADD_BUILD,
   DELETE_BUILD,
   UPDATE_BUILD,
@@ -37,8 +38,7 @@ export const getBuilds = (filter) => async (dispatch) => {
       type: BUILDS_ERROR, 
       payload: err});
   }
-
-  //////////////// CLIPBOARD WRITE TEST
+    //////////////// CLIPBOARD WRITE TEST
   // try {
   //   await navigator.clipboard.writeText("Clipboard Test");
   //   console.log("clipboard tested");
@@ -47,6 +47,32 @@ export const getBuilds = (filter) => async (dispatch) => {
   // }
   ////////////////
 }
+
+// get multiple builds according to an array of IDs as input
+export const getBuildsByIdArray = (buildIdArray) => async (dispatch) => {
+  setLoading();
+  try {
+    const res = await axios.get('/api/jobs/multipleBuildsById', { params: { buildIdArray } });
+    console.log("BuildIdArray in getBuildsByIdArray action");
+    console.log(buildIdArray);
+    console.log("getBuildByIdArray res");
+    console.log(res);
+    dispatch({
+        type: GET_USER_BUILD_LIST,
+        payload: res.data,
+    });
+
+  } catch (err) {
+      dispatch({
+          type: BUILDS_ERROR,
+          payload: err.response.statusText,
+      });
+      console.error('getBuildsByIdArray error.');
+  }
+}
+
+
+
 
 //Add a build, and save to local state
 //AssociatedJobs is an array of [ job ]. The jobs each have updated quantities, and need to have the new build ID added.
@@ -73,8 +99,12 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
     });
 
     try { //update the user with the newly created build
-      
-      const updateUserRes = await axios.put(`/api/users/${user._id}`, user, config);
+          // including adding the build to the user's build list
+      const updateUserRes = await axios.put(
+        `/api/users/${user._id}`, 
+        { ...user, buildList: [...user.buildList, buildRes.data._id] }, 
+        config
+      );
       console.log("updated user with new build");
       console.log(updateUserRes.data);
       dispatch({type: UPDATE_USER, payload: updateUserRes.data});

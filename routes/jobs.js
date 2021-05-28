@@ -26,7 +26,7 @@ router.get(
       console.error(err.message);
       res.status(500).send('server error');
     }
-  });
+});
 
 // get by ID
 router.get(
