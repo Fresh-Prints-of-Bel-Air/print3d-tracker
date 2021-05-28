@@ -461,7 +461,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
           </button>
           {user.lastBuild && 
             <button style={{margin: '10px'}} className="btn blue" 
-                    onClick={() => {  setBuildForm(user.lastBuild) }}>
+                    onClick={() => {  setBuildForm({jobMap: buildForm.jobMap, jobPartQuantityMap: buildForm.jobPartQuantityMap, ...user.lastBuild}) }}>
                 Refill<i className="material-icons right">format_color_fill</i>
             </button>
           }
