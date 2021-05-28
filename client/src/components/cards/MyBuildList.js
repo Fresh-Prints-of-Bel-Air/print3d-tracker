@@ -18,6 +18,7 @@ export const MyBuildList = ({ build: { builds, userBuildList }, user: { user }, 
         // getJobsByIdArray(user.jobQueue);
     }, [user]);
 
+   
     return (
         userBuildList && userBuildList.map((build) => <MyBuildItem build={build} key={build._id} />)
     )

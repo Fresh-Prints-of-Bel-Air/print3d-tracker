@@ -52,7 +52,7 @@ export const getBuilds = (filter) => async (dispatch) => {
 export const getBuildsByIdArray = (buildIdArray) => async (dispatch) => {
   setLoading();
   try {
-    const res = await axios.get('/api/jobs/multipleBuildsById', { params: { buildIdArray } });
+    const res = await axios.get('/api/builds/multipleBuildsById', { params: { buildIdArray } });
     console.log("BuildIdArray in getBuildsByIdArray action");
     console.log(buildIdArray);
     console.log("getBuildByIdArray res");
@@ -100,6 +100,7 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
 
     try { //update the user with the newly created build
           // including adding the build to the user's build list
+      console.log([...user.buildList, buildRes.data._id]);
       const updateUserRes = await axios.put(
         `/api/users/${user._id}`, 
         { ...user, buildList: [...user.buildList, buildRes.data._id] }, 
