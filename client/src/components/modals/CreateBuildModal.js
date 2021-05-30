@@ -10,7 +10,7 @@ import M from 'materialize-css';
 
 
 const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdArray}) => {
-  
+
   // const [jobMap, setJobMap] = useState(new Map()); 
   const [buildForm, setBuildForm] = useState({
     jobMap: new Map(), //jobMap will keep track of build quantities for each job
@@ -21,7 +21,6 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     dateStarted: '',
     estPrintTime: '',
     status: 'Build File Ready',
-    projects: [],
     buildFileName: '',
     buildFilePath: '',
     operators: [user.name,"", ""],
@@ -146,7 +145,6 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
       dateStarted: '',
       estPrintTime: '',
       status: 'Build File Ready',
-      projects: [],
       buildFileName: '',
       buildFilePath: '',
       operators: [user.name,"", ""],
@@ -293,22 +291,26 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
       
       //send the buildForm to be posted to the database, minus the map data structures
       const {jobMap, jobPartQuantityMap, ...buildToPost} = buildForm;
+      const operators = [...buildForm.operators];
       
       addBuild(
-        { 
-          ...buildToPost, 
+        { //Build Object
+          ...buildToPost,
+          operators, 
           associatedJobs: Array.from(associatedJobs.values()), // associatedJobs is a Map
           partsBuilding 
         }, 
-        jobsToUpdateArray,
-        {
+        jobsToUpdateArray, 
+        { //User Object
           ...user,
           lastBuild: buildToPost
         }
       );
 
+      clearForm();
+
     }
-  
+    
     console.log('buildForm onSubmit');
     console.log(buildForm);
     
