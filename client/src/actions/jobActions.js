@@ -99,7 +99,7 @@ export const acceptJob = (job) => async (dispatch) => {
         }
     }
     try{
-        const res = await axios.put(`/api/jobs/${job.id}`, job, config);
+        const res = await axios.put(`/api/jobs/${job._id}`, job, config);
         dispatch({
             type: UPDATE_JOB,
             payload: job
@@ -127,7 +127,7 @@ export const updateJob = (job) => async (dispatch) => {
         }
     }
     try{
-        const res = await axios.put(`/api/jobs/${job.id}`, job, config);
+        const res = await axios.put(`/api/jobs/${job._id}`, job, config);
         dispatch({
             type: UPDATE_JOB,
             payload: job
