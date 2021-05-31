@@ -74,7 +74,7 @@ export default (state = initialState, action) => {
         case UPDATE_JOB:
             return {
                 ...state,
-                jobs: state.jobs.map(job => job.id === action.payload.id ? action.payload : job),
+                jobs: state.jobs.map(job => job._id === action.payload._id ? action.payload : job),
                 loading: false,
                 error: null,
             }

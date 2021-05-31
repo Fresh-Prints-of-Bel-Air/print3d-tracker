@@ -12,6 +12,7 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
 
   const[firstRender, setFirstRender] = useState(true); 
   
+  //selectValues.values[index].option
   const[selectValues, setSelectValues] = useState({
     values: job.requestedParts.map((part) => ({
       option: {value: '0', label: '0'},
@@ -19,6 +20,13 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
     })),
     currentIndex: ''
   });
+
+  useEffect(() => {
+    // console.log("job requestedParts inside QuantityForm");
+    // console.log(job.requestedParts);
+    // console.log("SelectValues values inside QuantityForm");
+    // console.log(selectValues.values);
+  })
 
   /*
     When the job prop is changed, i.e when the entire buildQuantityModal form is successfully submitted, we need this form to be treated as a new form - reset the form fields via 
@@ -50,15 +58,19 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
     }
   },[firstRender]);
 
-  useEffect(() => { //this useEffect is designed to call handleQuantityChange when part quantity changes have been detected. It sends the calculated quantity changes to the parent component.
-    
-    //do not run these effects on first render, when no form changes have been made
+  /*
+    Call handleQuantityChange when part quantity changes have been detected. Sends the calculated quantity changes to the parent component.
+  */
+  useEffect(() => { 
     if(!firstRender){
       handleQuantityChange(job._id, partQuantities.partName, partQuantities.quantityChange);
     }
   }, [partQuantities]);
 
-  useEffect(() => { //this useEffect is designed to calculate the correct quantity change to send to the parent component. It calls setPartQuantities once those values have been calculated.
+  /*
+    Calculate the correct quantity change to send to the parent component. Calls setPartQuantities once those values have been calculated.
+  */
+  useEffect(() => {
     if(!firstRender){
      
       const {option, partName} = selectValues.values[selectValues.currentIndex];
@@ -98,7 +110,9 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
               <label htmlFor="partQuantity">{`Quantity for ${part.name} (${part.remaining} remaining): `}</label>
             </div>
             <div className="col s3 offset-s2">
-              <Select //trigger a rerender of these to clear the form fields
+              {console.log(`Index is: ${index} and selectValues is:`)}
+              {console.log(selectValues.values)}
+              <Select
                 options={[...Array(part.quantity * 2 + 1).keys()].map((value) => ({value: value.toString(), label: value.toString()}))}
                 onChange={(option) => onChange(option, index, part.name )}
                 defaultValue={{value: '0', label: '0'}}

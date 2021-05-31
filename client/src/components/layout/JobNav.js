@@ -65,7 +65,8 @@ const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selec
           </div>
         </nav>
       </div>
-      {user.preferredView === 'Engineer' ? <RequestJobModal/> : <CreateBuildModal/>}
+      <RequestJobModal/>
+      <CreateBuildModal/>
       {/* <RequestJobModal/> */}
       
       
