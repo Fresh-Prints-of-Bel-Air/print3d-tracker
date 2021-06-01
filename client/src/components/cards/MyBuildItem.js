@@ -12,8 +12,8 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
 
     useEffect(() => {
         M.AutoInit();
-        console.log(`build.associatedJobs for build number ${build.build_number}`);
-        console.log(build.associatedJobs);
+        // console.log(`build.associatedJobs for build number ${build.build_number}`);
+        // console.log(build.associatedJobs);
       }, []);
     // const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = job;
 

@@ -47,7 +47,14 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     // making sure jobMap and jobPartQuantityMap are initialized
     // if (buildForm.jobMap.size === 0 || buildForm.jobPartQuantityMap.size === 0) 
       setBuildForm({
-        ...buildForm, 
+        material: '',
+        resolution: '',
+        dateStarted: '',
+        estPrintTime: '',
+        status: 'Build File Ready',
+        buildFileName: '',
+        buildFilePath: '',
+        operators: [user.name,"", ""], 
         jobMap: new Map(userJobs.map((job) => 
           [
             job._id, 
@@ -70,11 +77,11 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
   useEffect(() => {
     M.AutoInit();
 
-    console.log("useEffect CreateBuildModal");
-    console.log("userJobs");
-    console.log(userJobs);
-    console.log("userJobs.map((job) => [job._id, job])");
-    console.log(userJobs.map((job) => [job._id, job]));
+    // console.log("useEffect CreateBuildModal");
+    // console.log("userJobs");
+    // console.log(userJobs);
+    // console.log("userJobs.map((job) => [job._id, job])");
+    // console.log(userJobs.map((job) => [job._id, job]));
 
     if(buildState.upToDate === false){ //If the jobs are not up to date with the database, refresh them
       getJobsByIdArray([...user.jobQueue]);
@@ -101,6 +108,10 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     }
   },[buildState.upToDate]);
 
+  useEffect(() => {
+    console.log('BuildForm was changed. The new state is: ');
+    console.log(buildForm);
+  },[buildForm]);
   
 
   const {material, resolution, dateStarted, dateDelivered, estPrintTime, status, buildFileName, buildFilePath} = buildForm;
@@ -162,7 +173,13 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     //update the jobMap, which will be used to update the job in the database
     //also update the jobPartQuantityMap, which is used to check if a given job actually has any parts being built for it (so we can add it's associated project to the build)
     //add partsBuilding based on the jobPartQuantityMap
-
+    console.log(`HandleQuantityChange called. Parameters are:`);
+    console.log("JobID");
+    console.log(jobID);
+    console.log("PartBuilding");
+    console.log(partBuilding);
+    console.log("BuildQuantity");
+    console.log(buildQuantity);
     console.log("userJobs");
     console.log(userJobs);
     console.log("[...buildForm.jobMap]");
@@ -222,19 +239,19 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     let upToDate = true;
     jobsToUpdate.data.forEach((job) => {
       if(job.lastUpdated){
-        console.log("job.lastUpdated");
-        console.log(job.lastUpdated);
-        console.log("jobmap job last updated");
-        console.log(buildForm.jobMap.get(job._id).lastUpdated);
+        // console.log("job.lastUpdated");
+        // console.log(job.lastUpdated);
+        // console.log("jobmap job last updated");
+        // console.log(buildForm.jobMap.get(job._id).lastUpdated);
         let dbDate = new Date(job.lastUpdated);
         let compDate = new Date(buildForm.jobMap.get(job._id).lastUpdated);
-        console.log(compDate);
-        console.log(dbDate);
-        console.log("getTime function");
-        console.log(compDate.getTime());
-        console.log(dbDate.getTime());
+        // console.log(compDate);
+        // console.log(dbDate);
+        // console.log("getTime function");
+        // console.log(compDate.getTime());
+        // console.log(dbDate.getTime());
         if(dbDate.getTime() !== compDate.getTime()){
-          console.log("A date is not up to date");
+          // console.log("A date is not up to date");
           upToDate = false;
           setBuildState({ 
             ...buildState,
@@ -248,8 +265,8 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
         ...buildState,
         upToDate: true,
       });
-    console.log("Uptodate?");
-    console.log(upToDate);
+    // console.log("Uptodate?");
+    // console.log(upToDate);
     return upToDate;
   }
 
@@ -307,7 +324,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
         }
       );
 
-      clearForm();
+      //clearForm();
 
     }
     

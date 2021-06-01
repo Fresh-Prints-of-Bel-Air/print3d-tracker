@@ -36,6 +36,12 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
   useEffect(() => {
     if(!firstRender){
       console.log("JOB STATE CHANGED OR FIRST RENDER FOR QUANTITY FORM");
+      setPartQuantities({
+        quantities: job.requestedParts.map((part) => 0),
+        partName: "",
+        quantityChange: 0,
+   
+      });
       setSelectValues({
           values: job.requestedParts.map((part) => ({
             option: {value: '0', label: '0'},
@@ -72,7 +78,11 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
   */
   useEffect(() => {
     if(!firstRender){
-     
+      console.log("selectValues useEffect called. Values are:");
+      console.log(selectValues);
+      console.log("PartQuantities is: ");
+      console.log(partQuantities);
+
       const {option, partName} = selectValues.values[selectValues.currentIndex];
       let quantityChange = option.value - partQuantities.quantities[selectValues.currentIndex]; // new value minus old
       let quantityArr = [...partQuantities.quantities];
@@ -82,17 +92,34 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
 
   },[selectValues]);
   
-  const onChange = (option, index, partName) => {
+  /*
+    onChange:
+
+      update form field state (known as selectValue). The update will trigger a useEffect that calls HandleQuantityChange
+      This useEffect call should not be triggered on first render when no form changes have been made
+  */
+  const onChange = (option, index, partName) => { 
+    
+    let selectValueState = JSON.parse(JSON.stringify(selectValues)); //an object with an array inside
+    //update the state at the proper index with the selected form option
+    console.log("SelectValues before");
+    console.log(selectValues);
+    selectValueState.values[index] = ({
+      option,
+      partName,
+    });
+    selectValueState.currentIndex = index;
+    console.log("Pending update to selectValues");
+    console.log(selectValueState);
+    console.log(`FirstRender state is:`);
+    console.log(firstRender);
+    setSelectValues(selectValueState);
+    console.log("Option selected:");
     console.log(option);
+    console.log("Index selected:");
     console.log(index);
-    let quantityChange = option.value - partQuantities.quantities[index]; // new value minus old
-    console.log("quantityChange");
-    console.log(quantityChange);
-    let quantityArr = [...partQuantities.quantities];
-    console.log("QuantityArr");
-    console.log(quantityArr);
-    quantityArr[index] = option.value;
-    setPartQuantities({ quantities: quantityArr, partName: partName, quantityChange: quantityChange, firstUpdate: false });
+    console.log("Part Name selected:");
+    console.log(partName);
   }
   return (
     <Fragment>
@@ -104,8 +131,8 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
               <label htmlFor="partQuantity">{`Quantity for ${part.name} (${part.remaining} remaining): `}</label>
             </div>
             <div className="col s3 offset-s2">
-              {console.log(`Index is: ${index} and selectValues is:`)}
-              {console.log(selectValues.values)}
+              {/* {console.log(`Index is: ${index} and selectValues is:`)} */}
+              {/* {console.log(selectValues.values)} */}
               <Select
                 options={[...Array(part.quantity * 2 + 1).keys()].map((value) => ({value: value.toString(), label: value.toString()}))}
                 onChange={(option) => onChange(option, index, part.name)}

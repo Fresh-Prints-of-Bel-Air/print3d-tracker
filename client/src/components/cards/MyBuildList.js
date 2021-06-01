@@ -8,14 +8,14 @@ import MyBuildItem from './MyBuildItem';
 
 export const MyBuildList = ({ build: { builds, userBuildList }, user: { user }, getBuildsByIdArray }) => {
     useEffect(() => {
-        console.log("user is: ");
-        console.log(user);
-        console.log("User's buildList:");
-        console.log(userBuildList);
-        // getBuilds({ operators: [user.name] });
+        // console.log("user is: ");
+        // console.log(user);
+        // console.log("User's buildList:");
+        // console.log(userBuildList);
+        // // getBuilds({ operators: [user.name] });
         getBuildsByIdArray(user.buildList);
-        console.log(userBuildList);
-        // getJobsByIdArray(user.jobQueue);
+        // console.log(userBuildList);
+        //getJobsByIdArray(user.jobQueue);
     }, [user]);
 
    
