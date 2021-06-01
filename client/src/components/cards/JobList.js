@@ -38,9 +38,10 @@ export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
         console.log("Jobqueue useEffect called");
         //jobs.forEach((job) => console.log(job));
     }, []);
-    return ( // in Operator view, shows all jobs... with accept job button
+    return ( // in Operator view, shows all jobs that haven't been accepted by the user
+                //... those job cards have accept job buttons
             // in Engineer view, shows all jobs except the user's requested jobs
-         user.preferredView === 'Operator'? 
+         user.preferredView === 'Operator' ? 
          jobs.filter((job) => checkIfJobAccepted(job._id) == false).map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>) 
          : 
          jobs.filter((job) => job.requesterId !== user._id).map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>)

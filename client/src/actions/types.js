@@ -31,7 +31,8 @@ export const ACCEPT_JOB = 'ACCEPT_JOB';
 export const UPDATE_JOB = 'UPDATE_JOB';
 export const UPDATE_JOBS = 'UPDATE_JOBS';
 export const SET_VIEW = 'SET_VIEW';
-export const GET_USER_JOBS = 'GET_USER_JOBS';
+export const GET_USER_JOB_QUEUE = 'GET_USER_JOB_QUEUE';
+export const GET_USER_REQUESTED_JOBS = 'GET_USER_REQUESTED_JOBS';
 export const RESET_JOB_STATE = 'RESET_JOB_STATE';
 export const SET_SELECTED_JOB_ID = 'SET_SELECTED_JOB_ID'; 
 

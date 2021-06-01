@@ -7,7 +7,7 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
     quantities: job.requestedParts.map((part) => 0),
     partName: "",
     quantityChange: 0,
-    firstUpdate: true
+   
   });
 
   const[firstRender, setFirstRender] = useState(true); 
@@ -125,7 +125,7 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
     <Fragment>
     <div className="row">Parts for job# {job.job_number} from requester {job.requester}: </div>
     <div className="row">
-      {job.requestedParts.map((part, index) => 
+      {job.requestedParts.map((part, index) =>
           <div className="row" key={index}>
             <div className="col s3">
               <label htmlFor="partQuantity">{`Quantity for ${part.name} (${part.remaining} remaining): `}</label>
@@ -135,8 +135,9 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
               {/* {console.log(selectValues.values)} */}
               <Select
                 options={[...Array(part.quantity * 2 + 1).keys()].map((value) => ({value: value.toString(), label: value.toString()}))}
-                onChange={(option) => onChange(option, index, part.name)}
+                onChange={(option) => onChange(option, index, part.name )}
                 defaultValue={{value: '0', label: '0'}}
+                value={selectValues.values[index].option}
               />
             </div>
           </div>

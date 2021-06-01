@@ -1,7 +1,7 @@
 import {
-    //GET_USER_JOBS,
     GET_JOBS,
-    GET_USER_JOBS,
+    GET_USER_JOB_QUEUE,
+    GET_USER_REQUESTED_JOBS,
     JOBS_ERROR,
     SET_LOADING,
     ADD_JOB,
@@ -17,7 +17,8 @@ import {
 const initialState = {
     loading: true,
     error: null,
-    userJobs: [], //these refer to actual job objects, not IDs
+    userJobQueue: [], //these refer to actual job objects, not IDs
+    userRequestedJobs: [],
     jobs: [],
     view: 'Engineer',
     selectedJobId: 0 // todo delete this
@@ -32,13 +33,20 @@ export default (state = initialState, action) => {
                 loading: false,
                 error: null
             }
-        case GET_USER_JOBS: 
+        case GET_USER_JOB_QUEUE: 
             return {
                 ...state,
-                userJobs: action.payload,
+                userJobQueue: action.payload,
                 loading: false,
                 error: null
             }   
+        case GET_USER_REQUESTED_JOBS:
+            return {
+                ...state,
+                userRequestedJobs: action.payload,
+                loading: false,
+                error: null
+            }
         case SET_SELECTED_JOB_ID:
             return {
                 ...state,
@@ -61,13 +69,14 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 jobs: [...state.jobs, action.payload],
+                userRequestedJobs: [...state.userRequestedJobs, action.payload],
                 loading: false,
                 error: null,
             }
         case ACCEPT_JOB:
             return {
                 ...state,
-                userJobs: [...state.userJobs, action.payload], 
+                userJobQueue: [...state.userJobQueue, action.payload], 
                 loading: false,
                 error: null
             }

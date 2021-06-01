@@ -9,7 +9,7 @@ import BuildQuantityForm from './BuildQuantityForm';
 import M from 'materialize-css';
 
 
-const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdArray}) => {
+const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsByIdArray}) => {
 
   // const [jobMap, setJobMap] = useState(new Map()); 
   const [buildForm, setBuildForm] = useState({
@@ -26,7 +26,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     operators: [user.name,"", ""],
     //key: job.id, value: array of part objects (with quantity building)...
     //...used to ensure at least 1 part is being built for a job whose project is added to the project list
-    jobPartQuantityMap: new Map((userJobs.map((job) => ( 
+    jobPartQuantityMap: new Map((userJobQueue.map((job) => ( 
       [
         job._id, 
         job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0})),
@@ -40,7 +40,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
   });
 
   useEffect(() => {
-    getJobsByIdArray(user.jobQueue); // populate the state with the jobs from the user's jobQueue
+    getJobsByIdArray(user.jobQueue, "GET_USER_JOB_QUEUE"); // populate the state with the jobs from the user's jobQueue
   },[]);
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
         buildFileName: '',
         buildFilePath: '',
         operators: [user.name,"", ""], 
-        jobMap: new Map(userJobs.map((job) => 
+        jobMap: new Map(userJobQueue.map((job) => 
           [
             job._id, 
             {
@@ -65,29 +65,29 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
             }
           ]
         )),
-        jobPartQuantityMap: new Map(userJobs.map((job) => 
+        jobPartQuantityMap: new Map(userJobQueue.map((job) => 
           [
             job._id, 
             job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0}))
           ]
         ))
       })
-  },[userJobs]);
+  },[userJobQueue]);
 
   useEffect(() => {
     M.AutoInit();
 
     // console.log("useEffect CreateBuildModal");
-    // console.log("userJobs");
-    // console.log(userJobs);
-    // console.log("userJobs.map((job) => [job._id, job])");
-    // console.log(userJobs.map((job) => [job._id, job]));
+    // console.log("userJobQueue");
+    // console.log(userJobQueue);
+    // console.log("userJobQueue.map((job) => [job._id, job])");
+    // console.log(userJobQueue.map((job) => [job._id, job]));
 
     if(buildState.upToDate === false){ //If the jobs are not up to date with the database, refresh them
-      getJobsByIdArray([...user.jobQueue]);
+      getJobsByIdArray([...user.jobQueue], "GET_USER_JOB_QUEUE");
       setBuildForm({
         ...buildForm, 
-        jobMap: new Map(userJobs.map((job) => 
+        jobMap: new Map(userJobQueue.map((job) => 
           [
             job._id, 
             {
@@ -96,7 +96,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
               //operators: [...job.acceptingOperators]
             }
           ])), 
-        jobPartQuantityMap: new Map((userJobs.map((job) => (
+        jobPartQuantityMap: new Map((userJobQueue.map((job) => (
           [ job._id, 
             job.requestedParts.map((part) => ({
               partName: part.name,
@@ -104,7 +104,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
             }))
           ]
         ))))
-      }); //jobPartQuantityMap needs to be reset because userJobs may have changed
+      }); //jobPartQuantityMap needs to be reset because userJobQueue may have changed
     }
   },[buildState.upToDate]);
 
@@ -159,7 +159,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
       buildFileName: '',
       buildFilePath: '',
       operators: [user.name,"", ""],
-      jobPartQuantityMap: new Map((userJobs.map((job) => 
+      jobPartQuantityMap: new Map((userJobQueue.map((job) => 
         ([
           job._id, 
           job.requestedParts.map((part) => ({ partName: part.name, quantityBuilding: 0}))
@@ -180,8 +180,8 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
     console.log(partBuilding);
     console.log("BuildQuantity");
     console.log(buildQuantity);
-    console.log("userJobs");
-    console.log(userJobs);
+    console.log("userJobQueue");
+    console.log(userJobQueue);
     console.log("[...buildForm.jobMap]");
     console.log([...buildForm.jobMap]);
     console.log("jobID");
@@ -350,7 +350,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobs}, addBuild, getJobsByIdA
             :
             <div>
               {/* create a select dropdown with all of the jobs that have yet to be completed */}
-               {( !userJobs || userJobs.length === 0 )? <div>Please accept jobs to start a build!</div> : userJobs.map((job, index) => (
+               {( !userJobQueue || userJobQueue.length === 0 )? <div>Please accept jobs to start a build!</div> : userJobQueue.map((job, index) => (
                 <BuildQuantityForm job={job} key={index} handleQuantityChange={handleQuantityChange}/>)
               )} 
               <div className="row">

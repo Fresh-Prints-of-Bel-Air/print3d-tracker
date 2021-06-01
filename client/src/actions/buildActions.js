@@ -13,7 +13,7 @@ import {
   FAILED_SUBMISSION,
   JOBS_ERROR,
   AUTH_ERROR,
-  GET_USER_JOBS
+  GET_USER_JOB_QUEUE
 } from './types';
 
 //Get builds from server that match filter (if any) and save to local state
@@ -136,11 +136,11 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
               payload: jobRes.data,
           });
 
-          try { //also update the userJobs
+          try { //also update the userJobQueue
             setLoading();
             const userJobRes = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray: [...user.jobQueue] } });
             dispatch({
-              type: GET_USER_JOBS,
+              type: GET_USER_JOB_QUEUE,
               payload: userJobRes.data,
             });
           } catch (err) {
@@ -148,7 +148,7 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
               type: JOBS_ERROR,
               payload: err.response.statusText,
           });
-            console.error('getJobsByIdArray error for userJobs.');
+            console.error('getJobsByIdArray error for userJobQueue.');
           }
 
         }  catch (err) {

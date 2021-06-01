@@ -16,11 +16,11 @@ router.get(
   async (req, res) => {
     try {
       const jobs = await Job.find().where('_id').in(req.query.jobIdArray).exec();
-      console.log(req);
-      console.log("req.query.jobIdArray");
-      console.log(req.query.jobIdArray);
-      console.log("multipleJobsById jobs");
-      console.log(jobs);
+      // console.log(req);
+      // console.log("req.query.jobIdArray");
+      // console.log(req.query.jobIdArray);
+      // console.log("multipleJobsById jobs");
+      // console.log(jobs);
       res.json(jobs);
     } catch (err) {
       console.error(err.message);
@@ -53,14 +53,14 @@ router.get(
     [], 
     async (req, res) => {
     
-    console.log("routes jobs get");
+    // console.log("routes jobs get");
     const filter = {
-        status: { $ne: 'Complete' } // not equals
+        status: { $ne: 'Cancelled' } // not equals
     }
     
     const { job_number, requester, projectName, dateRequestedLowerBound, dateRequestedUpperBound, jobStatus } = req.query;
 
-    console.log(req.query);
+    // console.log(req.query);
     
     //if(dateRequestedLowerBound) filter.dateRequestedLowerBound = { $gte: dateRequestedLowerBound }; //add upperbound?
 
@@ -139,7 +139,7 @@ router.get(
    async (req, res) => {
 
     try {
-      console.log(req.body);
+      // console.log(req.body);
       let updatedJobs = await Job.updateMany(req.body.filter, req.body.updateToApply);
       res.json(updatedJobs);
 
@@ -205,31 +205,31 @@ router.get(
 router.delete('/:id',
 auth,
 async (req, res) => {
-  console.log("job delete");
+  // console.log("job delete");
   
   try {
     let job = await Job.findById(req.params.id);
     if(!job) return res.status(404).json({msg: 'Job not found'});
 
-    console.log("req.user.id");
-    console.log(req.user.id);
-    console.log("job.requesterId");
-    console.log(job.requesterId);
+    // console.log("req.user.id");
+    // console.log(req.user.id);
+    // console.log("job.requesterId");
+    // console.log(job.requesterId);
 
     let authorized = (job.requesterId == req.user.id) ? true : false;
 
-    console.log("authorized:")
-    console.log(authorized);
+    // console.log("authorized:")
+    // console.log(authorized);
 
     if(authorized === false)
       return res.status(401).json({msg: 'Not authorized'});
 
-    console.log('req.params.id');
-    console.log(req.params.id);
+    // console.log('req.params.id');
+    // console.log(req.params.id);
 
     const deletedJob = await Job.findByIdAndDelete(req.params.id);
 
-    console.log(deletedJob);
+    // console.log(deletedJob);
     res.json(deletedJob);
     
   } catch (err) {

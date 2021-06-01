@@ -5,9 +5,8 @@ import { getJobsByIdArray } from '../../actions/jobActions';
 import JobCard from './JobCard';
 import MyJobListItem from './MyJobListItem';
 import M from 'materialize-css/dist/js/materialize.min.js';
-// userJobs the list of the user's requested jobs, rename
 
-export const MyJobList = ({ job: { userJobs }, user: { user }, getJobsByIdArray }) => {
+export const MyJobList = ({ job: { userRequestedJobs }, user: { user }, getJobsByIdArray }) => {
     // useEffect(() => {
     //     M.AutoInit();
     //     console.log("user is: ");
@@ -22,7 +21,7 @@ export const MyJobList = ({ job: { userJobs }, user: { user }, getJobsByIdArray 
 
     useEffect(() => {
         M.AutoInit();
-        getJobsByIdArray(user.requestedJobs);
+        getJobsByIdArray(user.requestedJobs, 'GET_USER_REQUESTED_JOBS');
     }, [user]);
 
     // const [jobIdForModal, setJobIdForModal] = useState(0);
@@ -33,7 +32,7 @@ export const MyJobList = ({ job: { userJobs }, user: { user }, getJobsByIdArray 
 
     return (
         <div>
-            {userJobs && userJobs.map((job) => <MyJobListItem jobData={job} key={job._id} jobID={job._id}/>)}
+            {userRequestedJobs && userRequestedJobs.map((job) => <MyJobListItem jobData={job} key={job._id} jobID={job._id}/>)}
         </div>
         
     )

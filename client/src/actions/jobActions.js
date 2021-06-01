@@ -5,7 +5,8 @@ import {
     DELETE_JOB,
     UPDATE_JOB,
     GET_JOBS,
-    GET_USER_JOBS,
+    GET_USER_JOB_QUEUE,
+    GET_USER_REQUESTED_JOBS,
     JOBS_ERROR,
     UPDATE_USER,
     AUTH_ERROR,
@@ -27,7 +28,7 @@ export const resetJobState = () => async (dispatch) => {
     });
 }
 
-export const getJobsByIdArray = (jobIdArray) => async (dispatch) => { //for getting the User's jobs (requestedJobs or jobQueue)
+export const getJobsByIdArray = (jobIdArray, dispatchType) => async (dispatch) => { //for getting the User's jobs (requestedJobs or jobQueue)
     setLoading();
     try {
         const res = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray } });
@@ -35,11 +36,19 @@ export const getJobsByIdArray = (jobIdArray) => async (dispatch) => { //for gett
         console.log(jobIdArray);
         console.log("getJobByIdArray res");
         console.log(res);
-        dispatch({
-            type: GET_USER_JOBS,
-            payload: res.data,
-        });
-
+        if (dispatchType === 'GET_USER_JOB_QUEUE'){
+            dispatch({
+                type: GET_USER_JOB_QUEUE,
+                payload: res.data,
+            });
+        } else if (dispatchType === 'GET_USER_REQUESTED_JOBS') {
+            dispatch({
+                type: GET_USER_REQUESTED_JOBS,
+                payload: res.data,
+            });
+        } else {
+            console.log("forgot to add second parameter to getJobsByIdArray");
+        }
     }  catch (err) {
         dispatch({
             type: JOBS_ERROR,

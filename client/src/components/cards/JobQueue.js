@@ -5,17 +5,17 @@ import JobQueueItem from './JobQueueItem';
 
 // the list of the jobs in the user's jobQueue (shown in operator view, right)
 
-export const JobQueue = ({ job: { userJobs }, user: { user }, getJobsByIdArray }) => {
+export const JobQueue = ({ job: { userJobQueue }, user: { user }, getJobsByIdArray }) => {
     useEffect(() => {
         console.log("user is: ");
         console.log(user);
         console.log("User's requested-job IDs:");
         console.log(user.jobQueue);
-        getJobsByIdArray(user.jobQueue); // put into the CreateBuildModal useEffect
+        getJobsByIdArray(user.jobQueue, 'GET_USER_JOB_QUEUE'); // put into the CreateBuildModal useEffect
     }, [user]);
 
     return (
-        userJobs && userJobs.map((job) => <JobQueueItem job={job} key={job._id} />)
+        userJobQueue && userJobQueue.map((job) => <JobQueueItem job={job} key={job._id} />)
     )
 }
 
