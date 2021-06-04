@@ -436,7 +436,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
                     onChange={onChange}
                     />
                     <label htmlFor="estPrintTime" className="active">
-                      Estimated Print Time(Minutes):
+                      Estimated Print Time(Hours):
                     </label>
                   </div>
                 </div>

@@ -47,6 +47,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         builds: state.builds.map((build) => build.id === action.payload ? action.payload : build),
+        userBuildList: state.userBuildList.map((build) => build._id === action.payload._id ? action.payload : build),
         loading: false,
         error: null,
       }

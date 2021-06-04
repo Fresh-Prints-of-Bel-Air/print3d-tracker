@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
+import EditBuildModal from '../modals/EditBuildModal';
 import { updateJob } from '../../actions/jobActions';
 // import 
 
@@ -12,6 +13,8 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
 
     useEffect(() => {
         M.AutoInit();
+        console.log("MyBuildItem build");
+        console.log(build);
         // console.log(`build.associatedJobs for build number ${build.build_number}`);
         // console.log(build.associatedJobs);
       }, []);
@@ -51,121 +54,110 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
     
     return (
         <div className="card hoverable" style={{ backgroundColor: blueD6[SAT], marginTop: '0px', marginBottom: '15px'}}>
-              <div className="card-content white-text" style={{ padding: 0 }}>
-                <div className="row" style={{ margin: 0, backgroundColor: blueD5[SAT]}}>
-                  <div className="col s1" style={{ backgroundColor: blueD7[SAT]}}>
-                    #{build_number}
-                  </div>
-                  <div className="col s2 center" style={{ backgroundColor: blueD3[SAT]}}>
-                    {dateStarted && dateStarted.split('T')[0]}
-                  </div>
-                  <div className="col s6 center">
-                    Build for jobs: {(associatedJobs && (associatedJobs.length > 0) && associatedJobs[0] && associatedJobs[0].jobNumber) 
-                      && associatedJobs.map((jobIDandNumObj) => jobIDandNumObj.jobNumber).join(", ")
-                    }
-                  </div>
-                  <div className="col s3 center" style={{ backgroundColor: blueD3[SAT]}}>
-                    STATUS: {status}
-                  </div>
-                </div>
-
-                <div className="row" style={{ backgroundColor: blueD5[SAT] }}>
-                  <div className="col s3 center truncate">
-                    {projects.join(", ")}
-                  </div>
-                  <div className="col s6 center" style={{ backgroundColor: blueD3[SAT]}}>
-                    {buildFilePath}\ {buildFileName}
-                  </div>
-                  <div className="col s3 center">
-                    ETA: {estPrintTime} min
-                  </div>
-                </div>
-
-                <div className="row" style={{ margin: 0 }}>
-                  <div className="col s2"></div>
-                  <div className="col s4 align-left grey darken-4 truncate">Part</div>
-                  <div className="col s2 align-right grey darken-3 truncate">Building</div> 
-                  <div className="col s2 align-right grey darken-4 truncate">Job</div>
-                  <div className="col s2"></div>
-                </div>
-                {partsBuilding && partsBuilding.map((partEntry, index) => { return index % 2 ? ( 
-                    <div className="row" key={index} style={{ margin: 0 }}>
-                      <div className="col s2"></div>
-                      <div className="col s4 align-left grey darken-3 truncate">{partEntry.name}</div>
-                      <div className="col s2 align-right grey darken-2">{partEntry.quantity}</div>
-                      <div className="col s2 align-right grey darken-3">{partEntry.jobNumber}</div>
-                      <div className="col s2"></div>
-                    </div>
-                  ) : (
-                    <div className="row" key={index} style={{ margin: 0 }}>
-                      <div className="col s2"></div>
-                      <div className="col s4 align-left grey darken-2 truncate">{partEntry.name}</div>
-                      <div className="col s2 align-right grey darken-1">{partEntry.quantity}</div>
-                      <div className="col s2 align-right grey darken-2">{partEntry.jobNumber}</div>
-                      <div className="col s2"></div>
-                    </div>
-                  )
-                })}
-
-                <div className="row">
-                </div>
-                
-                <div className="row" style={{ margin: 0, backgroundColor: tealD3[SAT] }}>
-                  <div className="col s1" style={{ padding: 2 }}>
-                    
-                  </div>
-                  <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
-                    Material:
-                  </div>
-                  <div className="col s4 center">
-                    Date Started:
-                    {/* Deliver To: {deliverTo ? deliverTo : "Unknown"} */}
-                  </div>
-                  <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
-                    Resolution:
-                  </div>
-                  <div className="col s1" style={{ padding: 2 }}>
-                    
-                  </div>
-                </div>
-                <div className="row" style={{ margin: 0, backgroundColor: tealD3[SAT] }}>
-                  <div className="col s1" style={{ padding: 2 }}>
-                    
-                  </div>
-                  <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
-                    {material}
-                  </div>
-                  <div className="col s4 center">
-                     {dateStarted && dateStarted.split('T')[0]}
-                  </div>
-                  <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
-                    {resolution} 
-                  </div>
-                </div>
-                {/* <div className="row center" style={{ margin: 0 }}>
-                  <div className="col s12">
-                    <strong>NOTE: {notes}</strong>
-                  </div>
-                </div> */}
+          <div className="card-content white-text" style={{ padding: 0 }}>
+            <div className="row" style={{ margin: 0, backgroundColor: blueD5[SAT]}}>
+              <div className="col s1" style={{ backgroundColor: blueD7[SAT]}}>
+                #{build_number}
               </div>
-              {/* {user.preferredView === 'Operator' && (
-                <div className="card-action white-text" style={{marginBottom: '0px', padding: '8px'}}>
-                  <div className="row" style={{marginBottom: '0px'}}>
-                    <div className="col s4"></div>
-                      <div className="col s4"></div>
-                      <div className="col s4">
-                        {acceptedState.accepted === false ? <button class="btn waves-effect teal waves-light" style={{margin: '5px'}} type="submit" name="action" onClick={acceptJob}>Accept Job
-                        <i class="material-icons left">add_box</i>
-                        </button> : 
-                        <div>
-                          <strong>Job Accepted</strong>
-                          <i className="material-icons" style={{margin: '3px', marginTop: '5px', paddingTop: '5px'}}>check</i> 
-                        </div>
-                        } 
-                      </div>
-                  </div>
+              <div className="col s2 center" style={{ backgroundColor: blueD3[SAT]}}>
+                {dateStarted && dateStarted.split('T')[0]}
+              </div>
+              <div className="col s6 center">
+                Build for jobs: {(associatedJobs && (associatedJobs.length > 0) && associatedJobs[0] && associatedJobs[0].jobNumber) 
+                  && associatedJobs.map((jobIDandNumObj) => jobIDandNumObj.jobNumber).join(", ")
+                }
+              </div>
+              <div className="col s3 center" style={{ backgroundColor: blueD3[SAT]}}>
+                STATUS: {status}
+              </div>
+            </div>
+
+            <div className="row" style={{ backgroundColor: blueD5[SAT] }}>
+              <div className="col s3 center truncate">
+                {projects.join(", ")}
+              </div>
+              <div className="col s6 center" style={{ backgroundColor: blueD3[SAT]}}>
+                {buildFilePath}\ {buildFileName}
+              </div>
+              <div className="col s3 center">
+                ETA: {estPrintTime} min
+              </div>
+            </div>
+
+            <div className="row" style={{ margin: 0 }}>
+              <div className="col s2"></div>
+              <div className="col s4 align-left grey darken-4 truncate">Part</div>
+              <div className="col s2 align-right grey darken-3 truncate">Building</div> 
+              <div className="col s2 align-right grey darken-4 truncate">Job</div>
+              <div className="col s2"></div>
+            </div>
+            {partsBuilding && partsBuilding.map((partEntry, index) => { return index % 2 ? ( 
+                <div className="row" key={index} style={{ margin: 0 }}>
+                  <div className="col s2"></div>
+                  <div className="col s4 align-left grey darken-3 truncate">{partEntry.name}</div>
+                  <div className="col s2 align-right grey darken-2">{partEntry.quantity}</div>
+                  <div className="col s2 align-right grey darken-3">{partEntry.jobNumber}</div>
+                  <div className="col s2"></div>
                 </div>
-              )} */}
+              ) : (
+                <div className="row" key={index} style={{ margin: 0 }}>
+                  <div className="col s2"></div>
+                  <div className="col s4 align-left grey darken-2 truncate">{partEntry.name}</div>
+                  <div className="col s2 align-right grey darken-1">{partEntry.quantity}</div>
+                  <div className="col s2 align-right grey darken-2">{partEntry.jobNumber}</div>
+                  <div className="col s2"></div>
+                </div>
+              )
+            })}
+
+            <div className="row">
+            </div>
+          
+            <div className="row" style={{ margin: 0, backgroundColor: tealD3[SAT] }}>
+              <div className="col s1" style={{ padding: 2 }}>
+              </div>
+              <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
+                Material:
+              </div>
+              <div className="col s4 center">
+                Date Started:
+                {/* Deliver To: {deliverTo ? deliverTo : "Unknown"} */}
+              </div>
+              <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
+                Resolution:
+              </div>
+              <div className="col s1" style={{ padding: 2 }}>
+                
+              </div>
+            </div>
+            <div className="row" style={{ margin: 0, backgroundColor: tealD3[SAT] }}>
+              <div className="col s1" style={{ padding: 2 }}>
+                
+              </div>
+              <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
+                {material}
+              </div>
+              <div className="col s4 center">
+                  {dateStarted && dateStarted.split('T')[0]}
+              </div>
+              <div className="col s3 center" style={{ backgroundColor: tealD4[SAT]}}>
+                {resolution} 
+              </div>
+            </div>
+          </div>
+          <div className="card-action white-text" style={{marginBottom: '0px', padding: '8px'}}>
+            <div className="row" style={{marginBottom: '0px'}}>
+              <div className="row center" style={{marginBottom: '0px'}}>
+                  <div className="col s4">
+                      <EditBuildModal build={build}/>
+                  </div>
+                  <div className="col s4"></div>
+                  <div className="col s4">
+                      {/* <DeleteBuildModal build={build}/>*/}
+                  </div>
+              </div>
+            </div>
+          </div>
         </div>
     )
 }

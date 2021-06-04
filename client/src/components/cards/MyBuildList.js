@@ -6,7 +6,7 @@ import MyBuildItem from './MyBuildItem';
 
 // the list of the builds currently running (shown in operator view, right)
 
-export const MyBuildList = ({ build: { builds, userBuildList }, user: { user }, getBuildsByIdArray }) => {
+export const MyBuildList = ({ build: { userBuildList }, user: { user }, getBuildsByIdArray }) => {
     useEffect(() => {
         // console.log("user is: ");
         // console.log(user);
