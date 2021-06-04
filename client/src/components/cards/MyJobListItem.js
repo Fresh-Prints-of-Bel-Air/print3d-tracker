@@ -1,38 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
-import { updateUser } from '../../actions/authActions';
-import JobCard from './JobCard';
-import { deleteJob, setSelectedJobID } from '../../actions/jobActions';
 import DeleteJobModal from '../modals/DeleteJobModal';
 import EditJobModal from '../modals/EditJobModal';
 // import 
 
-const MyJobListItem = ({user: { user }, jobData, jobID, updateUser, deleteJob, setSelectedJobID }) => {
+const MyJobListItem = ({user: { user }, jobData, jobID }) => {
     useEffect(() => {
         M.AutoInit();
       }, []);
     const { job_number, requester, projectName, dateRequested, dateNeeded, completionDate, folderLocation, 
       material, resolution, priority, deliverTo, status, notes, requestedParts, builds } = jobData;
-
-    const deleteJobHandler = () => {
-      // handleCardButtonClick(jobID);
-      // setSelectedJobID(jobID);
-      console.log("delete button clicked");
-      console.log("jobID is: ");
-      console.log(jobID);
-      deleteJob(jobID);
-      updateUser({
-        ...user, 
-        requestedJobs: [
-          ...user.requestedJobs.filter(requestedJobID => requestedJobID != jobID)
-        ]
-      })
-    }
-
-    const editJobHandler = () => {
-
-    }
 
     const colors = {
       blueD5: ["#043085", '#153575',"#243A65"],
@@ -164,4 +142,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { updateUser, deleteJob, setSelectedJobID })(MyJobListItem);
+export default connect(mapStateToProps)(MyJobListItem);

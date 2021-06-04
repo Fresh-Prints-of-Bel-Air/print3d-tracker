@@ -270,19 +270,31 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
     return upToDate;
   }
 
-  const onSubmit = async () => { //If the jobs are up to date, post the build to the database and update the associated jobs
-    //TO-DO: Add associated jobs to the build, add the build to the associated jobs 
-    // [ job._id, 
-    //   job.requestedParts.map((part) => ({
-    //     partName: part.name,
-    //     quantityBuilding: 0
-    //   }))
-    // ]
+  // checking if there are any parts in the request with quantity greater than 0
+  // and alerting the user
+  const quantitiesAreEmpty = () => {
+    let isEmpty = true;
+    buildForm.jobPartQuantityMap.forEach((requestedPartsArr) => {
+      requestedPartsArr.forEach((requestedPart) => {
+        if (requestedPart.quantityBuilding > 0) isEmpty = false;
+      })
+    })
+
+    if(isEmpty){
+      alert("Please select quantities for parts in the build.");
+    }
+
+    return isEmpty;
+  } 
+
+  //If the jobs are up to date, post the build to the database and update the associated jobs
+  const onSubmit = async () => { 
+    
     let associatedJobs = new Map();
     let associatedJobIDs = new Set();
     let partsBuilding = [];
     
-    if(jobsAreUpToDate(Array.from(buildForm.jobMap.values()))){
+    if(jobsAreUpToDate(Array.from(buildForm.jobMap.values())) && !quantitiesAreEmpty()){
       //iterate over the jobPartQuantityMap. Any job having at least 1 part being built is added to associated jobs for the build
       for(let [jobID, partList] of buildForm.jobPartQuantityMap){
         let partIsBeingBuilt = false;

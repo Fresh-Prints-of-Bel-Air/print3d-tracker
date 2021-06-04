@@ -17,8 +17,9 @@ export const Register = ({ user, register, ...rest }) => {
     email: '',
     password: '',
     password2: '',
+    regKeyInput: ''
   });
-  const { name, email, password, password2 } = registerFormData;
+  const { name, email, password, password2, regKeyInput } = registerFormData;
 
   const onChange = (e) =>
     setRegisterFormData({
@@ -34,13 +35,15 @@ export const Register = ({ user, register, ...rest }) => {
       email !== '' &&
       password !== '' &&
       password2 !== '' &&
-      password === password2
+      password === password2 &&
+      regKeyInput !== ''
     ) {
       console.log('form data valid');
       register({
         name,
         email,
         password,
+        // regKeyInput
       });
     } else {
       alert('error, passwords do not match or a field is empty');
@@ -105,13 +108,13 @@ export const Register = ({ user, register, ...rest }) => {
         <div className='row'>
           <div className='input-field col s4 offset-s4'>
             <input
-              id='regKey'
-              name='regKey'
+              id='regKeyInput'
+              name='regKeyInput'
               type='text'
               className='validate'
               onChange={onChange}
             />
-            <label htmlFor='password2'>Registration Key</label>
+            <label htmlFor='regKeyInput'>Registration Key</label>
           </div>
         </div>
         <div className='row'>

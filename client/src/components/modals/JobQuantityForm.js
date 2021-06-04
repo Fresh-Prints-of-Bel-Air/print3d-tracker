@@ -9,7 +9,7 @@ const JobQuantityForm = ({part, index, handleQuantityChange}) => {
             <div className="col s1">
                 <div className="input-field">
                     <input 
-                        type='text'
+                        type='number'
                         name={index} 
                         onChange={handleQuantityChange}
                         value={part.quantity}

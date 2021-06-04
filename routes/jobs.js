@@ -109,6 +109,10 @@ router.get(
     //   }
   
       try {
+        console.log("req.body.job_number");
+        console.log(req.body.job_number);
+        // TO DO: check if job_number is undefined for when e is input
+        // also be sure to round it up or down
         const newJob = new Job({
           ...req.body,
           lastUpdated: Date.now()

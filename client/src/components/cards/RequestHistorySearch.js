@@ -100,7 +100,7 @@ const RequestHistorySearch = ({ getJobs, formDimensions }) => {
                 <label htmlFor='requester' style={{fontSize: labelFontSize}}>Job Requester:</label>
                 <input name='requester' placeholder="requester" id="requester" type="text" value={requester} onChange={requestSearchOnChange}/>
             </div>
-            <div className='col s1'>
+            <div className='col s2'>
                 <label htmlFor='projectName' style={{fontSize: labelFontSize}}>Project Name:</label>
                 <input placeholder="" type="text" id="projectName" name='projectName' value={projectName} onChange={requestSearchOnChange}/>
             </div>

@@ -44,7 +44,7 @@ router.get(
 
       const filter = {};
 
-      const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = req.query; // filters
+      const { build_number, status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = req.query; // filters
       console.log(req.query);
       console.log("req.query.startedFrom: " + req.query.startedFrom);
       // Filter date build was started
@@ -103,7 +103,10 @@ router.get(
       {
         filter.status = {$eq: status};
       }
-      
+      if(build_number) 
+      {
+        filter.build_number = { $gte: build_number };
+      }
 
       // if(isEmpty(filter))
       // {

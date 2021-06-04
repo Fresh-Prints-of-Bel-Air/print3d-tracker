@@ -6,6 +6,7 @@ import M from 'materialize-css';
 const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
 
   const [userFormData, setUserFormData] = useState({
+    build_number: '',
     status: '',
     startedFrom: '',
     startedTo: '',
@@ -14,7 +15,7 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
     operator: '',
     project: '',
   });
-  const { status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
+  const { build_number, status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = userFormData;
 
   useEffect(() => {
     M.AutoInit();
@@ -74,6 +75,10 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
           style={{ position: 'fixed', width: '100%', height: formDimensions.height, zIndex: '1' }} //keeps filter options displayed on page
         >
           <div className='row' style={{ marginBottom: formDimensions.formMarginBtm }}>
+            <div className='col s1'>
+                <label htmlFor='build_number' style={{fontSize: labelFontSize}}>Build Number:</label>
+                <input name='build_number' placeholder="#" id="build_number" type="number" value={build_number} onChange={onChange}/>
+            </div>
             <div className='col s2'>
               <label htmlFor='status' style={{fontSize: labelFontSize}}>Status:</label>
               <select 
@@ -103,25 +108,26 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
               <label htmlFor='startedTo' style={{fontSize: labelFontSize}}>...To:</label>
               <input name='startedTo' id='startedTo' type='date' value={startedTo} onChange={onChange}/>
             </div>
-            <div className='col s2'>
-            <label htmlFor='deliveredFrom' style={{fontSize: labelFontSize}}>Builds Delivered From: </label>
-              <input
-                name='deliveredFrom'
-                id='deliveredFrom'
-                type='date'
-                onChange={onChange}
-                value={deliveredFrom}
-              />
+            {/* delivery date filter fields deemed unnecessary, commented out to make room for the build # */}
+            {/* <div className='col s2'>
+              <label htmlFor='deliveredFrom' style={{fontSize: labelFontSize}}>Builds Delivered From: </label>
+                <input
+                  name='deliveredFrom'
+                  id='deliveredFrom'
+                  type='date'
+                  onChange={onChange}
+                  value={deliveredFrom}
+                />
             </div>
             <div className='col s2'>
               <label htmlFor='deliveredTo' style={{fontSize: labelFontSize}}>...To:</label>
               <input name='deliveredTo' id='deliveredTo' type='date' value={deliveredTo} onChange={onChange}/>
-            </div>
+            </div> */}
             <div className='col s1'>
                 <label htmlFor='operatorName' style={{fontSize: labelFontSize}}>Operator Name:</label>
                 <input name='operator' placeholder="First/Last" id="operatorName" type="text" value={operator} onChange={onChange}/>
             </div>
-            <div className='col s1'>
+            <div className='col s2'>
                 <label htmlFor='projectName' style={{fontSize: labelFontSize}}>Project Name:</label>
                 <input placeholder="" type="text" id="project" name='project' value={project} onChange={onChange}/>
             </div>
