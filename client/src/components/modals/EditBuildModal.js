@@ -66,12 +66,21 @@ const EditBuildModal = ({  build, updateBuild }) => {
             <div id={`myBuildListEditModal${build.build_number}`} className="modal grey darken-3">
                 <div className="modal-content grey darken-3">
                 <h4 className="">Edit Print Build Request #{build.build_number}</h4>
-                    <div className='row'>
-                        <div className='row black-text'>
-                            <div className="col s6" name="editStatus">
-                                <label htmlFor="editStatus" className="active">
-                                    Edit Build Status:
-                                </label>
+                    <div className="row">
+                        <div className="col s4">
+                            <label htmlFor="editStatus" className="active">
+                                            Edit Build Status:
+                            </label>
+                        </div>
+                        <div className="col s4">
+                            <label   label htmlFor="estPrintTime" className="active">
+                                Edit Estimated Print Time(Hours):
+                            </label>
+                        </div>
+                    </div>
+                    <div className='row' style={{marginTop: '10px'}}>
+                        <div className='black-text'>
+                            <div className="col s4" name="editStatus">
                                 <Select
                                     options={statusSelectOptions}
                                     onChange={onStatusChange}
@@ -80,7 +89,7 @@ const EditBuildModal = ({  build, updateBuild }) => {
                                     //isSearchable={false}
                                 />
                             </div>
-                            <div className="input-field col s6" style={{marginBottom: "0px"}}>
+                            <div className="input-field col s4" style={{}}>
                                 <input 
                                 className="white-text"
                                 type="text" 
@@ -88,12 +97,8 @@ const EditBuildModal = ({  build, updateBuild }) => {
                                 value={editBuildForm.estPrintTime}
                                 onChange={onChange}
                                 />
-                                <label htmlFor="estPrintTime" className="active">
-                                Edit Estimated Print Time(Hours):
-                                </label>
                             </div>
                         </div>
-                        
                     </div>
                 </div>
                 <div className="modal-footer grey darken-3 center">

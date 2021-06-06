@@ -192,6 +192,10 @@ export const handleFailedSubmission = (buildSubmission) => async (dispatch) => {
 }
 
 //Delete a build
+// 1.) Delete the Build
+// 2.) Delete the Build from each associated job
+// 3.) Delete the build from the user's Build List
+
 export const deleteBuild = (id) => async (dispatch) => {
   setLoading();
   try {
