@@ -112,3 +112,17 @@ export const clearErrors = () => async (dispatch) =>
   dispatch({
     type: CLEAR_ERRORS,
   });
+
+export const getRegistrationRequests = () => async (dispatch) => {
+  try {
+    const res = await axios.get('/api/admin');
+    dispatch({ 
+      type: GET_REGISTRATION_REQUESTS,
+      payload: res.data
+    });
+  } catch (error) {
+    dispatch({
+      type: GET_REGISTRATION_REQUESTS_ERROR
+    })
+  }
+}

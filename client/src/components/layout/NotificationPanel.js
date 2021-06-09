@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef } from 'react'
 import { connect } from 'react-redux'
 import { updateUser } from '../../actions/authActions';
 
-const  NotificationPanel = ({user: { user }, updateUser, setNotificationStatus}) => {
+const NotificationPanel = ({user: { user }, updateUser, setNotificationStatus}) => {
   const notificationRef = useRef();
 
   useEffect(() => {

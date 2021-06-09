@@ -3,7 +3,8 @@ import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { logout, updateUser } from '../../actions/authActions';
-import NotificationPanel from './ NotificationPanel';
+import NotificationPanel from './NotificationPanel';
+import AdminModal from '../modals/AdminModal';
 import M from 'materialize-css';
 
 export const Navbar = ({ user: {user}, logout, updateUser }) => {
@@ -66,7 +67,10 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
           </a>     
           <ul id='nav-mobile' className='right hide-on-med-and-down' style={{height: '6.8vh'}}>
             <li>
-                <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Home</NavLink>
+              <a href="#adminModal" className="waves-effect waves-light btn blue modal-trigger">ADMIN</a>
+            </li>
+            <li>
+              <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Home</NavLink>
             </li>
             <li>
               <NavLink to='build-history' className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Build History</NavLink>
@@ -94,6 +98,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
           <NotificationPanel setNotificationStatus={setNotificationStatus}/>
         }
       </nav>
+      <AdminModal/>
     </div>
     
   )
