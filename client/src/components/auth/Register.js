@@ -43,7 +43,7 @@ export const Register = ({ user, register, ...rest }) => {
         name,
         email,
         password,
-        // regKeyInput
+        regKeyInput
       });
     } else {
       alert('error, passwords do not match or a field is empty');

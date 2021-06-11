@@ -44,13 +44,13 @@ router.post(
     }
 
     // destructures email and password from the request
-    const { email, password } = req.body;
+    const { email, password, regKeyInput } = req.body;
 
     try {
       // checks if user with that email exists
       let user = await User.findOne({ email });
 
-      if (!user) {
+      if (!user || regKeyInput !== REGISTRATION_KEY) {
         return res.status(400).json({ msg: 'Invalid Credentials' });
       }
       // checks if the password is correct via bcrypt calling compare with the hashed password and the entered in password
