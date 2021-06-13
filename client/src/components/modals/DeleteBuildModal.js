@@ -1,59 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
-import { deleteJob } from '../../actions/jobActions';
+import { deleteBuild } from '../../actions/buildActions';
 
-const DeleteJobModal = ({ user: { user }, deleteBuild }) => {
-    const deleteJobHandler = () => {
-        // handleCardButtonClick(jobID);
-        // setSelectedJobID(jobID);
-        console.log("delete button clicked");
-        console.log("jobID is: ");
-        console.log(jobID);
-        deleteJob(jobID);
+const DeleteBuildModal = ({ user: { user }, build: { build }, buildToDelete, deleteBuild }) => {
+
+    useEffect(() => {
+        
+
+    },[build]);
+    const deleteBuildHandler = () => {
+        deleteBuild(buildToDelete._id);
         updateUser({
           ...user, 
-          requestedJobs: [
-            ...user.requestedJobs.filter(requestedJobID => requestedJobID != jobID)
+          buildList: [
+            ...user.buildList.filter(listItem => listItem !== buildToDelete._id)
           ]
-        })
+        });
       }
 
     return ( 
         <div>
             <a className="btn-small teal truncate modal-trigger" style={{margin: '5px'}} 
-                href={`#myJobListDeleteModal${jobNumber}`}>
+                href={`#myBuildListDeleteModal${buildToDelete.build_number}`}>
                 <i class="small material-icons left">delete_forever</i>Delete
             </a>
-            <div id={`myJobListDeleteModal${jobNumber}`} className="modal">
+            <div id={`myBuildListDeleteModal${buildToDelete.build_number}`} className="modal">
             <div className="modal-content grey darken-3">
-                <h5>Are you sure you want to delete Job {jobNumber}?</h5>
-                <h6>Deleted job requests cannot be restored.</h6>
+                <h5>Are you sure you want to delete Build {buildToDelete.build_number}?</h5>
+                <h6>Deleted builds cannot be restored.</h6>
                 <div className="grey darken-4">
-                    <ul>
-                        <li className="left-align">
-                            - If you wish to keep a record of the request, use Edit &gt; Change Status to Cancelled instead.
-                        </li>
-                        <li className="left-align">
-                            - If the deletion is to correct some mistakes, use the Edit button.
-                        </li>
-                        <li className="left-align">
-                            - If you want to redo the request with more parts, it is suggested to create another request
-                        </li>
-                        <li className="left-align">
-                            - If you want to redo the request with fewer parts, it is suggested to 
-                            use Edit &gt; Change Status to Complete when you have received the parts you do want.
-                        </li>
-                        <li className="left-align">
-                            - If the request must be redone,   
-                            Use Create Job &gt; Refill to fill in the form with the values of the
-                            last request for your convenience.
-                        </li>
-                    </ul>
                 </div>
             </div>
             <div className="modal-footer grey darken-3">
-                <a href="#!" className="modal-close green btn-flat" onClick={deleteJobHandler}>Yes</a>
+                <a href="#!" className="modal-close green btn-flat" onClick={deleteBuildHandler}>Yes</a>
                 <a href="#!" className="modal-close red btn-flat">No</a>
             </div>
             </div>
@@ -63,6 +43,7 @@ const DeleteJobModal = ({ user: { user }, deleteBuild }) => {
 
 const mapStateToProps = (state) => ({
     user: state.user,
+    build: state.build
 });
 
-export default connect(mapStateToProps, { updateUser, deleteJob })(DeleteJobModal);
+export default connect(mapStateToProps, { updateUser, deleteBuild })(DeleteBuildModal);

@@ -18,7 +18,7 @@ router.get('/', auth, async (req, res) => {
 router.put('/', auth, async (req, res) => {
     try {
         // {} empty filter update "all" (there should only be one)
-        const adminInfo = await Admin.updateMany({}, { $push: { registrationRequests: req }});
+        const adminInfo = await Admin.updateMany({}, { $push: { registrationRequests: req.body }});
         res.json(adminInfo);
     } catch (error) {
         console.log(error.message);

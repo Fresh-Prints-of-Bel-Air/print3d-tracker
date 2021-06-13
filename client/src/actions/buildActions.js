@@ -194,13 +194,31 @@ export const handleFailedSubmission = (buildSubmission) => async (dispatch) => {
 //Delete a build
 // 1.) Delete the Build
 // 2.) Delete the Build from each associated job
-// 3.) Delete the build from the user's Build List
+//Re-pull Jobs, Userjobs, Builds?
 
-export const deleteBuild = (id) => async (dispatch) => {
+export const deleteBuild = (id, user) => async (dispatch) => {
+  const config = {
+    headers: {
+      'Content-Type': 'application/json',
+    }
+  }
   setLoading();
+  
   try {
-    await axios.delete(`/api/builds/${id}`);
+    const deletedBuild = await axios.delete(`/api/builds/${id}`); //delete the build
     dispatch({type: DELETE_BUILD, payload: id});
+
+    try { //delete the build from each associated job
+      let IDs = deletedBuild.associatedJobs.map((job) => job.id);
+      let action = {
+        filter: { _id: { $in: IDs } },
+        updateToApply: { $pull: { builds: deletedBuild._id } }
+      }
+      const updatedJobs = await axios.put(`/api/jobs/updateMany`, action, config);
+
+    } catch (err) {
+      dispatch({type: JOBS_ERROR, payload: err.response.data.msg});
+    }
   } catch (err) {
     dispatch({type: BUILDS_ERROR, payload: err.response.data.msg});
   }

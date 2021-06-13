@@ -1,10 +1,12 @@
 import {
+    GET_ADMIN_NOTIFICATIONS,
     GET_REGISTRATION_REQUESTS,
     GET_REGISTRATION_REQUESTS_ERROR
 } from '../actions/types';
 
 const initialState = {
     registrationRequests: [],
+    adminNotifications: [],
     loading: true,
     error: null
 }
@@ -17,7 +19,14 @@ export default (state = initialState, action) = () => {
                 registrationRequests: action.payload,
                 loading: false,
                 error: false
-           } 
+           }
+        case GET_ADMIN_NOTIFICATIONS:
+            return {
+                ...state,
+                adminNotifications: action.payload,
+                loading: false,
+                error: false,
+            } 
         case GET_REGISTRATION_REQUESTS_ERROR:
             return {
                 ...state,

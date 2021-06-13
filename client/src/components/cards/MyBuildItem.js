@@ -149,7 +149,7 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
             <div className="row" style={{marginBottom: '0px'}}>
               <div className="row center" style={{marginBottom: '0px'}}>
                   <div className="col s4">
-                      <EditBuildModal build={build}/>
+                      <EditBuildModal buildToDelete={build}/>
                   </div>
                   <div className="col s4"></div>
                   <div className="col s4">

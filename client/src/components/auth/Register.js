@@ -43,10 +43,10 @@ export const Register = ({ user, register, ...rest }) => {
         name,
         email,
         password,
-        // regKeyInput
       });
+      alert("Your registration request has been submitted. Upon approval, your account will be created for you and you'll be able to login using your provided email and password.");
     } else {
-      alert('error, passwords do not match or a field is empty');
+      alert('Error, passwords do not match or a field is empty.');
     }
   };
 
@@ -106,24 +106,12 @@ export const Register = ({ user, register, ...rest }) => {
           </div>
         </div>
         <div className='row'>
-          <div className='input-field col s4 offset-s4'>
-            <input
-              id='regKeyInput'
-              name='regKeyInput'
-              type='text'
-              className='validate'
-              onChange={onChange}
-            />
-            <label htmlFor='regKeyInput'>Registration Key</label>
-          </div>
-        </div>
-        <div className='row'>
           <div className='col s4 offset-s4'>
             <button
               className='waves-effect waves-light btn-large col s12 blue darken-1'
               type='submit'
             >
-              Register
+              Request Registration
             </button>
           </div>
         </div>

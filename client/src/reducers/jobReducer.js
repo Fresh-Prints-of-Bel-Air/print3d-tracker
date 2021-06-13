@@ -9,7 +9,6 @@ import {
     UPDATE_JOB,
     UPDATE_JOBS,
     DELETE_JOB,
-    SET_VIEW,
     RESET_JOB_STATE,   
     SET_SELECTED_JOB_ID
   } from '../actions/types';
@@ -20,7 +19,6 @@ const initialState = {
     userJobQueue: [], //these refer to actual job objects, not IDs
     userRequestedJobs: [],
     jobs: [],
-    view: 'Engineer',
     selectedJobId: 0 // todo delete this
 }
 
@@ -114,13 +112,6 @@ export default (state = initialState, action) => {
                 jobs: [],
                 loading: false,
                 error: null
-            }
-        case SET_VIEW:
-            return {
-                ...state,
-                view: action.payload,
-                loading: false,
-                error: null,
             }
         default:
             return state;
