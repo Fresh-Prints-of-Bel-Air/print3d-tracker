@@ -24,15 +24,15 @@ const AdminModal = ({ admin: { registrationRequests }, getAdmin, pullRegistratio
         <div id='adminModal'className='modal modal-fixed-footer'>
             <div className="modal-content">
                 <h4 className="center">Pending Registration Requests</h4>
-                    {registrationRequests.map((regReq, index) => 
+                    {registrationRequests && registrationRequests.map((regReq, index) => 
                         (<h5 className="row" reqRequest={regReq} key={index}>
                             <div className="col s12">
                                 <div className="card grey darken-3">
                                     <div className="card-content white-text">
                                     <span className="card-title">
-                                        {regReq.name && 'Ey Ror'}
+                                        {regReq.name && regReq.name }
                                     </span>
-                                        <p>{regReq.email && 'Error@gmail.com'}</p>
+                                        <p>{regReq.email && regReq.email}</p>
                                     </div> 
                                     <div className="card-action">
                                         <a className="waves-effect green waves-green btn-flat" onClick={acceptRegistrationOnClick}>Accept</a>

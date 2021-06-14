@@ -5,7 +5,9 @@ const auth = require('../middleware/auth');
 const Admin = require('../models/Admin');
 const bcrypt = require('bcryptjs');
 
-router.get('/', auth, async (req, res) => {
+router.get('/', 
+    // auth, 
+    async (req, res) => {
     try {
         // finds "all" of them if it has no filter (there should only be one)
         const adminInfo = await Admin.find({});
@@ -62,7 +64,7 @@ router.put('/', async (req, res) => {
         // {} empty filter update "all" (there should only be one)
         console.log("regRequest");
         console.log(regRequest);
-        let mongooseReturnVal = await Admin.updateMany(
+        let mongooseReturnVal = await Admin.updateOne(
             {}, 
             { 
                 $push: { 

@@ -98,7 +98,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
           <NotificationPanel setNotificationStatus={setNotificationStatus}/>
         }
       </nav>
-      <AdminModal/>
+      {(localStorage.getItem("token") !== null) && <AdminModal/> }
     </div>
     
   )
