@@ -111,12 +111,12 @@ export const deleteJob = (id, userID) => async (dispatch) => { //also send notif
             today = today[2] + '-' + today[0] + '-' + today[1]; //2020-12-18
             
             let jobDeleteNotification = {
-                text: `Job #${res.job_number} from requester ${res.requester} was deleted.`,
+                text: `Job #${res.data.job_number} from requester ${res.data.requester} was deleted.`,
                 dateCreated: today,
                 isRead: false,
             }
             let action = {
-              filter: { _id: { $in: res.acceptingOperators } },
+              filter: { _id: { $in: res.data.acceptingOperators } },
               updateToApply: { $push: { notifications: jobDeleteNotification } }
             }
             const notificationRes = await axios.put('/api/users/updateMany', action, config); 
@@ -124,7 +124,7 @@ export const deleteJob = (id, userID) => async (dispatch) => { //also send notif
         } catch (err) {
             dispatch({
                 type: AUTH_ERROR,
-                payload: err.response.statusText6 
+                payload: err.response.statusText
             });
         }
     } catch (err) {

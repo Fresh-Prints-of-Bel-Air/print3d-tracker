@@ -56,26 +56,27 @@ export const updateUser = (user) => async (dispatch) => {
 //Request registration
 //Posts a registration request object and a notification to the Admin document
 
-export const requestRegistration = (formData) => async (dispatch) => {
-  const config = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  };
+// export const requestRegistration = (formData) => async (dispatch) => {
+//   const config = {
+//     headers: {
+//       'Content-Type': 'application/json',
+//     },
+//   };
 
-  try { //post registration request object and notification to Admin document
+//   try { //post registration request object and notification to Admin document
 
-    let action = {
-      filter: { _id: { $in: res.acceptingOperators } },
-      updateToApply: { $push: { notifications: jobDeleteNotification } }
-    }
+//     let action = {
+//       filter: { _id: { $in: res.acceptingOperators } },
+//       updateToApply: { $push: { notifications: jobDeleteNotification } }
+//     }
 
-    const res = await axios.put
-  } catch (err) {
+//     const res = await axios.put
+//   } catch (err) {
 
-  }
-}
+//   }
+// }
 
+//Request Registration, posting a 
 // Register User
 //Approves a registration request and creates user
 export const register = (formData) => async (dispatch) => {
@@ -91,7 +92,7 @@ export const register = (formData) => async (dispatch) => {
       type: REGISTER_SUCCESS,
       payload: res.data,
     });
-    //loadUser(); //loadUser() was only necessary when the user's registration was automatically approved
+    loadUser(); //TODO: Remove this. loadUser() was only necessary when the user's registration was automatically approved
   } catch (err) {
     console.log(err);
     dispatch({
@@ -138,20 +139,20 @@ export const clearErrors = () => async (dispatch) =>
     type: CLEAR_ERRORS,
   });
 
-export const getAdmin = () => async (dispatch) => {
-  try {
-    const res = await axios.get('/api/admin');
-    dispatch({ 
-      type: GET_REGISTRATION_REQUESTS,
-      payload: res.data.registrationRequests,
-    });
-    dispatch({
-      type: GET_ADMIN_NOTIFICATIONS,
-      payload: res.data.notifications,
-    })
-  } catch (error) {
-    dispatch({
-      type: GET_REGISTRATION_REQUESTS_ERROR
-    })
-  }
-}
+// export const getAdmin = () => async (dispatch) => {
+//   try {
+//     const res = await axios.get('/api/admin');
+//     dispatch({ 
+//       type: GET_REGISTRATION_REQUESTS,
+//       payload: res.data.registrationRequests,
+//     });
+//     dispatch({
+//       type: GET_ADMIN_NOTIFICATIONS,
+//       payload: res.data.notifications,
+//     })
+//   } catch (error) {
+//     dispatch({
+//       type: GET_REGISTRATION_REQUESTS_ERROR
+//     })
+//   }
+// }

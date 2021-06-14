@@ -3,6 +3,7 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 import { connect } from 'react-redux';
 import { updateUser } from '../../actions/authActions';
 import EditBuildModal from '../modals/EditBuildModal';
+import DeleteBuildModal from '../modals/DeleteBuildModal';
 import { updateJob } from '../../actions/jobActions';
 // import 
 
@@ -149,11 +150,11 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
             <div className="row" style={{marginBottom: '0px'}}>
               <div className="row center" style={{marginBottom: '0px'}}>
                   <div className="col s4">
-                      <EditBuildModal buildToDelete={build}/>
+                      <EditBuildModal build={build}/>
                   </div>
                   <div className="col s4"></div>
                   <div className="col s4">
-                      {/* <DeleteBuildModal build={build}/>*/}
+                      <DeleteBuildModal buildToDelete={build}/>
                   </div>
               </div>
             </div>

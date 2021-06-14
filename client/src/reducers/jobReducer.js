@@ -10,7 +10,8 @@ import {
     UPDATE_JOBS,
     DELETE_JOB,
     RESET_JOB_STATE,   
-    SET_SELECTED_JOB_ID
+    SET_SELECTED_JOB_ID,
+    REMOVE_DELETED_BUILD_FROM_JOBS,
   } from '../actions/types';
 
 const initialState = {
@@ -105,6 +106,22 @@ export default (state = initialState, action) => {
                 jobs: state.jobs.filter(job => job.id !== action.payload),
                 loading: false,
                 error: null,
+            }
+        case REMOVE_DELETED_BUILD_FROM_JOBS:
+            return {
+                ...state,
+                jobs: state.jobs ? state.jobs.map(job => ({
+                    ...job,
+                    builds: job.builds.filter((buildID) => buildID !== action.payload)
+                })) : [],
+                userJobQueue: state.userJobQueue ? state.userJobQueue.map(job => ({
+                    ...job,
+                    builds: job.builds.filter((buildID) => buildID !== action.payload)
+                })) : [],
+                userRequestedJobs: state.userRequestedJobs ? state.userRequestedJobs.map(job => ({
+                    ...job,
+                    builds: job.builds.filter((buildID) => buildID !== action.payload)
+                })) : [],
             }
         case RESET_JOB_STATE:
             return {

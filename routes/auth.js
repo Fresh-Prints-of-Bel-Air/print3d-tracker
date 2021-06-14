@@ -68,11 +68,12 @@ router.post(
         },
       };
 
+      //be sure to lower the expiresIn value for production
       jwt.sign(
         payload,
         config.get('jwtSecret'),
         {
-          expiresIn: 360000, //be sure to lower this value for production
+          expiresIn: 360000, 
         },
         (err, token) => {
           if (err) throw err;

@@ -5,10 +5,7 @@ import { deleteBuild } from '../../actions/buildActions';
 
 const DeleteBuildModal = ({ user: { user }, build: { build }, buildToDelete, deleteBuild }) => {
 
-    useEffect(() => {
-        
-
-    },[build]);
+    
     const deleteBuildHandler = () => {
         deleteBuild(buildToDelete._id);
         updateUser({

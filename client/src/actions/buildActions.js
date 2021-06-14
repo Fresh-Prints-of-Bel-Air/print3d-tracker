@@ -13,7 +13,8 @@ import {
   FAILED_SUBMISSION,
   JOBS_ERROR,
   AUTH_ERROR,
-  GET_USER_JOB_QUEUE
+  GET_USER_JOB_QUEUE,
+  REMOVE_DELETED_BUILD_FROM_JOBS
 } from './types';
 
 //Get builds from server that match filter (if any) and save to local state
@@ -194,7 +195,7 @@ export const handleFailedSubmission = (buildSubmission) => async (dispatch) => {
 //Delete a build
 // 1.) Delete the Build
 // 2.) Delete the Build from each associated job
-//Re-pull Jobs, Userjobs, Builds?
+//Filter out the deleted build from jobs, userJobQueue, userRequestedJobs
 
 export const deleteBuild = (id, user) => async (dispatch) => {
   const config = {
@@ -205,21 +206,28 @@ export const deleteBuild = (id, user) => async (dispatch) => {
   setLoading();
   
   try {
+    console.log("deleteBuild action");
     const deletedBuild = await axios.delete(`/api/builds/${id}`); //delete the build
+    console.log("DISPATCHING TO DELETE BUILD");
+    console.log(deletedBuild);
     dispatch({type: DELETE_BUILD, payload: id});
 
     try { //delete the build from each associated job
-      let IDs = deletedBuild.associatedJobs.map((job) => job.id);
+      let IDs = deletedBuild.data.associatedJobs.map((job) => job.id);
       let action = {
         filter: { _id: { $in: IDs } },
-        updateToApply: { $pull: { builds: deletedBuild._id } }
+        updateToApply: { $pull: { builds: deletedBuild.data._id } }
       }
       const updatedJobs = await axios.put(`/api/jobs/updateMany`, action, config);
+      dispatch({ type: REMOVE_DELETED_BUILD_FROM_JOBS, payload: deletedBuild.data._id });
+      
 
     } catch (err) {
-      dispatch({type: JOBS_ERROR, payload: err.response.data.msg});
+      console.log(err);
+      //dispatch({type: JOBS_ERROR, payload: err.response.data.msg});
     }
   } catch (err) {
+    console.log(err);
     dispatch({type: BUILDS_ERROR, payload: err.response.data.msg});
   }
 }

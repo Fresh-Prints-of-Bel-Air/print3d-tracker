@@ -1,25 +1,25 @@
-import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
-import { getRegistrationRequests } from '../../actions/authActions'
-import M from 'materialize-css';
+// import React, { useEffect, useState } from 'react';
+// import { connect } from 'react-redux';
+// import { getRegistrationRequests } from '../../actions/authActions'
+// import M from 'materialize-css';
 
-const AdminModal = ({ admin: { registrationRequests }, getRegistrationRequests }) => {
-    useEffect(() => {
-        getRegistrationRequests();
-        M.AutoInit();
-    }, [])
+// const AdminModal = ({ admin: { registrationRequests }, getRegistrationRequests }) => {
+//     useEffect(() => {
+//         getRegistrationRequests();
+//         M.AutoInit();
+//     }, [])
 
-    return (
-        <div id='buildModal'className='modal modal-fixed-footer'>
-            <div className="modal-content">
+//     return (
+//         <div id='buildModal'className='modal modal-fixed-footer'>
+//             <div className="modal-content">
 
-            </div>
-        </div>
-    )
-}
+//             </div>
+//         </div>
+//     )
+// }
 
-const mapStateToProps = (state) => {
-    admin: state.admin
-}
+// const mapStateToProps = (state) => {
+//     admin: state.admin
+// }
 
-export default connect(mapStateToProps, { getRegistrationRequests })(AdminModal);
+// export default connect(mapStateToProps, { getRegistrationRequests })(AdminModal);
