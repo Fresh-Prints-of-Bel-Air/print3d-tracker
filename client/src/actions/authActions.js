@@ -90,6 +90,8 @@ export const pullRegistrationRequest = (regReq) => async () => {
 // Approves a registration request and creates user
 export const register = (regRequest) => async (dispatch) => {
   console.log('register action is being called');
+  console.log('regRequest');
+  console.log(regRequest);
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -151,13 +153,15 @@ export const clearErrors = () => async (dispatch) =>
 export const getAdmin = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/admin');
+    console.log('getAdmin res.data');
+    console.log(res.data);
     dispatch({ 
       type: GET_REGISTRATION_REQUESTS,
-      payload: res.data.registrationRequests, // might not be an array
+      payload: res.data[0].registrationRequests, // might not be an array
     });
     dispatch({
       type: GET_ADMIN_NOTIFICATIONS,
-      payload: res.data.notifications, // might not be an array
+      payload: res.data[0].notifications, // might not be an array
     })
   } catch (error) {
     dispatch({

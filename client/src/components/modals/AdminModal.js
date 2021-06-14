@@ -7,17 +7,19 @@ const AdminModal = ({ admin: { registrationRequests }, getAdmin, pullRegistratio
     useEffect(() => {
         getAdmin();
         M.AutoInit();
-    }, [registrationRequests])
+    }, []);
 
-    const acceptRegistrationOnClick = (e) => {
+    const acceptRegistrationOnClick = (regReq) => {
         console.log("Registration accepted clicked");
-        register(e.target.regReq);
-        pullRegistrationRequest(e.target.regReq);
+        console.log("e.target");
+        console.log(regReq);
+        register(regReq);
+        pullRegistrationRequest(regReq);
     }
 
-    const denyRegistrationOnClick = (e) => {
+    const denyRegistrationOnClick = (regReq) => {
         console.log("Registration denied clicked");
-        pullRegistrationRequest(e.target.regReq);
+        pullRegistrationRequest(regReq);
     }
 
     return (
@@ -25,7 +27,7 @@ const AdminModal = ({ admin: { registrationRequests }, getAdmin, pullRegistratio
             <div className="modal-content">
                 <h4 className="center">Pending Registration Requests</h4>
                     {registrationRequests && registrationRequests.map((regReq, index) => 
-                        (<h5 className="row" reqRequest={regReq} key={index}>
+                        (<h5 className="row" key={index}>
                             <div className="col s12">
                                 <div className="card grey darken-3">
                                     <div className="card-content white-text">
@@ -35,8 +37,8 @@ const AdminModal = ({ admin: { registrationRequests }, getAdmin, pullRegistratio
                                         <p>{regReq.email && regReq.email}</p>
                                     </div> 
                                     <div className="card-action">
-                                        <a className="waves-effect green waves-green btn-flat" onClick={acceptRegistrationOnClick}>Accept</a>
-                                        <a className="waves-effect red waves-red btn-flat" onClick={denyRegistrationOnClick}>Deny</a>
+                                        <a className="waves-effect green waves-green btn-flat" regRequest={regReq} onClick={() => acceptRegistrationOnClick(regReq)}>Accept</a>
+                                        <a className="waves-effect red waves-red btn-flat" onClick={() => denyRegistrationOnClick(regReq)}>Deny</a>
                                     </div>
                                 </div>
                             </div>
