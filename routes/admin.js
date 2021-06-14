@@ -52,27 +52,20 @@ router.put('/', async (req, res) => {
             dateCreated: today,
             isRead: false,
         }
-        
-        // let action = {
-        //     filter: {},
-        //     updateToApply: { 
-        //         $push: { notifications: registrationRequestNotification }, 
-        //     }
-        // }
-        // {} empty filter update "all" (there should only be one)
-        console.log("regRequest");
-        console.log(regRequest);
-        let mongooseReturnVal = await Admin.updateMany(
-            {}, 
-            { 
-                $push: { 
+      
+        console.log(updateFields);
+        let res = await Admin.findByIdAndUpdate(
+            { _id: '60c731de187465d31a399ca4' }, 
+            { $push: 
+                { 
                     registrationRequests: regRequest, 
-                    // notifications: registrationRequestNotification 
-                },
-            }
+                    notifications: registrationRequestNotification 
+                }
+            },
+            { new: true },
         );
         console.log("mongooseReturnVal");
-        console.log(mongooseReturnVal);
+        console.log(res);
         // not returning anything because we're not dispatching the response to the redux state
     } catch (error) {
         console.log(error.message);
