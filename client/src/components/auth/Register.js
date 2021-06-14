@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { register } from '../../actions/authActions';
+import { register, requestRegistration } from '../../actions/authActions';
 
-export const Register = ({ user, register, ...rest }) => {
+export const Register = ({ user, register, requestRegistration, ...rest }) => {
   const { isAuthenticated } = user;
 
   useEffect(() => {
@@ -37,11 +37,8 @@ export const Register = ({ user, register, ...rest }) => {
       password === password2
     ) {
       console.log('form data valid');
-      register({
-        name,
-        email,
-        password,
-      });
+      // register({ name, email, password });
+      requestRegistration({ name, email, password });
       alert("Your registration request has been submitted. Upon approval, your account will be created for you and you'll be able to login using your provided email and password.");
     } else {
       alert('Error, passwords do not match or a field is empty.');
@@ -139,4 +136,4 @@ const mapStateToProps = (state) => ({
   user: state.user,
 });
 
-export default connect(mapStateToProps, { register })(Register);
+export default connect(mapStateToProps, { register, requestRegistration })(Register);

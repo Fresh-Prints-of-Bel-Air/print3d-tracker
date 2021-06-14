@@ -15,10 +15,11 @@ const AdminSchema = mongoose.Schema({
     registrationRequests: [{
         name: String,
         email: String,
+        password: String
     }]
   
 });
 
 //BuildSchema.plugin(AutoIncrement, { inc_field: "" }); //do we need increment numbers for these?
 
-module.exports = mongoose.model('adminList', AdminSchema);
+module.exports = mongoose.model('admin', AdminSchema);
