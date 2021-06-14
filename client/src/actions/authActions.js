@@ -11,6 +11,8 @@ import {
   LOGOUT,
   CLEAR_ERRORS,
   UPDATE_USER,
+  GET_REGISTRATION_REQUESTS,
+  GET_REGISTRATION_REQUESTS_ERROR
 } from './types';
 
 // Load user
