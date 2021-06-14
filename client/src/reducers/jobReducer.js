@@ -9,9 +9,9 @@ import {
     UPDATE_JOB,
     UPDATE_JOBS,
     DELETE_JOB,
-    SET_VIEW,
     RESET_JOB_STATE,   
-    SET_SELECTED_JOB_ID
+    SET_SELECTED_JOB_ID,
+    REMOVE_DELETED_BUILD_FROM_JOBS,
   } from '../actions/types';
 
 const initialState = {
@@ -20,7 +20,6 @@ const initialState = {
     userJobQueue: [], //these refer to actual job objects, not IDs
     userRequestedJobs: [],
     jobs: [],
-    view: 'Engineer',
     selectedJobId: 0 // todo delete this
 }
 
@@ -108,19 +107,28 @@ export default (state = initialState, action) => {
                 loading: false,
                 error: null,
             }
+        case REMOVE_DELETED_BUILD_FROM_JOBS:
+            return {
+                ...state,
+                jobs: state.jobs ? state.jobs.map(job => ({
+                    ...job,
+                    builds: job.builds.filter((buildID) => buildID !== action.payload)
+                })) : [],
+                userJobQueue: state.userJobQueue ? state.userJobQueue.map(job => ({
+                    ...job,
+                    builds: job.builds.filter((buildID) => buildID !== action.payload)
+                })) : [],
+                userRequestedJobs: state.userRequestedJobs ? state.userRequestedJobs.map(job => ({
+                    ...job,
+                    builds: job.builds.filter((buildID) => buildID !== action.payload)
+                })) : [],
+            }
         case RESET_JOB_STATE:
             return {
                 ...state,
                 jobs: [],
                 loading: false,
                 error: null
-            }
-        case SET_VIEW:
-            return {
-                ...state,
-                view: action.payload,
-                loading: false,
-                error: null,
             }
         default:
             return state;

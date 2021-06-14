@@ -4,6 +4,8 @@ const { check, validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const config = require('config');
+const auth = require('../middleware/auth');
+
 const User = require('../models/User');
 
 // @route   POST api/users
@@ -85,6 +87,36 @@ router.post(
     }
   }
 );
+
+//TODO: UPDATEMANY
+router.put(
+  '/updateMany',
+  [
+    auth,
+  ],
+  async (req, res) => {
+
+    try{
+      // The method collection.updateMany returns a document that contains:
+
+      // A boolean acknowledged as true if the operation ran with write concern or false if write concern was disabled
+      // matchedCount containing the number of matched documents
+      // modifiedCount containing the number of modified documents
+      // upsertedId containing the _id for the upserted document
+
+      const userRes = await User.updateMany(req.body.filter, req.body.updateToApply);
+      res.json(userRes);
+    
+    } catch (err) {
+      
+      console.error(err.message);
+      res.status(500).send('Server Error');
+    
+    }
+    
+  }
+);
+
 
 // @route   PUT api/users
 // @desc    Update a user

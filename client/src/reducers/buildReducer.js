@@ -39,10 +39,12 @@ export default (state = initialState, action) => {
     case DELETE_BUILD:
       return {
         ...state,
-        builds: state.builds.filter((build) => build.id !== action.payload),
+        builds: state.builds.filter((build) => build._id != action.payload),
+        userBuildList: state.userBuildList.filter((build) => build._id != action.payload),
         loading: false,
         error: null,
       }
+  
     case UPDATE_BUILD:
       return {
         ...state,

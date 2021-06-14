@@ -66,9 +66,9 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
             </div>
           </a>     
           <ul id='nav-mobile' className='right hide-on-med-and-down' style={{height: '6.8vh'}}>
-            <li>
+            {/* <li>
               <a href="#adminModal" className="waves-effect waves-light btn blue modal-trigger">ADMIN</a>
-            </li>
+            </li> */}
             <li>
               <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Home</NavLink>
             </li>
@@ -98,7 +98,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
           <NotificationPanel setNotificationStatus={setNotificationStatus}/>
         }
       </nav>
-      <AdminModal/>
+      {/* <AdminModal/> */}
     </div>
     
   )

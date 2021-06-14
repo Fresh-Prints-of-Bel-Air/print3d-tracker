@@ -313,20 +313,23 @@ router.put(
 //@desc Delete a build. Only operators associated with the build can delete the build.
 //@access Public
 router.delete('/:id',
-//auth,
+auth,
 async (req, res) => {
   try {
+    console.log("delete route");
     let build = await Build.findById(req.params.id);
     if(!build) return res.status(404).json({msg: 'Build not found'});
-    let authorized = false;
-    build.operators.forEach((operator) => {
-      if(operator === req.user)
-        authorized = true;
-    });
-    if(authorized === false)
-      return res.status(401).json({msg: 'Not authorized'});
-    await Build.findByIdAndRemove(req.params.id);
-    
+    console.log(req.user);
+    console.log(build.operators);
+    // let authorized = false;
+    // build.operators.forEach((operator) => {
+    //   if(operator === req.user)
+    //     authorized = true;
+    // });
+    // if(authorized === false)
+    //   return res.status(401).json({msg: 'Not authorized'});
+    const deletedBuild = await Build.findByIdAndRemove(req.params.id);
+    res.json(deletedBuild);
 
   } catch (err) {
     console.error(err.message);

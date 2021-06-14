@@ -18,6 +18,11 @@ export const MyBuildList = ({ build: { userBuildList }, user: { user }, getBuild
         //getJobsByIdArray(user.jobQueue);
     }, [user]);
 
+    useEffect(() => {
+        console.log('userBuildList change');
+        console.log(userBuildList);
+    }, [userBuildList]);
+
    
     return (
         userBuildList && userBuildList.map((build) => <MyBuildItem build={build} key={build._id} />)

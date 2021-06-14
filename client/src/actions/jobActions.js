@@ -78,8 +78,22 @@ export const getJobs = (filter) => async (dispatch) => {
     }
 }
 
-export const deleteJob = (id) => async (dispatch) => {
+// notifications: [{
+//     text: String,
+//     dateCreated: Date,
+//     isRead: {
+//       type: Boolean,
+//       default: false,
+//     }
+//   }]
+
+export const deleteJob = (id, userID) => async (dispatch) => { //also send notifications to each acceptingOperator that the job was deleted
     setLoading();
+    const config = {
+        headers: {
+          'Content-Type' : 'application/json',
+        }
+    }
     console.log("deleting id:");
     console.log(id);
     try{
@@ -91,6 +105,28 @@ export const deleteJob = (id) => async (dispatch) => {
             type: DELETE_JOB,
             payload: id
         })
+        try {
+            let today = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles'}).split(',')[0]; //ex 12/28/2020, need to change to 2020-12-18
+            today = today.split('/');
+            today = today[2] + '-' + today[0] + '-' + today[1]; //2020-12-18
+            
+            let jobDeleteNotification = {
+                text: `Job #${res.data.job_number} from requester ${res.data.requester} was deleted.`,
+                dateCreated: today,
+                isRead: false,
+            }
+            let action = {
+              filter: { _id: { $in: res.data.acceptingOperators } },
+              updateToApply: { $push: { notifications: jobDeleteNotification } }
+            }
+            const notificationRes = await axios.put('/api/users/updateMany', action, config); 
+            //shouldn't need to update current user, user shouldn't be accepting their own jobs, and notifications should be pulled frequently
+        } catch (err) {
+            dispatch({
+                type: AUTH_ERROR,
+                payload: err.response.statusText
+            });
+        }
     } catch (err) {
         dispatch({
             type: JOBS_ERROR,
