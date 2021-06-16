@@ -64,6 +64,7 @@ const JobSchema = mongoose.Schema({
         quantity: Number,
         building: Number,
         remaining: Number,
+        extras: Number, //extra parts beyond the requested amount being built by Builds
     }],
     
     //operators that have accepted the job, used to notify operators of job deletion/cancellation and remove the job from their job queue

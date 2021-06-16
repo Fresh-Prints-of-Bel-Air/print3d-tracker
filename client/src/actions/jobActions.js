@@ -50,6 +50,7 @@ export const getJobsByIdArray = (jobIdArray, dispatchType) => async (dispatch) =
             console.log("forgot to add second parameter to getJobsByIdArray");
         }
     }  catch (err) {
+        console.log(err);
         dispatch({
             type: JOBS_ERROR,
             payload: err.response.statusText,
@@ -164,7 +165,7 @@ export const acceptJob = (job) => async (dispatch) => {
     }
 }
 
-export const updateJob = (job) => async (dispatch) => {
+export const updateJob = (job) => async (dispatch) => { //Need to add functionality to move complete jobs to acceptingOperators complete jobs from their jobQueue
     setLoading();
     const config = {
         headers: {

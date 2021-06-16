@@ -14,6 +14,7 @@ import {
   GET_REGISTRATION_REQUESTS,
   GET_ADMIN_ERROR,
   GET_ADMIN_NOTIFICATIONS,
+  ACCEPT_REGISTRATION_REQUEST
 } from './types';
 
 // Load user
@@ -73,7 +74,7 @@ export const requestRegistration = (formData) => async () => {
   }
 }
 
-export const pullRegistrationRequest = (regReq) => async () => {
+export const pullRegistrationRequest = (regReq) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -81,6 +82,10 @@ export const pullRegistrationRequest = (regReq) => async () => {
   };
   try {
     await axios.put('/api/admin/pull', regReq, config);
+    dispatch({
+      type: ACCEPT_REGISTRATION_REQUEST,
+      payload: regReq
+    });
   } catch (error) {
     console.log("admin pull put error");
   }

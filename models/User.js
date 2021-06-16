@@ -26,6 +26,11 @@ const UserSchema = mongoose.Schema({
   jobQueue: [{
     type: mongoose.Schema.Types.ObjectId,
   }],
+
+  completedJobs: [{ //Jobs are moved here from jobQueue after they are marked complete
+    type: mongoose.Schema.Types.ObjectId,
+  }],
+
   requestedJobs: [{
     type: mongoose.Schema.Types.ObjectId,
   }],

@@ -363,7 +363,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
             <div>
               {/* create a select dropdown with all of the jobs that have yet to be completed */}
                {( !userJobQueue || userJobQueue.length === 0 )? <div>Please accept jobs to start a build!</div> : userJobQueue.map((job, index) => (
-                <BuildQuantityForm job={job} key={index} handleQuantityChange={handleQuantityChange}/>)
+                 <BuildQuantityForm job={job} key={index} handleQuantityChange={handleQuantityChange}/>)
               )} 
               <div className="row">
               <div className='col s6'>

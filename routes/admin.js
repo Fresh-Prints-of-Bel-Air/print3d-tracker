@@ -27,7 +27,7 @@ router.put('/pull', auth, async (req, res) => {
     }
 })
 
-router.put('/', async (req, res) => {
+router.put('/', async (req, res) => { //Handles registration requests
     try {
         console.log("admin put / route");
         console.log(req.body);
