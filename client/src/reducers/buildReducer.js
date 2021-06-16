@@ -8,6 +8,7 @@ import {
   UPDATE_BUILD,
   CLEAR_ERRORS,
   FAILED_SUBMISSION,
+  RESET_BUILD_STATE
   
  
 } from '../actions/types';
@@ -16,7 +17,7 @@ const initialState = {
   loading: true,
   builds: [],
   userBuildList: [], // user's buildList
-  lastFailedSubmission: null,
+  // lastFailedSubmission: null,
   error: null,
 };
 
@@ -53,19 +54,27 @@ export default (state = initialState, action) => {
         loading: false,
         error: null,
       }
-    case FAILED_SUBMISSION:
-    return {
-      ...state,
-      lastFailedSubmission: action.payload,
-      loading: false,
-      error: null,
-    }
+    // case FAILED_SUBMISSION:
+    // return {
+    //   ...state,
+    //   lastFailedSubmission: action.payload,
+    //   loading: false,
+    //   error: null,
+    // }
     case ADD_BUILD:
       return {
         ...state,
         builds: [...state.builds, action.payload],
         loading: false,
         error: null,
+      }
+    case RESET_BUILD_STATE:
+      return {
+        ...state,
+        loading: false,
+        builds: [],
+        userBuildList: [],
+        error: null
       }
     case BUILDS_ERROR:
       return {

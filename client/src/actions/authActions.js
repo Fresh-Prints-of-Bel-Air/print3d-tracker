@@ -14,6 +14,8 @@ import {
   GET_REGISTRATION_REQUESTS,
   GET_ADMIN_ERROR,
   GET_ADMIN_NOTIFICATIONS,
+  RESET_JOB_STATE,
+  RESET_BUILD_STATE
 } from './types';
 
 // Load user
@@ -141,6 +143,9 @@ export const login = (formData) => async (dispatch) => {
 // Logout
 export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
+  dispatch({ type: RESET_JOB_STATE });
+  dispatch({ type: RESET_BUILD_STATE });
+  
   console.log(localStorage.getItem("token"));
 }
 

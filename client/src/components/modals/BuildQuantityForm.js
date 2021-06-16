@@ -22,10 +22,10 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
   });
 
   useEffect(() => {
-    // console.log("job requestedParts inside QuantityForm");
-    // console.log(job.requestedParts);
-    // console.log("SelectValues values inside QuantityForm");
-    // console.log(selectValues.values);
+    console.log("job requestedParts inside QuantityForm");
+    console.log(job.requestedParts);
+    console.log("SelectValues values inside QuantityForm");
+    console.log(selectValues.values);
   })
 
   /*

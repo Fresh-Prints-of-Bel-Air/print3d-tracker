@@ -126,6 +126,8 @@ export default (state = initialState, action) => {
         case RESET_JOB_STATE:
             return {
                 ...state,
+                userJobQueue: [], //these refer to actual job objects, not IDs
+                userRequestedJobs: [],
                 jobs: [],
                 loading: false,
                 error: null
