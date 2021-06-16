@@ -39,7 +39,7 @@ export const Register = ({ user, register, requestRegistration, ...rest }) => {
       console.log('form data valid');
       // register({ name, email, password });
       requestRegistration({ name, email, password });
-      // alert("Your registration request has been submitted. Upon approval, your account will be created for you and you'll be able to login using your provided email and password.");
+      alert("Your registration request has been submitted. Upon approval, your account will be created for you and you'll be able to login using your provided email and password.");
     } else {
       alert('Error, passwords do not match or a field is empty.');
     }

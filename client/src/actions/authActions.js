@@ -14,7 +14,12 @@ import {
   GET_REGISTRATION_REQUESTS,
   GET_ADMIN_ERROR,
   GET_ADMIN_NOTIFICATIONS,
+<<<<<<< HEAD
   ACCEPT_REGISTRATION_REQUEST
+=======
+  RESET_JOB_STATE,
+  RESET_BUILD_STATE
+>>>>>>> dc71025e174285f48df005c53743351c2ee24849
 } from './types';
 
 // Load user
@@ -146,6 +151,9 @@ export const login = (formData) => async (dispatch) => {
 // Logout
 export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
+  dispatch({ type: RESET_JOB_STATE });
+  dispatch({ type: RESET_BUILD_STATE });
+  
   console.log(localStorage.getItem("token"));
 }
 

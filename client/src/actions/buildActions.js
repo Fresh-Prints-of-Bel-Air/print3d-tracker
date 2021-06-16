@@ -10,7 +10,7 @@ import {
   UPDATE_JOBS,
   UPDATE_USER,
   SET_LOADING,
-  FAILED_SUBMISSION,
+  // FAILED_SUBMISSION,
   JOBS_ERROR,
   AUTH_ERROR,
   GET_USER_JOB_QUEUE,
@@ -185,12 +185,12 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
   }
 }
 
-export const handleFailedSubmission = (buildSubmission) => async (dispatch) => {
-  dispatch({
-    type: FAILED_SUBMISSION,
-    payload: buildSubmission,
-  });
-}
+// export const handleFailedSubmission = (buildSubmission) => async (dispatch) => {
+//   dispatch({
+//     type: FAILED_SUBMISSION,
+//     payload: buildSubmission,
+//   });
+// }
 
 //Delete a build
 // 1.) Delete the Build
