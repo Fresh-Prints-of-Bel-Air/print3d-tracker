@@ -34,6 +34,7 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
     to the parent component - those should only happen when setSelectValues is triggered by form field changes by the user in onChange.
   */
   useEffect(() => {
+    console.log("PROBLEM AREA");
     if(!firstRender){
       console.log("JOB STATE CHANGED OR FIRST RENDER FOR QUANTITY FORM");
       setPartQuantities({

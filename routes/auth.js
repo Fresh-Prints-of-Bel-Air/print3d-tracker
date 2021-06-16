@@ -17,6 +17,10 @@ router.get('/', auth, async (req, res) => {
     console.log('user id is: ');
     console.log(req.user.id);
     const user = await User.findById(req.user.id).select('-password');
+    
+    user.notifications.filter((notification) => { //filter out read notifications that are more than 3 days old
+      notification.isRead == false && notification.dateCreated
+    })
     // returns a user JSON object
     res.json(user);
   } catch (err) {
