@@ -14,12 +14,10 @@ import {
   GET_REGISTRATION_REQUESTS,
   GET_ADMIN_ERROR,
   GET_ADMIN_NOTIFICATIONS,
-<<<<<<< HEAD
-  ACCEPT_REGISTRATION_REQUEST
-=======
+  ACCEPT_REGISTRATION_REQUEST,
   RESET_JOB_STATE,
-  RESET_BUILD_STATE
->>>>>>> dc71025e174285f48df005c53743351c2ee24849
+  RESET_BUILD_STATE,
+  REMOVE_REGISTRATION_REQUEST
 } from './types';
 
 // Load user
@@ -87,8 +85,9 @@ export const pullRegistrationRequest = (regReq) => async (dispatch) => {
   };
   try {
     await axios.put('/api/admin/pull', regReq, config);
+    console.log("Passed await section of pullRegistrationRequest");
     dispatch({
-      type: ACCEPT_REGISTRATION_REQUEST,
+      type: REMOVE_REGISTRATION_REQUEST,
       payload: regReq
     });
   } catch (error) {
@@ -109,11 +108,7 @@ export const register = (regRequest) => async (dispatch) => {
   };
   try {
     await axios.post('/api/users', regRequest, config); // api no longer needs to hash the password
-    // dispatch({
-    //   type: REGISTER_SUCCESS,
-    //   payload: res.data,
-    // });
-    // loadUser(); // only necessary when the user's registration was automatically approved
+    
   } catch (err) {
     console.log(err);
     dispatch({

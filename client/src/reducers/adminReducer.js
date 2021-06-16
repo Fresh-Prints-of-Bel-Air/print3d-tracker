@@ -1,7 +1,7 @@
 import {
     GET_ADMIN_NOTIFICATIONS,
     GET_REGISTRATION_REQUESTS,
-    ACCEPT_REGISTRATION_REQUEST,
+    REMOVE_REGISTRATION_REQUEST,
     GET_ADMIN_ERROR
 } from '../actions/types';
 
@@ -28,7 +28,7 @@ export default (state = initialState, action) => {
                 loading: false,
                 error: null,
             } 
-        case ACCEPT_REGISTRATION_REQUEST:
+        case REMOVE_REGISTRATION_REQUEST:
             return {
                 ...state,
                 registrationRequests: state.registrationRequests.filter((regRequest) => regRequest.email != action.payload.email),

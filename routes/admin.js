@@ -20,7 +20,9 @@ router.get('/',
 
 router.put('/pull', auth, async (req, res) => {
     try {
-        await Admin.updateMany({}, { $pull: { registrationRequests: req.body } }); // probably wrong
+        const adminRes = await Admin.updateMany({}, { $pull: { registrationRequests: req.body } });
+        console.log("past await in pull");
+        res.json(adminRes);
     } catch (error) {
         console.log(error.message);
         res.status(500).send('server error: admin put /pull error');
