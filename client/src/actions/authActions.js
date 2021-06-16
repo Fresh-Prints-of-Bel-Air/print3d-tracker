@@ -1,5 +1,4 @@
 import axios from 'axios';
-import e from 'express';
 import setAuthToken from '../utils/setAuthToken';
 //import { FloatingActionButton } from 'materialize-css';
 import {
@@ -15,10 +14,8 @@ import {
   GET_REGISTRATION_REQUESTS,
   GET_ADMIN_ERROR,
   GET_ADMIN_NOTIFICATIONS,
-  ACCEPT_REGISTRATION_REQUEST,
   RESET_JOB_STATE,
-  RESET_BUILD_STATE,
-  REMOVE_REGISTRATION_REQUEST
+  RESET_BUILD_STATE
 } from './types';
 
 // Load user
@@ -83,13 +80,18 @@ export const requestRegistration = (formData) => async () => {
     })
 
     if(!userRequestAlreadyExists){
+      // alert("Your registration request has been submitted. Upon approval, your account will be created for you and you'll be able to login using your provided email and password.");
+      // TODO diplay alert
+      console.log("user request does not exist yet");
       try {
         await axios.put('/api/admin/', formData, config);  
       } catch (error) {
         console.log("admin put error");
       }
+
     } else {
-      alert("A user with this email has already requested registration");
+      // alert("A user with this email has already requested registration");
+      // TODO diplay alert
     }
     
   } catch (err) {
@@ -97,7 +99,7 @@ export const requestRegistration = (formData) => async () => {
   }
 }
 
-export const pullRegistrationRequest = (regReq) => async (dispatch) => {
+export const pullRegistrationRequest = (regReq) => async () => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -105,11 +107,6 @@ export const pullRegistrationRequest = (regReq) => async (dispatch) => {
   };
   try {
     await axios.put('/api/admin/pull', regReq, config);
-    console.log("Passed await section of pullRegistrationRequest");
-    dispatch({
-      type: REMOVE_REGISTRATION_REQUEST,
-      payload: regReq
-    });
   } catch (error) {
     console.log("admin pull put error");
   }
@@ -128,7 +125,11 @@ export const register = (regRequest) => async (dispatch) => {
   };
   try {
     await axios.post('/api/users', regRequest, config); // api no longer needs to hash the password
-    
+    // dispatch({
+    //   type: REGISTER_SUCCESS,
+    //   payload: res.data,
+    // });
+    // loadUser(); // only necessary when the user's registration was automatically approved
   } catch (err) {
     console.log(err);
     dispatch({
