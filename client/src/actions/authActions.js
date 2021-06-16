@@ -1,4 +1,5 @@
 import axios from 'axios';
+import e from 'express';
 import setAuthToken from '../utils/setAuthToken';
 //import { FloatingActionButton } from 'materialize-css';
 import {
@@ -69,9 +70,28 @@ export const requestRegistration = (formData) => async () => {
   try { //post registration request object and notification to Admin document
     console.log("requestRegistration");
     console.log(formData);
-    await axios.put('/api/admin/', formData, config);  
+    const getRes = await axios.get('/api/admin/');
+    let userRequestAlreadyExists = false;
+    console.log("requestRegistration GET");
+    console.log(getRes);
+    getRes.data[0].registrationRequests.forEach((regReq) => {
+      if (regReq.email === formData.email){
+        userRequestAlreadyExists = true;
+      }
+    })
+
+    if(!userRequestAlreadyExists){
+      try {
+        await axios.put('/api/admin/', formData, config);  
+      } catch (error) {
+        console.log("admin put error");
+      }
+    } else {
+      alert("A user with this email has already requested registration");
+    }
+    
   } catch (err) {
-    console.log("admin put error");
+    console.log("admin get error");
   }
 }
 
