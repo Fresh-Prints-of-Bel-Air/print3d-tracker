@@ -51,7 +51,7 @@ router.get(
 // get by filter
 router.get(
     '/',
-    // auth,
+    auth,
     [], 
     async (req, res) => {
     
@@ -101,7 +101,7 @@ router.get(
   //@access Public
   router.post(
     '/',
-    // auth,
+    auth,
     [],
     async (req, res) => {
       // const errors = validationResult(req);
@@ -140,7 +140,7 @@ router.get(
   //@access Public
   router.put(
     '/updateMany',
-    //auth,
+    auth,
     [],
    async (req, res) => {
 
@@ -162,7 +162,7 @@ router.get(
   //@access Public
   router.put(
     '/:id', 
-      // auth,
+      auth,
       [],
     async (req, res) => {
     //   const errors = validationResult(req);

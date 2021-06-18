@@ -3,19 +3,36 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const auth = require('../middleware/auth');
 const Admin = require('../models/Admin');
+const AdminList = require('../models/AdminList');
 const bcrypt = require('bcryptjs');
 
 router.get('/', 
-    // auth, 
+    auth, 
     async (req, res) => {
-    try {
-        // finds "all" of them if it has no filter (there should only be one)
-        const adminInfo = await Admin.find({});
-        res.json(adminInfo);
-    } catch (error) {
-        console.log(error.message);
-        res.status(500).send('server error');
-    } 
+        try {
+            // finds "all" of them if it has no filter (there should only be one), user must be in the list of admins
+
+            const adminList = await AdminList.findById('60caf69fc9c9365c28be5786');
+            console.log("Trying to get adminList");
+            console.log(adminList);
+            console.log(req.user);
+
+
+            if(adminList.admins && adminList.admins.includes(req.user.id)){
+                try {
+                    const adminInfo = await Admin.find({});
+                    console.log(adminInfo);
+                    res.json(adminInfo);
+                } catch (error) {
+                    console.log(error.message);
+                    res.status(500).send('server error or user is not an admin');
+                }
+            }
+            
+        } catch (error) {
+            console.log(error.message);
+            res.status(500).send('server error');
+        } 
 })
 
 router.put('/pull', auth, async (req, res) => {
@@ -62,12 +79,13 @@ router.put('/', async (req, res) => { //Handles registration requests
             { _id: '60c731de187465d31a399ca4' }, 
             { $push: 
                 { 
-                    registrationRequests: regRequest, 
-                    notifications: registrationRequestNotification 
+                    registrationRequests: { $each: [regRequest], $position: 0 }, 
+                    notifications: { $each: [registrationRequestNotification], $position: 0 }
                 }
             },
             { new: true },
         );
+
         console.log("mongooseReturnVal");
         console.log(res);
         // not returning anything because we're not dispatching the response to the redux state

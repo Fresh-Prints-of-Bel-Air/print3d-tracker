@@ -35,7 +35,7 @@ router.get(
 
 router.get(
   '/', 
-  //auth, 
+  auth, 
   async (req, res) => {
   try {
       // Filtering options: dateStarted, dateDelivered, projects (name:[string]), operators (name: [string])
@@ -152,7 +152,7 @@ router.get(
 router.post(
   '/',
   [
-    // auth,
+    auth,
     check('id', 'ID needed').notEmpty(), //the ID of the associated job, mongoose generates IDs
     check(
       ['partsBuilding', 'material', 'resolution'],
@@ -209,7 +209,7 @@ router.post(
 router.put(
   '/:id', 
   [ 
-    //auth,
+    auth,
     check(
       'partsBuilding',
       'Invalid format for Parts Building'

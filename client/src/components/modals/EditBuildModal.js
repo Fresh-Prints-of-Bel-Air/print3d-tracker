@@ -73,7 +73,7 @@ const EditBuildModal = ({  build, updateBuild }) => {
                             </label>
                         </div>
                         <div className="col s4">
-                            <label   label htmlFor="estPrintTime" className="active">
+                            <label htmlFor="estPrintTime" className="active">
                                 Edit Estimated Print Time(Hours):
                             </label>
                         </div>

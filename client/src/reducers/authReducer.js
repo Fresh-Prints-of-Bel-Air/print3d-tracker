@@ -8,10 +8,12 @@ import {
   LOGOUT,
   CLEAR_ERRORS,
   UPDATE_USER,
+  ADMIN_AUTHENTICATED
 } from '../actions/types';
 
 const initialState = {
   token: localStorage.getItem('token'),
+  isAdmin: false,
   isAuthenticated: null,
   loading: true,
   user: null,
@@ -41,6 +43,13 @@ export default (state = initialState, action) => {
         ...state,
         error: action.payload,
         loading: false
+      }
+    case ADMIN_AUTHENTICATED:
+      return {
+        ...state,
+        isAdmin: true,
+        loading: false,
+        error: null,
       }
     case LOGIN_FAIL:
     case AUTH_ERROR:

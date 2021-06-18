@@ -70,7 +70,8 @@ const RequestJobModal = ({ job: { lastCreatedJobID }, user: { user }, addJob, up
         // e.target.name is the index given to the component as a name. RequestedPartsList is an array of objects.
         copyArray[e.target.name].quantity = e.target.value;
         copyArray[e.target.name].remaining = e.target.value; 
-        copyArray[e.target.name].building = 0; //defaults to zero 
+        copyArray[e.target.name].building = 0; //defaults to zero
+        copyArray[e.target.name].extras = 0; //extra parts that can be built beyond the amount requested 
         
         // Can't edit one index of a useState array. Must completely overwrite array 
         setJobForm({ 

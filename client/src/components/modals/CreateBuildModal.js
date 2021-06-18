@@ -199,17 +199,22 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
 
     //Updates parts remaining when the form field changes
 
-    //this whole logic is flawed
+    
     copyJob.requestedParts.forEach((part) => {
       if(part.name === partBuilding){
         part.building += buildQuantity; //Should be +buildQuantity?
         if(part.quantity - part.building <= 0){
           part.remaining = 0;
+          //add extra parts
+          if(part.building > part.quantity)
+            part.extras = part.building - part.quantity; //what about the case where we reduce the amount being built? we need to remove the extras
           console.log("parts remaining is now 0");
         }
-        else
+        else {
           part.remaining = part.quantity - part.building;
-      }
+          part.extras = 0;
+        }
+       }
     });
     //let copyArray = buildForm.jobPartQuantityMap.get(jobID);
     let copyArray = JSON.parse(JSON.stringify(buildForm.jobPartQuantityMap.get(jobID)));
