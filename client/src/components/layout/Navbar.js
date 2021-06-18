@@ -67,7 +67,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
           </a>     
           <ul id='nav-mobile' className='right hide-on-med-and-down' style={{height: '6.8vh'}}>
             <li>
-              <a href="#adminModal" className="waves-effect waves-light btn blue modal-trigger">ADMIN</a>
+              <a href="#adminModal" className="modal-trigger">ADMIN</a>
             </li>
             <li>
               <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Home</NavLink>
