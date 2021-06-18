@@ -2,23 +2,39 @@ import React, { useState, useEffect, createRef } from 'react';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, updateUser } from '../../actions/authActions';
+import { logout, updateUser, getAdmin } from '../../actions/authActions';
 import NotificationPanel from './NotificationPanel';
 import AdminModal from '../modals/AdminModal';
 import M from 'materialize-css';
 
-export const Navbar = ({ user: {user}, logout, updateUser }) => {
+export const Navbar = ({ user: {user, isAuthenticated, isAdmin}, admin: { registrationRequests }, logout, updateUser, getAdmin }) => {
   
   const [notificationStatus, setNotificationStatus] = useState({
       unread: false,
       showNotifications: false,
     });
-    
+  
+  useEffect(() => {
+    if(isAuthenticated === true){
+      getAdmin();
+    }
+    M.AutoInit();
+  }, [user]);
+  
+  useEffect(() => {
+    if(registrationRequests){
+      console.log("ADMIN USEEFFECT");
+      console.log("REGISTRATION REQUESTS");
+      console.log(registrationRequests);
+    }
+  }, [registrationRequests]);
   
   useEffect(() => {
     M.AutoInit();
     console.log(window.screen.height);
     console.log(window.devicePixelRatio);
+    console.log("navbar token");
+    console.log(localStorage.getItem("token"));
     if(user){
       let i;
       setNotificationStatus({...notificationStatus, unread: false});
@@ -42,6 +58,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
   //   });
   // }
 
+  //${ (admin && admin.registrationRequests.length > 0) ? "pulse" : ""}`}
   const showNotifications = () => {
     console.log("Show notifications button");
     console.log(user.notifications);
@@ -67,7 +84,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
           </a>     
           <ul id='nav-mobile' className='right hide-on-med-and-down' style={{height: '6.8vh'}}>
             <li>
-              <a href="#adminModal" className="waves-effect waves-light btn blue modal-trigger">ADMIN</a>
+              {isAdmin && <a href="#adminModal" className={`waves-effect waves-light btn blue modal-trigger ${ (registrationRequests && registrationRequests.length >= 1) ? "pulse" : ""}`}  >ADMIN</a>}  
             </li>
             <li>
               <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Home</NavLink>
@@ -98,7 +115,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
           <NotificationPanel setNotificationStatus={setNotificationStatus}/>
         }
       </nav>
-      {(localStorage.getItem("token") !== null) && <AdminModal/> }
+      {isAdmin && <AdminModal/> }
     </div>
     
   )
@@ -108,7 +125,7 @@ export const Navbar = ({ user: {user}, logout, updateUser }) => {
 const mapStateToProps = (state) => ({
   user: state.user,
   logout: state.logout,
-
+  admin: state.admin
 });
 
-export default connect(mapStateToProps, { logout, updateUser })(Navbar);
+export default connect(mapStateToProps, { logout, updateUser, getAdmin })(Navbar);

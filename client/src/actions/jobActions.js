@@ -118,7 +118,7 @@ export const deleteJob = (id, userID) => async (dispatch) => { //also send notif
             }
             let action = {
               filter: { _id: { $in: res.data.acceptingOperators } },
-              updateToApply: { $push: { notifications: jobDeleteNotification } }
+              updateToApply: { $push: { notifications: { $each: [jobDeleteNotification], $position: 0} } }
             }
             const notificationRes = await axios.put('/api/users/updateMany', action, config); 
             //shouldn't need to update current user, user shouldn't be accepting their own jobs, and notifications should be pulled frequently

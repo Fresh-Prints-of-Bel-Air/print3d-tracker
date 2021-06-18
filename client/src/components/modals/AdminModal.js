@@ -3,11 +3,13 @@ import { connect } from 'react-redux';
 import { getAdmin, register, pullRegistrationRequest } from '../../actions/authActions'
 import M from 'materialize-css';
 
-const AdminModal = ({ admin: { registrationRequests }, getAdmin, pullRegistrationRequest, register }) => {
+const AdminModal = ({ user: { user, isAuthenticated }, admin: { registrationRequests }, getAdmin, pullRegistrationRequest, register }) => {
     useEffect(() => {
-        getAdmin();
-        M.AutoInit();
-    }, []);
+       if(isAuthenticated === true){
+         getAdmin();
+       }
+       M.AutoInit();
+    }, [user]);
 
     const acceptRegistrationOnClick = (regReq) => {
         console.log("Registration accepted clicked");
@@ -50,6 +52,7 @@ const AdminModal = ({ admin: { registrationRequests }, getAdmin, pullRegistratio
 }
 
 const mapStateToProps = (state) => ({
+    user: state.user,
     admin: state.admin
 });
 

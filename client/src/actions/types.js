@@ -12,6 +12,7 @@ export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';
 export const LOGOUT = 'LOGOUT';
 export const CLEAR_ERRORS = 'CLEAR_ERRORS';
+export const ADMIN_AUTHENTICATED = 'ADMIN_AUTHENTICATED';
 
 //Build types
 export const ADD_BUILD = 'ADD_BUILD';

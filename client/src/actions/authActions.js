@@ -6,6 +6,7 @@ import {
   REGISTER_FAIL,
   USER_LOADED,
   AUTH_ERROR,
+  ADMIN_AUTHENTICATED,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
@@ -28,8 +29,12 @@ export const loadUser = () => async (dispatch) => {
   try {
     console.log('getting logged in user...');
     const res = await axios.get('/api/auth'); // todo: make sure default route paths are set up properly
+    
     console.log(res.data);
     dispatch({ type: USER_LOADED, payload: res.data });
+    console.log("BEFORE GETADMIN");
+    //getAdmin();
+    console.log("AFTER GETADMIN");
   } catch (err) {
     dispatch({ type: AUTH_ERROR });
   }
@@ -156,6 +161,7 @@ export const login = (formData) => async (dispatch) => {
     console.log("token is: ");
     console.log(localStorage.getItem('token'));
     loadUser();
+    
   } catch (err) {
     dispatch({
       type: LOGIN_FAIL,
@@ -179,11 +185,16 @@ export const clearErrors = () => async (dispatch) =>
     type: CLEAR_ERRORS,
   });
 
+//Get admin information
 export const getAdmin = () => async (dispatch) => {
   try {
+    console.log("GETADMIN ACTION");
     const res = await axios.get('/api/admin');
     console.log('getAdmin res.data');
     console.log(res.data);
+    dispatch({
+      type: ADMIN_AUTHENTICATED
+    })
     dispatch({ 
       type: GET_REGISTRATION_REQUESTS,
       payload: res.data[0].registrationRequests, // might not be an array
