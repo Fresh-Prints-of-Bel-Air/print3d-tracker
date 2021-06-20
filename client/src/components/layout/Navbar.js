@@ -2,12 +2,12 @@ import React, { useState, useEffect, createRef } from 'react';
 import { Link } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { logout, updateUser, getAdmin } from '../../actions/authActions';
+import { logout, updateUser, getAdmin, getUser } from '../../actions/authActions';
 import NotificationPanel from './NotificationPanel';
 import AdminModal from '../modals/AdminModal';
 import M from 'materialize-css';
 
-export const Navbar = ({ user: {user, isAuthenticated, isAdmin}, admin: { registrationRequests }, logout, updateUser, getAdmin }) => {
+export const Navbar = ({ user: {user, isAuthenticated, isAdmin}, admin: { registrationRequests }, logout, updateUser, getUser, getAdmin }) => {
   
   const [notificationStatus, setNotificationStatus] = useState({
       unread: false,
@@ -87,13 +87,13 @@ export const Navbar = ({ user: {user, isAuthenticated, isAdmin}, admin: { regist
               {isAdmin && <a href="#adminModal" className={`waves-effect waves-light btn blue modal-trigger ${ (registrationRequests && registrationRequests.length >= 1) ? "pulse" : ""}`}  >ADMIN</a>}  
             </li>
             <li>
-              <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Home</NavLink>
+              <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}} onClick={getUser}>Home</NavLink>
             </li>
             <li>
-              <NavLink to='build-history' className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Build History</NavLink>
+              <NavLink to='build-history' className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}} onClick={getUser}>Build History</NavLink>
             </li>
             <li>
-              <NavLink to='request-history' className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}}>Request History</NavLink>
+              <NavLink to='request-history' className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}} onClick={getUser}>Request History</NavLink>
             </li>
             {(localStorage.getItem("token") !== null) && 
               <li style={{height: '6.8vh'}}>
@@ -128,4 +128,4 @@ const mapStateToProps = (state) => ({
   admin: state.admin
 });
 
-export default connect(mapStateToProps, { logout, updateUser, getAdmin })(Navbar);
+export default connect(mapStateToProps, { logout, updateUser, getUser, getAdmin })(Navbar);

@@ -2,10 +2,10 @@ import React, { useRef, useEffect, useState } from 'react'
 import RequestJobModal from '../modals/RequestJobModal';
 import CreateBuildModal from '../modals/CreateBuildModal';
 import { connect } from 'react-redux';
-import { updateUser } from '../../actions/authActions';
+import { updateUser, getUser } from '../../actions/authActions';
 import Switch from 'react-switch';
 
-const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selectedJobId to redux state
+const JobNav = ({ user: {user}, job: {job}, updateUser, getUser }) => { // todo add selectedJobId to redux state
   //////////////// delete job modal stuff
   // const [jobIdForModal, setJobIdForModal] = useState(0);
 
@@ -13,8 +13,7 @@ const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selec
   //     setJobIdForModal(cardJobId);
   // }
   ////////////////
-  
-  //const [checkedState, setCheckedState] = useState(false);
+
 
   useEffect(() => {
     console.log(user.preferredView);
@@ -22,7 +21,7 @@ const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selec
 
   const onViewToggleChange = (checked) => {
     
-    //setCheckedState(checked);
+    getUser();
 
     if(checked) {
       updateUser({...user, preferredView: 'Operator'});
@@ -67,10 +66,6 @@ const JobNav = ({ user: {user}, updateUser, job: {job} }) => { // todo add selec
       </div>
       <RequestJobModal/>
       <CreateBuildModal/>
-      {/* <RequestJobModal/> */}
-      
-      
-
     </div>
   )
 }
@@ -80,4 +75,4 @@ const mapStateToProps = (state) => ({
   job: state.job
 });
 
-export default connect(mapStateToProps, {updateUser})(JobNav);
+export default connect(mapStateToProps, {updateUser, getUser})(JobNav);

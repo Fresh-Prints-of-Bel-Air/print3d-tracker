@@ -40,6 +40,22 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
+export const getUser = () => async (dispatch) => { //primarily used to get user notifications
+
+  //TODO: CHANGE NAME TO "updateUserNotifications," add behavior to delete read notifications that are 3 or more days old
+  try {
+    const res = await axios.get('/api/auth');
+    
+    dispatch({
+      type: UPDATE_USER,
+      payload: res.data,
+    });
+
+  } catch (err) {
+    dispatch({type: AUTH_ERROR});
+  }
+}
+
 // Update User
 
 export const updateUser = (user) => async (dispatch) => {
