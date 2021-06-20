@@ -40,17 +40,55 @@ export const loadUser = () => async (dispatch) => {
   }
 };
 
-export const getUser = () => async (dispatch) => { //primarily used to get user notifications
+export const getUser = () => async (dispatch) => { //primarily used to get and update user notifications
+
+  const config = {
+    headers: {
+      'Content-Type' : 'application/json'
+    }
+  }
 
   //TODO: CHANGE NAME TO "updateUserNotifications," add behavior to delete read notifications that are 3 or more days old
   try {
-    const res = await axios.get('/api/auth');
+    const userRes = await axios.get('/api/auth');
+    console.log("USER WITH NOTIFICATIONS:");
+    console.log(userRes.data);
     
-    dispatch({
-      type: UPDATE_USER,
-      payload: res.data,
+    //compare today's date to each notification, delete those that are both read and are 3 or more days old
+    let today = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles'}).split(',')[0]; //ex 12/28/2020, need to change to 2020-12-18
+    today = today.split('/');
+    today = today[2] + '-' + today[0] + '-' + today[1]; //2020-12-18
+    today = new Date(today);
+
+    console.log("UserRes NOTIFICATIONS");
+    console.log(userRes.data.notifications);
+
+    userRes.data.notifications = userRes.data.notifications.filter((notification) => {
+      
+      let notificationDate = new Date(notification.dateCreated);
+      let notificationAge = today - notificationDate;
+      console.log("notificationAge");
+      console.log(notificationAge);
+      console.log(!notification.isRead || notificationAge < 259200000);
+      return (!notification.isRead || notificationAge < 259200000)
     });
 
+    console.log("UserRes FILTERED NOTIFICATIONS");
+    console.log(userRes.data.notifications);
+
+    //update the user with the filtered notifications
+    try {
+      const updatedUser = await axios.put(`/api/users/${userRes.data._id}`, userRes.data, config);
+      console.log("UPDATED USER WITH FILTERED NOTIFICATIONS:");
+      console.log(updateUser.data);
+      dispatch({
+        type: UPDATE_USER,
+        payload: updatedUser.data,
+      });
+
+    } catch (err) {
+      dispatch({type: AUTH_ERROR});
+    }
   } catch (err) {
     dispatch({type: AUTH_ERROR});
   }
