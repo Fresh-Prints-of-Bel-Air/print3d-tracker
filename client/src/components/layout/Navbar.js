@@ -84,7 +84,7 @@ export const Navbar = ({ user: {user, isAuthenticated, isAdmin}, admin: { regist
           </a>     
           <ul id='nav-mobile' className='right hide-on-med-and-down' style={{height: '6.8vh'}}>
             <li>
-              {isAdmin && <a href="#adminModal" className={`waves-effect waves-light btn blue modal-trigger ${ (registrationRequests && registrationRequests.length >= 1) ? "pulse" : ""}`}  >ADMIN</a>}  
+              {isAdmin && <a href="#adminModal" style={{marginTop: '1.5vh'}} className={`waves-effect waves-light btn blue modal-trigger ${ (registrationRequests && registrationRequests.length >= 1) ? "pulse" : ""}`}  >ADMIN</a>}  
             </li>
             <li>
               <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}} onClick={getUser}>Home</NavLink>

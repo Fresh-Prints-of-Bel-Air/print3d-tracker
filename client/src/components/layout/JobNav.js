@@ -21,7 +21,6 @@ const JobNav = ({ user: {user}, job: {job}, updateUser, getUser }) => { // todo 
 
   const onViewToggleChange = (checked) => {
     
-    getUser();
 
     if(checked) {
       updateUser({...user, preferredView: 'Operator'});
