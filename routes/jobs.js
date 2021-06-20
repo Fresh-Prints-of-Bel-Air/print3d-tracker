@@ -8,6 +8,7 @@ const Job = require("../models/Job");
 const auth = require('../middleware/auth');
 
 //find many (array of IDs)
+// that don't have status: 'Complete'
 
 router.get(
   '/multipleJobsById',
@@ -15,7 +16,8 @@ router.get(
   [],
   async (req, res) => {
     try {
-      const jobs = await Job.find().where('_id').in(req.query.jobIdArray).exec();
+      const jobs = await Job.find({ status: { $ne: 'Complete' }})
+        .where('_id').in(req.query.jobIdArray).exec();
       // console.log(req);
       // console.log("req.query.jobIdArray");
       // console.log(req.query.jobIdArray);

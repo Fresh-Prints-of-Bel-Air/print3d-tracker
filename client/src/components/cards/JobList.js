@@ -34,7 +34,7 @@ export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
     }
 
     useEffect(() => {
-        getJobs({}); //TODO: filter out cancelled and complete
+        getJobs({ status: { $ne: 'Complete', $ne: 'Cancelled' }}); //TODO: filter out cancelled and complete
         console.log("Jobqueue useEffect called");
         //jobs.forEach((job) => console.log(job));
     }, []);
