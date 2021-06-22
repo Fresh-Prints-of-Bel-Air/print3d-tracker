@@ -16,8 +16,7 @@ router.get(
   [],
   async (req, res) => {
     try {
-      const jobs = await Job.find({ status: { $ne: 'Complete' }})
-        .where('_id').in(req.query.jobIdArray).exec();
+      const jobs = await Job.find({ status: { $ne: 'Complete' }}).where('_id').in(req.query.jobIdArray).exec();
       // console.log(req);
       // console.log("req.query.jobIdArray");
       // console.log(req.query.jobIdArray);
@@ -60,7 +59,7 @@ router.get(
         status: { $ne: 'Cancelled' } // not equals
     }
     
-    const { job_number, requester, projectName, dateRequestedLowerBound, dateRequestedUpperBound, jobStatus } = req.query;
+    const { job_number, requester, projectName, dateRequestedLowerBound, dateRequestedUpperBound, jobStatus, filterType } = req.query;
 
     // console.log(req.query);
     
@@ -82,10 +81,17 @@ router.get(
     }
 
     // if(dateRequestedLowerBound) filter.dateRequested = { $gte: dateRequestedLowerBound };
-    if(job_number) filter.job_number = { $gte: job_number };
-    if(jobStatus) filter.status = { $eq: jobStatus };
-    if(requester) filter.requester = { $eq: requester };
-    if(projectName) filter.projectName = { $eq: projectName };
+    
+    // special filter for JobList
+    if(filterType === "jobList") {
+      filter.status = { $nin: ["Cancelled", "Complete"] };
+    } else {
+      if(job_number) filter.job_number = { $gte: job_number };
+      if(jobStatus) filter.status = { $eq: jobStatus };
+      if(requester) filter.requester = { $eq: requester };
+      if(projectName) filter.projectName = { $eq: projectName };
+    }
+    
 
     try {
         const jobs = await Job.find(filter);

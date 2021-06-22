@@ -22,10 +22,10 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
   });
 
   useEffect(() => {
-    console.log("job requestedParts inside QuantityForm");
-    console.log(job.requestedParts);
-    console.log("SelectValues values inside QuantityForm");
-    console.log(selectValues.values);
+    // console.log("job requestedParts inside QuantityForm");
+    // console.log(job.requestedParts);
+    // console.log("SelectValues values inside QuantityForm");
+    // console.log(selectValues.values);
   })
 
   /*
@@ -79,10 +79,10 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
   */
   useEffect(() => {
     if(!firstRender){
-      console.log("selectValues useEffect called. Values are:");
-      console.log(selectValues);
-      console.log("PartQuantities is: ");
-      console.log(partQuantities);
+      // console.log("selectValues useEffect called. Values are:");
+      // console.log(selectValues);
+      // console.log("PartQuantities is: ");
+      // console.log(partQuantities);
 
       const {option, partName} = selectValues.values[selectValues.currentIndex];
       let quantityChange = option.value - partQuantities.quantities[selectValues.currentIndex]; // new value minus old
