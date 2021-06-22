@@ -115,7 +115,33 @@ export const updateUser = (user) => async (dispatch) => {
 
 }
 
+export const removeCompletedJobFromAcceptingOperators = (jobToRemove) => async (dispatch) => {
+  let today = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles'}).split(',')[0]; //ex 12/28/2020, need to change to 2020-12-18
+  today = today.split('/');
+  today = today[2] + '-' + today[0] + '-' + today[1]; //2020-12-18
+  today = new Date(today);
 
+  let jobCompleteNotification = {
+    text: `Job #${jobToRemove.job_number} from requester ${jobToRemove.requester} is now complete and has been removed from your JobQueue.`,
+    dateCreated: today,
+    isRead: false,
+  }
+
+  let action = {
+    filter: { _id: { $in: jobToRemove.acceptingOperators } },
+    updateToApply: { 
+      $push: { notifications: { $each: [jobCompleteNotification], $position: 0} },
+      $pull: { jobQueue: jobToRemove._id }
+    }
+  }
+  
+  const config = {
+    headers: {
+      'Content-Type': 'application/json'
+    } 
+  }
+  const res = await axios.put('/api/users/updateMany', action, config);
+}
 //Request registration
 //Posts a registration request object and a notification to the Admin document
 

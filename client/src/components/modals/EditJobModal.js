@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../actions/authActions';
+import { updateUser, removeCompletedJobFromAcceptingOperators } from '../../actions/authActions';
 import { updateJob } from '../../actions/jobActions';
 import Select from 'react-select';
 import M from 'materialize-css';
 
-const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, updateJob }) => {
+const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, updateJob, removeCompletedJobFromAcceptingOperators }) => {
     const [editJobForm, setEditJobForm] = useState({
         projectName: '',
         dateNeeded: '',
@@ -18,8 +18,8 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
     });
 
     useEffect(() => {
-        console.log("User is: ");
-        console.log(user);
+        // console.log("User is: ");
+        // console.log(user);
         setEditJobForm(jobData);
         M.AutoInit();
     }, []);
@@ -67,15 +67,30 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
             console.log("Jobform is: ");
             console.log(editJobForm);
             // TODO: add put-job requesting Action function
+            // console.log("job ID Edited");
+            // console.log(jobID);
             updateJob({ ...editJobForm, id: jobID });
             //addJob({ ...jobForm, requester: user.name, requesterId: user._id, status: "Requested" }, {...user, lastJobRequest: jobForm}); 
+            
             console.log('requestJobModal formsubmit');
             console.log(user.lastJobRequest);
             console.log("formSubmit call");
         }
 
         const cancelJobRequest = () => updateJob({ ...editJobForm, status: 'Cancelled', id: jobID });
-        const setStatusToComplete = () => updateJob({ ...editJobForm, status: 'Complete', id: jobID });
+        const setStatusToComplete = () => {
+            console.log("job ID Edited");
+            console.log(jobID);
+            updateJob({ ...editJobForm, status: 'Complete', id: jobID });
+            updateUser({ 
+                ...user, 
+                requestedJobs: user.requestedJobs.filter((requestedJobID) => (requestedJobID !== jobID)),
+                // in case the user accepted their own job request
+                jobQueue: user.jobQueue.filter((jobQueueItemID) => (jobQueueItemID !== jobID)) 
+            });
+            // update many users' jobQueue
+            removeCompletedJobFromAcceptingOperators(jobData);
+        }
         
     // const editJobHandler = () => {
     //     // handleCardButtonClick(jobID);
@@ -250,5 +265,5 @@ const mapStateToProps = (state) => ({
     job: state.job
 });
 
-export default connect(mapStateToProps, { updateUser, updateJob })(EditJobModal);
+export default connect(mapStateToProps, { updateUser, updateJob, removeCompletedJobFromAcceptingOperators })(EditJobModal);
 
