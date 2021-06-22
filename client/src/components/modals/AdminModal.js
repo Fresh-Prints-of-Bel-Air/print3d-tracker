@@ -39,7 +39,7 @@ const AdminModal = ({ user: { user, isAuthenticated }, admin: { registrationRequ
                                         <p>{regReq.email && regReq.email}</p>
                                     </div> 
                                     <div className="card-action">
-                                        <a className="waves-effect green waves-green btn-flat" regRequest={regReq} onClick={() => acceptRegistrationOnClick(regReq)}>Accept</a>
+                                        <a className="waves-effect green waves-green btn-flat" onClick={() => acceptRegistrationOnClick(regReq)}>Accept</a>
                                         <a className="waves-effect red waves-red btn-flat" onClick={() => denyRegistrationOnClick(regReq)}>Deny</a>
                                     </div>
                                 </div>

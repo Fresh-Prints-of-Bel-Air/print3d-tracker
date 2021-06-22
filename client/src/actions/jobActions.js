@@ -121,7 +121,7 @@ export const deleteJob = (id, userID) => async (dispatch) => { //also send notif
               filter: { _id: { $in: res.data.acceptingOperators } },
               updateToApply: { $push: { notifications: { $each: [jobDeleteNotification], $position: 0} } }
             }
-            const notificationRes = await axios.put('/api/users/updateMany', action, config); 
+            await axios.put('/api/users/updateMany', action, config); 
             //shouldn't need to update current user, user shouldn't be accepting their own jobs, and notifications should be pulled frequently
         } catch (err) {
             dispatch({
@@ -146,7 +146,7 @@ export const acceptJob = (job) => async (dispatch) => {
         }
     }
     try{
-        const res = await axios.put(`/api/jobs/${job._id}`, job, config);
+        await axios.put(`/api/jobs/${job._id}`, job, config);
         dispatch({
             type: UPDATE_JOB,
             payload: job
@@ -174,7 +174,7 @@ export const updateJob = (job) => async (dispatch) => { //Need to add functional
         }
     }
     try{
-        const res = await axios.put(`/api/jobs/${job._id}`, job, config);
+        await axios.put(`/api/jobs/${job._id}`, job, config);
         dispatch({
             type: UPDATE_JOB,
             payload: job

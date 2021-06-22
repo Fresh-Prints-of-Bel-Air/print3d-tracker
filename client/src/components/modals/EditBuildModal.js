@@ -3,8 +3,9 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import { updateBuild } from '../../actions/buildActions';
 import M from 'materialize-css';
+import { updateUser } from '../../actions/authActions';
 
-const EditBuildModal = ({  build, updateBuild }) => {
+const EditBuildModal = ({ user: { user }, build, updateBuild, updateUser }) => {
     const [editBuildForm, setEditBuildForm] = useState({
         estPrintTime: build.estPrintTime,
         status: build.status,
@@ -51,7 +52,10 @@ const EditBuildModal = ({  build, updateBuild }) => {
         console.log('Edit Build Submission:');
         console.log({ ...build, status: editBuildForm.status, estPrintTime: editBuildForm.estPrintTime });
         updateBuild({ ...build, status: editBuildForm.status, estPrintTime: editBuildForm.estPrintTime });
-        alert("Build update submitted.");
+        if(editBuildForm.status === 'Build Delivered'){  //If a build is updated to "Build Delivered", remove it from the user's buildlist and from frontend buildstate
+            updateUser({...user, buildList: user.buildList.filter((buildID) => buildID !== build._id)});
+        } 
+        alert("Build update submitted. If the build was set to 'Delivered' it will be removed from your builds list. You may still view delivered builds in Build History.");
     }
 
 
@@ -61,7 +65,7 @@ const EditBuildModal = ({  build, updateBuild }) => {
         <div>
             <a className="btn-small teal truncate modal-trigger" style={{margin: '5px'}} 
                 href={`#myBuildListEditModal${build.build_number}`}>
-                <i class="small material-icons left">edit</i>Edit
+                <i className="small material-icons left">edit</i>Edit
             </a>
             <div id={`myBuildListEditModal${build.build_number}`} className="modal grey darken-3">
                 <div className="modal-content grey darken-3">
@@ -114,5 +118,5 @@ const mapStateToProps = (state) => ({
     user: state.user,
 });
 
-export default connect(mapStateToProps, { updateBuild })(EditBuildModal);
+export default connect(mapStateToProps, { updateBuild, updateUser })(EditBuildModal);
 

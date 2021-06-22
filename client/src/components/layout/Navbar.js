@@ -76,15 +76,17 @@ export const Navbar = ({ user: {user, isAuthenticated, isAdmin}, admin: { regist
   return (
     <div className="navbar-fixed" style={{height: '6.8vh'}}>
       <nav className='black' style={{height: '6.8vh'}}>
+        
         <div className='nav-wrapper' style={{height: '6.8vh'}}>
           <a href="#" className="brand-logo">
             <div className="valign-wrapper" style={{height: '6.8vh'}}>
               <img alt="Altaviz" src="/images/AltaViz.jpg" style={{maxWidth:'80%', maxHeight:'100%', filter: 'brightness(180%)'}}></img>
             </div>
-          </a>     
-          <ul id='nav-mobile' className='right hide-on-med-and-down' style={{height: '6.8vh'}}>
+          </a>
+          {(localStorage.getItem("token") !== null) && 
+            <ul id='nav-mobile' className='right hide-on-med-and-down' style={{height: '6.8vh'}}>
             <li>
-              {isAdmin && <a href="#adminModal" style={{marginTop: '1.5vh'}} className={`waves-effect waves-light btn blue modal-trigger ${ (registrationRequests && registrationRequests.length >= 1) ? "pulse" : ""}`}  >ADMIN</a>}  
+              {isAdmin && <a href="#adminModal" style={{marginTop: '1.5vh'}} className={`btn blue modal-trigger ${ (registrationRequests && registrationRequests.length >= 1) ? "pulse" : ""}`}  >ADMIN</a>}  
             </li>
             <li>
               <NavLink to='/' exact className={navLinkClass} activeStyle={navLinkStyle} style={{height: '6.8vh'}} onClick={getUser}>Home</NavLink>
@@ -110,6 +112,7 @@ export const Navbar = ({ user: {user, isAuthenticated, isAdmin}, admin: { regist
               </li>   
             }
           </ul>
+          }
         </div>
         {(localStorage.getItem("token") !== null && notificationStatus.showNotifications) &&
           <NotificationPanel setNotificationStatus={setNotificationStatus}/>

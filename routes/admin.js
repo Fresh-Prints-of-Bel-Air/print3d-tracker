@@ -46,13 +46,23 @@ router.put('/pull', auth, async (req, res) => {
     }
 })
 
-router.put('/', async (req, res) => { //Handles registration requests
+router.put('/register', async (req, res) => { //Handles registration requests
     try {
         console.log("admin put / route");
         console.log(req.body);
-        // hash the password
+        const adminInfo = await Admin.find({}); //check if the registration request exists already
 
-        // generates salt for hashing function
+        let userRequestAlreadyExists = false;
+        console.log("ADMIN INFO");
+        console.log(adminInfo);
+        adminInfo[0].registrationRequests.forEach((regReq) => {
+          if (regReq.email === req.body.email){
+            userRequestAlreadyExists = true;
+          }
+        });
+
+        if(!userRequestAlreadyExists){ //create the registration request if one with that email doesn't already exist
+            // generates salt for hashing function
         const salt = await bcrypt.genSalt(10);
         // password is saved only as a hash code
         let hashedPassword = await bcrypt.hash(req.body.password, salt);
@@ -75,7 +85,7 @@ router.put('/', async (req, res) => { //Handles registration requests
         }
       
         // console.log(updateFields);
-        let res = await Admin.findByIdAndUpdate(
+        let updatedAdmin = await Admin.findByIdAndUpdate(
             { _id: '60c731de187465d31a399ca4' }, 
             { $push: 
                 { 
@@ -85,10 +95,13 @@ router.put('/', async (req, res) => { //Handles registration requests
             },
             { new: true },
         );
-
+        res.json({message: 'Request received.'});
         console.log("mongooseReturnVal");
         console.log(res);
-        // not returning anything because we're not dispatching the response to the redux state
+        }
+        else {
+            res.status(500).send('A registration request using that email already exists.');
+        }
     } catch (error) {
         console.log(error.message);
         res.status(500).send('server error');

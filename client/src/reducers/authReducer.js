@@ -59,6 +59,7 @@ export default (state = initialState, action) => {
         ...state,
         token: null,
         isAuthenticated: false,
+        isAdmin: false,
         loading: false,
         user: null,
         error: action.payload,

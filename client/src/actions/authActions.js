@@ -16,7 +16,8 @@ import {
   GET_ADMIN_ERROR,
   GET_ADMIN_NOTIFICATIONS,
   RESET_JOB_STATE,
-  RESET_BUILD_STATE
+  RESET_BUILD_STATE,
+  REMOVE_REGISTRATION_REQUEST
 } from './types';
 
 // Load user
@@ -85,7 +86,6 @@ export const getUser = () => async (dispatch) => { //primarily used to get and u
         type: UPDATE_USER,
         payload: updatedUser.data,
       });
-
     } catch (err) {
       dispatch({type: AUTH_ERROR});
     }
@@ -115,6 +115,7 @@ export const updateUser = (user) => async (dispatch) => {
 
 }
 
+
 //Request registration
 //Posts a registration request object and a notification to the Admin document
 
@@ -124,41 +125,18 @@ export const requestRegistration = (formData) => async () => {
       'Content-Type': 'application/json',
     },
   };
-
-  try { //post registration request object and notification to Admin document
-    console.log("requestRegistration");
-    console.log(formData);
-    const getRes = await axios.get('/api/admin/');
-    let userRequestAlreadyExists = false;
-    console.log("requestRegistration GET");
-    console.log(getRes);
-    getRes.data[0].registrationRequests.forEach((regReq) => {
-      if (regReq.email === formData.email){
-        userRequestAlreadyExists = true;
-      }
-    })
-
-    if(!userRequestAlreadyExists){
-      // alert("Your registration request has been submitted. Upon approval, your account will be created for you and you'll be able to login using your provided email and password.");
-      // TODO diplay alert
-      console.log("user request does not exist yet");
-      try {
-        await axios.put('/api/admin/', formData, config);  
-      } catch (error) {
-        console.log("admin put error");
-      }
-
-    } else {
-      // alert("A user with this email has already requested registration");
-      // TODO diplay alert
-    }
-    
-  } catch (err) {
-    console.log("admin get error");
+  //post registration request object and notification to Admin document
+  try {
+    const res = await axios.put('/api/admin/register', formData, config);  
+    alert("Your registration request has been submitted. Upon approval, your account will be created for you and you'll be able to login using your provided email and password.");
+  } catch (error) {
+    console.log("admin put error");
+    console.log(error.response);
+    alert(error.response.data);
   }
 }
 
-export const pullRegistrationRequest = (regReq) => async () => {
+export const pullRegistrationRequest = (regReq) => async (dispatch) => {
   const config = {
     headers: {
       'Content-Type': 'application/json',
@@ -166,6 +144,11 @@ export const pullRegistrationRequest = (regReq) => async () => {
   };
   try {
     await axios.put('/api/admin/pull', regReq, config);
+    dispatch({
+      type: REMOVE_REGISTRATION_REQUEST,
+      payload: regReq,
+    });
+
   } catch (error) {
     console.log("admin pull put error");
   }
@@ -193,7 +176,7 @@ export const register = (regRequest) => async (dispatch) => {
     console.log(err);
     dispatch({
       type: REGISTER_FAIL,
-      payload: err.response.data.msg,
+      payload: err,
     });
   }
 };
@@ -229,9 +212,10 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
   dispatch({ type: RESET_JOB_STATE });
   dispatch({ type: RESET_BUILD_STATE });
-  
+  setAuthToken();
   console.log(localStorage.getItem("token"));
 }
+
 
 // Clear Errors
 export const clearErrors = () => async (dispatch) =>
@@ -239,7 +223,8 @@ export const clearErrors = () => async (dispatch) =>
     type: CLEAR_ERRORS,
   });
 
-//Get admin information
+
+  //Get admin information
 export const getAdmin = () => async (dispatch) => {
   try {
     console.log("GETADMIN ACTION");

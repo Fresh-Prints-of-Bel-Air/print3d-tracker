@@ -7,7 +7,7 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
 
   const [userFormData, setUserFormData] = useState({
     build_number: '',
-    status: '',
+    status: {},
     startedFrom: '',
     startedTo: '',
     deliveredFrom: '',
@@ -32,10 +32,20 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
     getBuilds(userFormData);
   }
   const onChange = (e) => {
-    setUserFormData({
-      ...userFormData,
-      [e.target.name]: e.target.value,
-    });
+
+    if(e.target.name === 'status'){
+      setUserFormData({
+        ...userFormData,
+        status: { $eq: e.target.value }
+      });
+    }
+    else {
+      setUserFormData({
+        ...userFormData,
+        [e.target.name]: e.target.value,
+      });
+    }
+  
     console.log(e.target.value);
   };
 

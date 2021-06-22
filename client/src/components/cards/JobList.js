@@ -14,35 +14,35 @@ export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
     
     //getJobs({});
 
-    const checkIfJobAccepted = (jobID) => {
-      let isAccepted = false;
-      user.jobQueue.forEach((jobQueueItemID) => { 
-        // console.log("jobQueueItemID");
-        // console.log(jobQueueItemID);
-        // console.log("jobID");
-        // console.log(jobID);
-        if (jobQueueItemID == jobID) {
-          // console.log("true");
-          // console.log(`end check for ${jobID}`);
-          isAccepted = true;
-        } else {
-          //console.log("false");
-        }
-      });
-      //console.log(`end check for ${jobID} (FALSE)`);
-      return isAccepted;
-    }
+    // const checkIfJobAccepted = (jobID) => {
+    //   let isAccepted = false;
+    //   user.jobQueue.forEach((jobQueueItemID) => { 
+    //     // console.log("jobQueueItemID");
+    //     // console.log(jobQueueItemID);
+    //     // console.log("jobID");
+    //     // console.log(jobID);
+    //     if (jobQueueItemID == jobID) {
+    //       // console.log("true");
+    //       // console.log(`end check for ${jobID}`);
+    //       isAccepted = true;
+    //     } else {
+    //       //console.log("false");
+    //     }
+    //   });
+    //   //console.log(`end check for ${jobID} (FALSE)`);
+    //   return isAccepted;
+    // }
 
     useEffect(() => {
         getJobs({ status: { $ne: 'Complete', $ne: 'Cancelled' }}); //TODO: filter out cancelled and complete
         console.log("Jobqueue useEffect called");
         //jobs.forEach((job) => console.log(job));
-    }, []);
+    }, [user]);
     return ( // in Operator view, shows all jobs that haven't been accepted by the user
                 //... those job cards have accept job buttons
             // in Engineer view, shows all jobs except the user's requested jobs
          user.preferredView === 'Operator' ? 
-         jobs.filter((job) => checkIfJobAccepted(job._id) == false).map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>) 
+         jobs.filter((job) => (!user.jobQueue.includes(job._id))).map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>) 
          : 
          jobs.filter((job) => job.requesterId !== user._id).map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>)
     )

@@ -41,7 +41,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
 
   useEffect(() => {
     getJobsByIdArray(user.jobQueue, "GET_USER_JOB_QUEUE"); // populate the state with the jobs from the user's jobQueue
-  },[]);
+  },[user]);
 
   useEffect(() => {
     // making sure jobMap and jobPartQuantityMap are initialized
@@ -105,6 +105,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
           ]
         ))))
       }); //jobPartQuantityMap needs to be reset because userJobQueue may have changed
+      setBuildState({...buildState, upToDate: true});
     }
   },[buildState.upToDate]);
 
@@ -256,7 +257,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
         // console.log(compDate.getTime());
         // console.log(dbDate.getTime());
         if(dbDate.getTime() !== compDate.getTime()){
-          // console.log("A date is not up to date");
+          alert("One or more jobs is not up to date with our records. Please try again.");
           upToDate = false;
           setBuildState({ 
             ...buildState,
@@ -344,6 +345,9 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
       //clearForm();
 
     }
+    else {
+      console.log('Jobs are not up to date');
+    }
     
     console.log('buildForm onSubmit');
     console.log(buildForm);
@@ -355,144 +359,144 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
   
 
   return (
-    <div>
-      {/*select from available jobs that haven't yet been completed*/}
-      <div id='buildModal'className='modal modal-fixed-footer'>
-        <div className="modal-content">
-          <h4 className="center">Create Build</h4>
-          {buildState.upToDate === false ? 
-            <div>
-              One or more jobs are not up to date. Please try again.
-            </div>
-            :
-            <div>
-              {/* create a select dropdown with all of the jobs that have yet to be completed */}
-               {( !userJobQueue || userJobQueue.length === 0 )? <div>Please accept jobs to start a build!</div> : userJobQueue.map((job, index) => (
-                 <BuildQuantityForm job={job} key={index} handleQuantityChange={handleQuantityChange}/>)
-              )} 
-              <div className="row">
-              <div className='col s6'>
-                <div className="file-field input-field">
-                    <div className="btn blue" name="Select Files">
-                        <span>Select Build File</span>
-                        <input type="file" name="buildFileName"
-                            onChange={onChange}/>
-                    </div>
-                    <div className="file-path-wrapper">
-                        <input 
-                            className="file-path validate"
-                            type="text"
-                            placeholder="Upload a build file"
-                            value={buildFileName} 
-                        />
-                    </div>
-                </div>
-                </div>
-                <div className="col s6">
-                  <div className="input-field">
-                    <input 
-                    type="text" 
-                    name="buildFilePath" 
-                    value={buildForm.buildFilePath} 
-                    onChange={onChange}
-                    />
-                    <label htmlFor="buildFilePath" className="active">
-                      Build File Path:
-                    </label>
+    <div id='buildModal' className='modal modal-fixed-footer'>
+      <div className="modal-content">
+        <h4 className="center">Create Build</h4>
+        {buildState.upToDate === false ? 
+          <div>
+            One or more jobs are not up to date. Please try again.
+          </div>
+          :
+          <div>
+            {/* create a select dropdown with all of the jobs that have yet to be completed */}
+              {( !userJobQueue || userJobQueue.length === 0 )? <div>Please accept jobs to start a build!</div> : userJobQueue.map((job, index) => (
+                <BuildQuantityForm job={job} key={index} handleQuantityChange={handleQuantityChange}/>)
+            )} 
+            <div className="row">
+            <div className='col s6'>
+              <div className="file-field input-field">
+                  <div className="btn blue" name="Select Files">
+                      <span>Select Build File</span>
+                      <input type="file" name="buildFileName"
+                          onChange={onChange}/>
                   </div>
-                </div>
+                  <div className="file-path-wrapper">
+                      <input 
+                          className="file-path validate"
+                          type="text"
+                          placeholder="Upload a build file"
+                          value={buildFileName} 
+                          readOnly
+                      />
+                  </div>
               </div>
-              <div className="row">
-                <div className="col s6">
-                  <div className="input-field">
-                    <input 
-                      type="text" 
-                      name="material"
-                      value={material}
-                      onChange={onChange}
-                    />
-                    <label htmlFor="material" className="active">
-                        Material:
-                    </label>
-                  </div>
-                </div>
-                <div className="col s6">
-                  <div className="input-field">
-                    <input 
-                      type="text" 
-                      name="resolution"
-                      value={resolution}
-                      onChange={onChange}
-                    />
-                  <label htmlFor="resolution" className="active">
-                      Resolution:
+              </div>
+              <div className="col s6">
+                <div className="input-field">
+                  <input 
+                  type="text" 
+                  name="buildFilePath" 
+                  value={buildForm.buildFilePath} 
+                  onChange={onChange}
+                  />
+                  <label htmlFor="buildFilePath" className="active">
+                    Build File Path:
                   </label>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                <div className="col s6">
-                  <div className="input-field">
-                    <input 
-                    type="date" 
-                    name="dateStarted"
-                    value={dateStarted}
-                    onChange={onChange} 
-                    />
-                    <label htmlFor="dateStarted" className="active">
-                      Date Started:
-                    </label>
-                  </div>
-                </div>
-                <div className="col s6">
-                  <div className="input-field">
-                    <input 
-                    type="text" 
-                    name="estPrintTime" 
-                    value={estPrintTime}
-                    onChange={onChange}
-                    />
-                    <label htmlFor="estPrintTime" className="active">
-                      Estimated Print Time(Hours):
-                    </label>
-                  </div>
-                </div>
-              </div>
-              <div className="row">
-                Input up to two additional operators: 
-              </div>
-              <div className="row">
-                <div className="col s6">
-                  <div className="input-field">
-                    <input 
-                    type="text" 
-                    name="addOperator1" 
-                    value={buildForm.operators[1]} 
-                    onChange={onChange}
-                    />
-                  <label htmlFor="addOperator1" className="active">
-                      Additional Operator 1:
-                  </label>
-                  </div>
-                </div>
-                <div className="col s6">
-                  <div className="input-field">
-                    <input 
-                    type="text" 
-                    name="addOperator2" 
-                    value={buildForm.operators[2]} 
-                    onChange={onChange}
-                    />
-                  <label htmlFor="addOperator2" className="active">
-                      Additional Operator 2:
-                  </label>
-                  </div>
                 </div>
               </div>
             </div>
-          }
-        </div>
-        <div class="modal-footer">
+            <div className="row">
+              <div className="col s6">
+                <div className="input-field">
+                  <input 
+                    type="text" 
+                    name="material"
+                    value={material}
+                    onChange={onChange}
+                  />
+                  <label htmlFor="material" className="active">
+                      Material:
+                  </label>
+                </div>
+              </div>
+              <div className="col s6">
+                <div className="input-field">
+                  <input 
+                    type="text" 
+                    name="resolution"
+                    value={resolution}
+                    onChange={onChange}
+                  />
+                <label htmlFor="resolution" className="active">
+                    Resolution:
+                </label>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col s6">
+                <div className="input-field">
+                  <input 
+                  type="date" 
+                  name="dateStarted"
+                  value={dateStarted}
+                  onChange={onChange} 
+                  />
+                  <label htmlFor="dateStarted" className="active">
+                    Date Started:
+                  </label>
+                </div>
+              </div>
+              <div className="col s6">
+                <div className="input-field">
+                  <input 
+                  type="text" 
+                  name="estPrintTime" 
+                  value={estPrintTime}
+                  onChange={onChange}
+                  />
+                  <label htmlFor="estPrintTime" className="active">
+                    Estimated Print Time(Hours):
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              Input up to two additional operators: 
+            </div>
+            <div className="row">
+              <div className="col s6">
+                <div className="input-field">
+                  <input 
+                  type="text" 
+                  name="addOperator1" 
+                  value={buildForm.operators[1]} 
+                  onChange={onChange}
+                  />
+                <label htmlFor="addOperator1" className="active">
+                    Additional Operator 1:
+                </label>
+                </div>
+              </div>
+              <div className="col s6">
+                <div className="input-field">
+                  <input 
+                  type="text" 
+                  name="addOperator2" 
+                  value={buildForm.operators[2]} 
+                  onChange={onChange}
+                  />
+                <label htmlFor="addOperator2" className="active">
+                    Additional Operator 2:
+                </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+    {buildState.upToDate === true &&
+      <div className="modal-footer">
           <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={clearForm}>Clear<i className="material-icons right">clear</i>
           </button>
           {user.lastBuild && 
@@ -503,9 +507,9 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
           }
           <button type='submit' style={{margin: '10px'}} className="btn blue modal-close" onClick={onSubmit}>Submit<i className="material-icons right">send</i>
           </button>
-        </div>
-      </div>  
-    </div>
+      </div>
+    }
+    </div>  
   )
 }
 
@@ -514,4 +518,4 @@ const mapStateToProps = (state) => ({
   job: state.job,
 });
 
-export default connect(mapStateToProps, {addBuild, getJobsByIdArray})(CreateBuildModal);
+export default connect(mapStateToProps, {addBuild, getJobsByIdArray,})(CreateBuildModal);

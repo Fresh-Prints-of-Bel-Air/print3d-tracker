@@ -125,7 +125,8 @@ const RequestJobModal = ({ job: { lastCreatedJobID }, user: { user }, addJob, up
                                         className="file-path validate"
                                         type="text"
                                         placeholder="Upload one or more files"
-                                        value={(requestedParts === undefined || requestedParts.length === 0) ? '' : requestedParts.map((part) => part.name).join(', ')} 
+                                        value={(requestedParts === undefined || requestedParts.length === 0) ? '' : requestedParts.map((part) => part.name).join(', ')}
+                                        readOnly
                                     />
                                 </div>
                             </div>

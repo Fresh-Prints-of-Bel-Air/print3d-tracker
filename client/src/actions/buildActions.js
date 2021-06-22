@@ -51,6 +51,7 @@ export const getBuilds = (filter) => async (dispatch) => {
 }
 
 // get multiple builds according to an array of IDs as input
+// currently only used for getting the user's builds. Potentially add a second parameter to specify reducer action.
 export const getBuildsByIdArray = (buildIdArray) => async (dispatch) => {
   setLoading();
   try {
