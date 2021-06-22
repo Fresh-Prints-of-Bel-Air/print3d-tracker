@@ -238,7 +238,7 @@ export const logout = () => async (dispatch) => {
   dispatch({ type: LOGOUT });
   dispatch({ type: RESET_JOB_STATE });
   dispatch({ type: RESET_BUILD_STATE });
-  setAuthToken();
+  console.log('derpa herpa: ');
   console.log(localStorage.getItem("token"));
 }
 

@@ -4,7 +4,7 @@ import M from 'materialize-css';
 export const BuildItem = ( { build } ) => {
     useEffect(() => {
         M.AutoInit();
-        console.log("useEffect log " + collapseState.activeClass);
+        //console.log("useEffect log " + collapseState.activeClass);
     });
 
     const { build_number, buildFileName, dateStarted, status, projects, associatedJobs, material, resolution, estPrintTime, operators, buildFilePath, dateDelivered, partsBuilding } = build;

@@ -23,7 +23,7 @@ const DeleteJobModal = ({ user: { user }, jobNumber, jobID, updateUser, deleteJo
         <div>
             <a className="btn-small teal truncate modal-trigger" style={{margin: '5px'}} 
                 href={`#myJobListDeleteModal${jobNumber}`}>
-                <i class="small material-icons left">delete_forever</i>Delete
+                <i className="small material-icons left">delete_forever</i>Delete
             </a>
             <div id={`myJobListDeleteModal${jobNumber}`} className="modal">
             <div className="modal-content grey darken-3">

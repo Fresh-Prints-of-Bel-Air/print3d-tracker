@@ -61,7 +61,7 @@ router.get(
     
     const { job_number, requester, projectName, dateRequestedLowerBound, dateRequestedUpperBound, jobStatus, filterType } = req.query;
 
-    // console.log(req.query);
+    console.log(req.query);
     
     //if(dateRequestedLowerBound) filter.dateRequestedLowerBound = { $gte: dateRequestedLowerBound }; //add upperbound?
 
@@ -92,7 +92,8 @@ router.get(
       if(projectName) filter.projectName = { $eq: projectName };
     }
     
-
+    console.log("job filter:");
+    console.log(filter);
     try {
         const jobs = await Job.find(filter);
         res.json(jobs);

@@ -101,7 +101,7 @@ router.get(
       }
       if(status)
       {
-        filter.status = {$eq: status};
+        filter.status = status;
       }
       if(build_number) 
       {
@@ -133,7 +133,8 @@ router.get(
           { dateDelivered: { $gte: today } } 
         ];
       }
-
+      console.log("Build Filter");
+      console.log(filter);
       const builds = await Build.find(filter);
       //const build = await Build.findById(req.params.id);
       // console.log(new Date().toISOString().split('T')[0]);

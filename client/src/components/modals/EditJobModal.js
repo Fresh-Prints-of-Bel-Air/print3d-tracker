@@ -111,7 +111,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
         <div>
             <a className="btn-small teal truncate modal-trigger" style={{margin: '5px'}} 
                 href={`#myJobListEditModal${jobNumber}`}>
-                <i class="small material-icons left">edit</i>Edit
+                <i className="small material-icons left">edit</i>Edit
             </a>
             <div id={`myJobListEditModal${jobNumber}`} className="modal grey darken-3">
                 <div className="modal-content grey darken-3">

@@ -101,7 +101,7 @@ const RequestJobModal = ({ job: { lastCreatedJobID }, user: { user }, addJob, up
         //e.preventDefault();
         console.log("Jobform is: ");
         console.log(jobForm);
-        addJob({ ...jobForm, requester: user.name, requesterId: user._id, status: "Requested" }, {...user, lastJobRequest: jobForm}); 
+        addJob({ ...jobForm, requester: user.name, requesterId: user._id, status: "Requested", dateRequested: new Date().toISOString().split('T')[0] }, {...user, lastJobRequest: jobForm}); 
         console.log('requestJobModal formsubmit');
         console.log(user.lastJobRequest);
         console.log("formSubmit call");

@@ -6,7 +6,7 @@ import JobCard from './JobCard';
 import JobQueueItem from './JobQueueItem';
 
 // The list of non-completed job requests, 
-// shown in the left column of both Operator and Engineer views
+// shown in the left column of the Operator view, and the right column of the Engineer view
 // in Operator view, shows all jobs
 // in Engineer view, shows all jobs except the user's requested jobs
 
@@ -40,7 +40,7 @@ export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
     }, [user]);
     return ( // in Operator view, shows all jobs that haven't been accepted by the user
                 //... those job cards have accept job buttons
-            // in Engineer view, shows all jobs except the user's requested jobs
+            // in Engineer view, shows all non-complete requested jobs except the user's requested jobs
          user.preferredView === 'Operator' ? 
          jobs.filter((job) => (!user.jobQueue.includes(job._id))).map((jobEntry) => <JobCard job={jobEntry} key={jobEntry._id}/>) 
          : 

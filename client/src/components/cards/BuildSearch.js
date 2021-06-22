@@ -7,7 +7,7 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
 
   const [userFormData, setUserFormData] = useState({
     build_number: '',
-    status: {},
+    status: '',
     startedFrom: '',
     startedTo: '',
     deliveredFrom: '',
