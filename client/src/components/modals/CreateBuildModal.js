@@ -303,13 +303,11 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
     if(jobsAreUpToDate(Array.from(buildForm.jobMap.values())) && !quantitiesAreEmpty()){
       //iterate over the jobPartQuantityMap. Any job having at least 1 part being built is added to associated jobs for the build
       for(let [jobID, partList] of buildForm.jobPartQuantityMap){
-        let partIsBeingBuilt = false;
         let i;
         for(i = 0; i < partList.length; i++){
           if(partList[i].quantityBuilding > 0){
             let associatedJob = buildForm.jobMap.get(jobID);
-            partIsBeingBuilt = true;
-            associatedJobs.set(jobID, { jobID, jobNumber: associatedJob.job_number});
+            associatedJobs.set(jobID, { _id: jobID, jobNumber: associatedJob.job_number}); //change to _id: jobID ?
             // associatedJobs.push({ jobID, jobNumber: associatedJob.job_number});
             associatedJobIDs.add(jobID);
             partsBuilding.push({

@@ -83,6 +83,8 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 jobs: state.jobs.map(job => job._id === action.payload._id ? action.payload : job),
+                userJobQueue: state.userJobQueue.map(job => job._id === action.payload._id ? action.payload : job),
+                userRequestedJobs: state.userRequestedJobs.map(job => job._id === action.payload._id ? action.payload : job),
                 loading: false,
                 error: null,
             }
@@ -94,7 +96,23 @@ export default (state = initialState, action) => {
                     action.payload.forEach(updatedJob => {
                         if(job._id === updatedJob._id)
                             returnJob = updatedJob;
-                    })
+                    });
+                    return returnJob;
+                }),
+                userJobQueue: state.userJobQueue.map(job => {
+                    let returnJob = job;
+                    action.payload.forEach(updatedJob => {
+                        if(job._id === updatedJob._id)
+                            returnJob = updatedJob;
+                    });
+                    return returnJob;
+                }),
+                userRequestedJobs: state.userRequestedJobs.map(job => {
+                    let returnJob = job;
+                    action.payload.forEach(updatedJob => {
+                        if(job._id === updatedJob._id)
+                            returnJob = updatedJob;
+                    });
                     return returnJob;
                 }),
                 loading: false,

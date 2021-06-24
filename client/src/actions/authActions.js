@@ -264,10 +264,10 @@ export const getAdmin = () => async (dispatch) => {
       type: GET_REGISTRATION_REQUESTS,
       payload: res.data[0].registrationRequests, // might not be an array
     });
-    dispatch({
-      type: GET_ADMIN_NOTIFICATIONS,
-      payload: res.data[0].notifications, // might not be an array
-    })
+    // dispatch({
+    //   type: GET_ADMIN_NOTIFICATIONS,
+    //   payload: res.data[0].notifications, // might not be an array
+    // });
   } catch (error) {
     dispatch({
       type: GET_ADMIN_ERROR

@@ -195,8 +195,8 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
 
 //Delete a build
 // 1.) Delete the Build
-// 2.) Delete the Build from each associated job
-// 3.) TODO: Decrement parts building for each associated job 
+// 2.) Delete the Build from the user's buildlist
+// 3.) Delete the Build from each associated job 
 //Filter out the deleted build from jobs, userJobQueue, userRequestedJobs
 
 export const deleteBuild = (id, user) => async (dispatch) => {
@@ -209,6 +209,8 @@ export const deleteBuild = (id, user) => async (dispatch) => {
   
   try {
     console.log("deleteBuild action");
+    console.log("ID to delete:");
+    console.log(id);
     const deletedBuild = await axios.delete(`/api/builds/${id}`); //delete the build
     console.log("DISPATCHING TO DELETE BUILD");
     console.log(deletedBuild);
@@ -216,16 +218,20 @@ export const deleteBuild = (id, user) => async (dispatch) => {
 
     try { //delete the build from each associated job, decrementing parts building for each
           //Steps: get jobs by ID array, filter out build from each, decrement parts building based on the build deleted for each
-      let IDs = deletedBuild.data.associatedJobs.map((job) => job.id);
+      let IDs = deletedBuild.data.associatedJobs.map((job) => job._id);
       let jobsToUpdate =  new Map(); //to hold jobs that need to be updated with new part quantities based on the deleted build. (Key = Job Number, Value = Job)
-      
-      IDs.forEach(async (ID) => {
+      console.log(IDs);
+      for(const ID of IDs){
         let jobRes = await axios.get(`/api/jobs/${ID}`);
+        console.log("JobRes");
+        console.log(jobRes);
         //remove the deleted build's ID from each associated job
         jobRes.data.builds.filter((buildID) => buildID !== id);
+        console.log("Typeof Key being used for map:");
+        console.log(typeof(jobRes.data.job_number));
         jobsToUpdate.set(jobRes.data.job_number, jobRes.data);
-      });
-
+      };
+     
       //update each job's part quantities
       //Format of requestedPart:
       // {
@@ -243,8 +249,20 @@ export const deleteBuild = (id, user) => async (dispatch) => {
       //   jobNumber: String
       // }
 
+
+      //!!!!NOTE!!! USE FOR...OF LOOPS INSTEAD OF FOREACH FOR ASYNCHRONOUS SEQUENTIAL OPERATIONS
       deletedBuild.data.partsBuilding.forEach((partBuilding) => { //for each part in the deleted build, decrement the parts building (and extra parts if necessary) for the associated job
-        let associatedJob = jobsToUpdate.get(partBuilding.jobNumber); //get the associated job reference from the job map
+        console.log("Trying to get associated job for job number:");
+        console.log(partBuilding.jobNumber);
+        console.log("JobsToUpdate:");
+        console.log(jobsToUpdate);
+        console.log("Typeof partBuilding.jobNumber:");
+        console.log(typeof((parseInt(partBuilding.jobNumber))));
+        console.log("Does the jobsToUpdate map have the desired value?");
+        console.log(jobsToUpdate.has(parseInt(partBuilding.jobNumber)));
+        let associatedJob = jobsToUpdate.get(parseInt(partBuilding.jobNumber)); //get the associated job reference from the job map
+        console.log("Associated Job:");
+        console.log(associatedJob);
         associatedJob.requestedParts.forEach((requestedPart) => {
           if(requestedPart.name === partBuilding.name){
             requestedPart.building -= partBuilding.quantity; //first decrement the amount building by the quantity specified in the deleted build
@@ -269,9 +287,9 @@ export const deleteBuild = (id, user) => async (dispatch) => {
 
       try { 
         //PUT the updated jobs to the database
-        jobsToUpdate.forEach(async (job) => {
+        for(const job of jobsToUpdate.values()){
           await axios.put(`/api/jobs/${job._id}`, job, config);
-        });
+        }
         dispatch({
           type: UPDATE_JOBS,
           payload: Array.from(jobsToUpdate.values()),
@@ -281,11 +299,11 @@ export const deleteBuild = (id, user) => async (dispatch) => {
       }
     } catch (err) {
       console.log(err);
-      dispatch({type: JOBS_ERROR, payload: err.response.data.msg});
+      //dispatch({type: JOBS_ERROR, payload: err.response.data.msg});
     }
   } catch (err) {
     console.log(err);
-    dispatch({type: BUILDS_ERROR, payload: err.response.data.msg});
+    //dispatch({type: BUILDS_ERROR, payload: err.response.data.msg});
   }
 }
 
