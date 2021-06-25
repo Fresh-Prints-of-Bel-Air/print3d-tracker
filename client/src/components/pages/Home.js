@@ -8,7 +8,7 @@ import OperatorHome from './OperatorHome';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 
-const Home = ({ user: {user, loading}, loadUser }) => {
+const Home = ({ user: {user}, loadUser }) => {
 
 
 
@@ -19,7 +19,7 @@ const Home = ({ user: {user, loading}, loadUser }) => {
     loadUser();
     //eslint-disable-next-line
   }, []);
-  if(user === null || loading) {
+  if(user === null) {
     return <Preloader/>;
   }
   return (

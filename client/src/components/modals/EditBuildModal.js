@@ -54,8 +54,9 @@ const EditBuildModal = ({ user: { user }, build, updateBuild, updateUser }) => {
         updateBuild({ ...build, status: editBuildForm.status, estPrintTime: editBuildForm.estPrintTime });
         if(editBuildForm.status === 'Build Delivered'){  //If a build is updated to "Build Delivered", remove it from the user's buildlist and from frontend buildstate
             updateUser({...user, buildList: user.buildList.filter((buildID) => buildID !== build._id)});
-        } 
-        alert("Build update submitted. If the build was set to 'Delivered' it will be removed from your builds list. You may still view delivered builds in Build History.");
+            alert("Build update submitted. The delivered build will be removed from your builds list. You may still view delivered builds in Build History.");
+        } else
+            alert("Build update submitted.");
     }
 
 
@@ -82,7 +83,7 @@ const EditBuildModal = ({ user: { user }, build, updateBuild, updateUser }) => {
                             </label>
                         </div>
                     </div>
-                    <div className='row' style={{marginTop: '10px'}}>
+                    <div className='row' style={{marginTop: '10px', height: '15vh'}}>
                         <div className='black-text'>
                             <div className="col s4" name="editStatus">
                                 <Select

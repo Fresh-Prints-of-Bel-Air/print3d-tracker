@@ -8,6 +8,7 @@ import {
   LOGOUT,
   CLEAR_ERRORS,
   UPDATE_USER,
+  SET_USER_LOADING,
   ADMIN_AUTHENTICATED
 } from '../actions/types';
 
@@ -22,6 +23,11 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case SET_USER_LOADING:
+      return {
+        ...state,
+        loading: true,
+      }
     case USER_LOADED:
       return {
         ...state,
