@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Fragment } from 'react';
 import Select from 'react-select';
 
-const BuildQuantityForm = ({job, handleQuantityChange}) => {
+const BuildQuantityForm = ({job, cleanup, handleQuantityChange}) => {
   const [partQuantities, setPartQuantities] = useState({
     quantities: job.requestedParts.map((part) => 0),
     partName: "",
@@ -52,7 +52,7 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
         });
       setFirstRender(true);
     }
-  },[job]);
+  },[job, cleanup]);
 
   /*
     Any time the firstRender state is set to true (we want the form to be treated as a new form and have the Select option reset), run this effect only.
@@ -79,13 +79,16 @@ const BuildQuantityForm = ({job, handleQuantityChange}) => {
   */
   useEffect(() => {
     if(!firstRender){
-      // console.log("selectValues useEffect called. Values are:");
-      // console.log(selectValues);
-      // console.log("PartQuantities is: ");
-      // console.log(partQuantities);
+      console.log("selectValues useEffect called. Values are:");
+      console.log(selectValues);
+      console.log("PartQuantities is: ");
+      console.log(partQuantities);
+      
 
       const {option, partName} = selectValues.values[selectValues.currentIndex];
       let quantityChange = option.value - partQuantities.quantities[selectValues.currentIndex]; // new value minus old
+      console.log('...and the quantityChange being requested is:');
+      console.log(quantityChange);
       let quantityArr = [...partQuantities.quantities];
       quantityArr[selectValues.currentIndex] = option.value;
       setPartQuantities({ quantities: quantityArr, partName: partName, quantityChange: quantityChange });

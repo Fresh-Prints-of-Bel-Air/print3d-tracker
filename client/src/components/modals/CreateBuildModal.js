@@ -11,6 +11,8 @@ import M from 'materialize-css';
 
 const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsByIdArray}) => {
 
+
+  const [cleanup, setCleanup] = useState(false); //used to perform a reset on quantity fields inside each BuildQuantityForm
   // const [jobMap, setJobMap] = useState(new Map()); 
   const [buildForm, setBuildForm] = useState({
     jobMap: new Map(), //jobMap will keep track of build quantities for each job
@@ -149,7 +151,15 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
 
   const clearForm = () => {
     setBuildForm({
-      jobMap: new Map(),
+      jobMap: new Map(userJobQueue.map((job) => 
+      [
+        job._id, 
+        {
+          ...job, 
+          requestedParts: job.requestedParts.map((partObj) => ({...partObj})), 
+          //operators: [...job.acceptingOperators]
+        }
+      ])),
       //associatedJobs: [],
       //partsBuilding: [],
       material: '',
@@ -167,6 +177,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
         ])
       )))
     });
+    setCleanup(!cleanup);
   }
 
   const handleQuantityChange = (jobID, partBuilding, buildQuantity) => {
@@ -368,7 +379,7 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
           <div>
             {/* create a select dropdown with all of the jobs that have yet to be completed */}
               {( !userJobQueue || userJobQueue.length === 0 )? <div>Please accept jobs to start a build!</div> : userJobQueue.map((job, index) => (
-                <BuildQuantityForm job={job} key={index} handleQuantityChange={handleQuantityChange}/>)
+                <BuildQuantityForm job={job} key={index} cleanup={cleanup} handleQuantityChange={handleQuantityChange}/>)
             )} 
             <div className="row">
             <div className='col s6'>

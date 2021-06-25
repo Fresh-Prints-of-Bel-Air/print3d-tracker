@@ -96,7 +96,6 @@ export const deleteJob = (id, userID) => async (dispatch) => { //also send notif
         }
     }
     console.log("deleting id:");
-    console.log(typeof(id));
     console.log(id);
     try{
         const res = await axios.delete(`/api/jobs/${id}`);
