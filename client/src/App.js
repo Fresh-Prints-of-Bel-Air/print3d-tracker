@@ -8,6 +8,7 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 import Navbar from './components/layout/Navbar';
 import Login from './components/auth/Login';
 import Register from './components/auth/Register';
+import ForgotPassword from './components/auth/ForgotPassword'
 import BuildHistory from './components/pages/BuildHistory';
 import RequestHistoryPage from './components/pages/RequestHistoryPage';
 import Home from './components/pages/Home';
@@ -35,6 +36,7 @@ function App() {
             <PrivateRoute exact path='/request-history' component={RequestHistoryPage} />
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
+            <Route exact path='/forgotPassword' component={ForgotPassword}/>
           </Switch>
         </Router>
       </Fragment>
