@@ -41,8 +41,8 @@ router.get(`/passwordReset`, async (req, res) => {
       port: 587,
       secure: false, // true for 465, false for other ports
       auth: {
-        user: 'yourUserNameHere@email.com', // generated ethereal user
-        pass: 'yourPasswordHere', // generated ethereal password
+        user: 'yourUserNameHere@email.com', 
+        pass: 'yourPasswordHere', 
       },
     });
   
@@ -58,10 +58,8 @@ router.get(`/passwordReset`, async (req, res) => {
     console.log("Message sent: %s", info.messageId);
     // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
   
-    // Preview only available when sending through an Ethereal account
-    console.log("Preview URL: %s", nodemailer.getTestMessageUrl(info));
     res.json({'msg': 'Email sent.'});
-    // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+    
   } catch (err) {
     console.error(err);
   }
