@@ -7,7 +7,7 @@ const PasswordResetSchema = mongoose.Schema({ //should create an entry automatic
         unique: true,
     },
     passwordResetRequest: {
-        type: Number, //randomly generated
+        type: Number, //randomly generated, possibly a uuid?
     },
     createdAt: { 
         type: Date, 

@@ -1,8 +1,8 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 
-//const ForgotPassword = ({user: { isAuthenticated }, forgotPassword, ...rest}) => {
+//const ForgotPassword = ({user: { isAuthenticated }, requestPasswordReset, ...rest}) => {
 
 const ForgotPassword = ({user: { isAuthenticated }, ...rest}) => {
     useEffect(() => {
@@ -10,6 +10,10 @@ const ForgotPassword = ({user: { isAuthenticated }, ...rest}) => {
           rest.history.push('/');
         }
       }, [isAuthenticated, rest.history]);
+
+      const [forgotPasswordFormData, setforgotPasswordFormData] = useState({
+        email: '',
+      });
 
       const onChange = () => {
 
@@ -76,4 +80,4 @@ const mapStateToProps = (state) => ({
 
 export default connect(mapStateToProps)(ForgotPassword);
 
-//export default connect(mapStateToProps, { forgotPassword })(ForgotPassword);
+//export default connect(mapStateToProps, { requestPasswordReset })(ForgotPassword);

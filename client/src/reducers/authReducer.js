@@ -16,6 +16,9 @@ const initialState = {
   token: localStorage.getItem('token'),
   isAdmin: false,
   isAuthenticated: null,
+  //passwordCanBeReset: set to true when the user enters a valid password reset code. Used to display the form fields to enter the new password. Backend still checks the password reset code again
+  //upon submission. Set back to false once the password has been reset
+  passwordCanBeReset: false, 
   loading: true,
   user: null,
   error: null,

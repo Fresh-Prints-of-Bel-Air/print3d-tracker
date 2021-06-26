@@ -37,8 +37,8 @@ export const loadUser = () => async (dispatch) => {
   try {
     console.log('getting logged in user...');
     const res = await axios.get('/api/auth'); // todo: make sure default route paths are set up properly
-    const emailTest = await axios.get('/api/auth/passwordReset');
-    console.log(emailTest);
+    //const emailTest = await axios.get('/api/auth/passwordReset');
+   // console.log(emailTest);
     console.log(res.data);
     dispatch({ type: USER_LOADED, payload: res.data });
     console.log("BEFORE GETADMIN");
