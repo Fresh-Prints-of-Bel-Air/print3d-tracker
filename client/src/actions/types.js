@@ -41,6 +41,7 @@ export const REMOVE_DELETED_BUILD_FROM_JOBS = 'REMOVE_DELETED_BUILD_FROM_JOBS';
 // User Type
 
 export const UPDATE_USER = 'UPDATE_USER';
+export const SET_USER_LOADING = 'SET_USER_LOADING';
 
 
 // Admin Type

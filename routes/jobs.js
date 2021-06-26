@@ -37,6 +37,8 @@ router.get(
   async (req, res) => {
   try {
       const job = await Job.findById(req.params.id);
+      console.log("Req.params.id");
+      console.log(req.params.id);
       res.json(job);
   } catch (err) {
       console.error(err.message);

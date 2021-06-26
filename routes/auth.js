@@ -6,6 +6,7 @@ const { check, validationResult } = require('express-validator/check');
 const config = require('config');
 const auth = require('../middleware/auth');
 const User = require('../models/User');
+const nodemailer = require('nodemailer');
 
 // @route   GET api/auth
 // @desc    Get logged in user
@@ -27,6 +28,42 @@ router.get('/', auth, async (req, res) => {
     console.error(err.message);
     res.status(500).send('Server Error');
   }
+});
+
+// @route GET
+// @desc Get a password reset email
+// @access Public
+
+router.get(`/passwordReset`, async (req, res) => {
+  try {
+    let transporter = nodemailer.createTransport({
+      host: "yourHostHere", //ex: smtp.gmail.com
+      port: 587,
+      secure: false, // true for 465, false for other ports
+      auth: {
+        user: 'yourUserNameHere@email.com', 
+        pass: 'yourPasswordHere', 
+      },
+    });
+  
+    // send mail with defined transport object
+    let info = await transporter.sendMail({
+      from: '"AltaVizTest" <yourUserNameHere@email.com>', // sender address
+      to: "receipientHere@email.com", // list of receivers
+      subject: "Hello ✔", // Subject line
+      text: "Hello world?", // plain text body
+      html: "<b>Hello world?</b>", // html body
+    });
+  
+    console.log("Message sent: %s", info.messageId);
+    // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
+  
+    res.json({'msg': 'Email sent.'});
+    
+  } catch (err) {
+    console.error(err);
+  }
+
 });
 
 //@route  POST api/auth

@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { updateUser, getUser } from '../../actions/authActions';
 import Switch from 'react-switch';
 
-const JobNav = ({ user: {user}, job: {job}, updateUser, getUser }) => { // todo add selectedJobId to redux state
+const JobNav = ({ user: {user, loading}, job, updateUser, getUser }) => { // todo add selectedJobId to redux state
   //////////////// delete job modal stuff
   // const [jobIdForModal, setJobIdForModal] = useState(0);
 
@@ -20,7 +20,7 @@ const JobNav = ({ user: {user}, job: {job}, updateUser, getUser }) => { // todo 
   }, [user]);
 
   const onViewToggleChange = (checked) => {
-    
+    console.log("View Toggle Clicked");
 
     if(checked) {
       updateUser({...user, preferredView: 'Operator'});
@@ -47,16 +47,30 @@ const JobNav = ({ user: {user}, job: {job}, updateUser, getUser }) => { // todo 
             <ul style={{marginRight: '1vw'}} className="right hide-on-med-and-down black-text">
               <li style={{marginRight: '1vw', fontWeight: user.preferredView === 'Engineer' && 'bold'}}>Engineer View</li>
               <li style={{marginTop: '0.4vh'}}>
-                <Switch 
-                    onChange={onViewToggleChange} 
-                    checked={user.preferredView === 'Operator'}
-                    offColor={'#00ACC1'}
-                    onColor={'#1E88E5'}
-                    uncheckedIcon={false}
-                    checkedIcon={false}
-                    width={40}
-                    height={20}
-                />
+                {user === null || loading || job.loading ?
+                    <div class="preloader-wrapper small active">
+                      <div class="spinner-layer spinner-green-only">
+                        <div class="circle-clipper left">
+                          <div class="circle"></div>
+                        </div><div class="gap-patch">
+                          <div class="circle"></div>
+                        </div><div class="circle-clipper right">
+                          <div class="circle"></div>
+                        </div>
+                      </div>
+                    </div>
+                  :
+                    <Switch 
+                        onChange={onViewToggleChange} 
+                        checked={user.preferredView === 'Operator'}
+                        offColor={'#00ACC1'}
+                        onColor={'#1E88E5'}
+                        uncheckedIcon={false}
+                        checkedIcon={false}
+                        width={40}
+                        height={20}
+                    />
+                }
               </li>
               <li style={{marginLeft: '1vw', fontWeight: user.preferredView === 'Operator' && 'bold'}}>Operator View</li>
             </ul>

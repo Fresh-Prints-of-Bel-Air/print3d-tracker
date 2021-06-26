@@ -17,8 +17,15 @@ import {
   GET_ADMIN_NOTIFICATIONS,
   RESET_JOB_STATE,
   RESET_BUILD_STATE,
-  REMOVE_REGISTRATION_REQUEST
+  REMOVE_REGISTRATION_REQUEST,
+  SET_USER_LOADING,
 } from './types';
+
+export const setLoading = () => async (dispatch) => {
+  dispatch({
+      type: SET_USER_LOADING 
+  });
+}
 
 // Load user
 export const loadUser = () => async (dispatch) => {
@@ -30,7 +37,8 @@ export const loadUser = () => async (dispatch) => {
   try {
     console.log('getting logged in user...');
     const res = await axios.get('/api/auth'); // todo: make sure default route paths are set up properly
-    
+    const emailTest = await axios.get('/api/auth/passwordReset');
+    console.log(emailTest);
     console.log(res.data);
     dispatch({ type: USER_LOADED, payload: res.data });
     console.log("BEFORE GETADMIN");
@@ -97,6 +105,9 @@ export const getUser = () => async (dispatch) => { //primarily used to get and u
 // Update User
 
 export const updateUser = (user) => async (dispatch) => {
+  dispatch({
+    type: SET_USER_LOADING,
+  });
   console.log('updateUser is being called');
   const config = {
     headers: {
@@ -271,7 +282,7 @@ export const getAdmin = () => async (dispatch) => {
     // dispatch({
     //   type: GET_ADMIN_NOTIFICATIONS,
     //   payload: res.data[0].notifications, // might not be an array
-    // })
+    // });
   } catch (error) {
     dispatch({
       type: GET_ADMIN_ERROR
