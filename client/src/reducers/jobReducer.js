@@ -83,6 +83,8 @@ export default (state = initialState, action) => {
             return {
                 ...state,
                 jobs: state.jobs.map(job => job._id === action.payload._id ? action.payload : job),
+                userRequestedJobs: state.userRequestedJobs.map((job) => job._id === action.payload._id ? action.payload : job),
+                jobQueue: state.jobQueue.map((job) => job._id === action.payload._id ? action.payload : job),
                 loading: false,
                 error: null,
             }

@@ -129,7 +129,7 @@ const MyJobListItem = ({user: { user }, jobData, jobID }) => {
                   </div>
                   <div className="col s4"></div>
                   <div className="col s4">
-                      <DeleteJobModal jobNumber={job_number} jobID={jobID}/>
+                      <DeleteJobModal jobNumber={job_number} jobID={jobID} jobData={jobData}/>
                   </div>
               </div>
           </div>

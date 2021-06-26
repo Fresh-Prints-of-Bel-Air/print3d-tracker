@@ -47,8 +47,7 @@ const EditBuildModal = ({ user: { user }, build, updateBuild, updateUser }) => {
         });
     }
 
-    const editConfirm = (e) => { 
-        
+    const editConfirm = (e) => {         
         console.log('Edit Build Submission:');
         console.log({ ...build, status: editBuildForm.status, estPrintTime: editBuildForm.estPrintTime });
         updateBuild({ ...build, status: editBuildForm.status, estPrintTime: editBuildForm.estPrintTime });
@@ -57,9 +56,6 @@ const EditBuildModal = ({ user: { user }, build, updateBuild, updateUser }) => {
         } 
         alert("Build update submitted. If the build was set to 'Delivered' it will be removed from your builds list. You may still view delivered builds in Build History.");
     }
-
-
-
 
     return ( 
         <div>

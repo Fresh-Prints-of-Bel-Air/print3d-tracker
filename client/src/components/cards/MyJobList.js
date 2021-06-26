@@ -24,6 +24,11 @@ export const MyJobList = ({ job: { userRequestedJobs }, user: { user }, getJobsB
         getJobsByIdArray(user.requestedJobs, 'GET_USER_REQUESTED_JOBS');
     }, [user]);
 
+    useEffect(() => {
+        console.log('userRequestedJobs change');
+        console.log(userRequestedJobs);
+    }, [userRequestedJobs]);
+
     // const [jobIdForModal, setJobIdForModal] = useState(0);
 
     // const handleCardButtonClick = (cardJobId) => {

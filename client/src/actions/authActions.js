@@ -115,7 +115,7 @@ export const updateUser = (user) => async (dispatch) => {
 
 }
 
-export const removeCompletedJobFromAcceptingOperators = (jobToRemove) => async (dispatch) => {
+export const removeJobFromAcceptingOperators = (jobToRemove) => async (dispatch) => {
   let today = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles'}).split(',')[0]; //ex 12/28/2020, need to change to 2020-12-18
   today = today.split('/');
   today = today[2] + '-' + today[0] + '-' + today[1]; //2020-12-18
@@ -217,6 +217,7 @@ export const login = (formData) => async (dispatch) => {
   };
   try {
     const res = await axios.post('/api/auth', formData, config);
+    
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
@@ -226,6 +227,9 @@ export const login = (formData) => async (dispatch) => {
     loadUser();
     
   } catch (err) {
+    console.log("err.response.data.msg");
+    console.log(err.response.data.msg);
+    alert(err.response.data.msg);
     dispatch({
       type: LOGIN_FAIL,
       payload: err.response.data.msg,
@@ -264,10 +268,10 @@ export const getAdmin = () => async (dispatch) => {
       type: GET_REGISTRATION_REQUESTS,
       payload: res.data[0].registrationRequests, // might not be an array
     });
-    dispatch({
-      type: GET_ADMIN_NOTIFICATIONS,
-      payload: res.data[0].notifications, // might not be an array
-    })
+    // dispatch({
+    //   type: GET_ADMIN_NOTIFICATIONS,
+    //   payload: res.data[0].notifications, // might not be an array
+    // })
   } catch (error) {
     dispatch({
       type: GET_ADMIN_ERROR

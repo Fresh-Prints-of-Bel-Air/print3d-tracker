@@ -5,9 +5,9 @@ import M from 'materialize-css';
 
 const AdminModal = ({ user: { user, isAuthenticated }, admin: { registrationRequests }, getAdmin, pullRegistrationRequest, register }) => {
     useEffect(() => {
-       if(isAuthenticated === true){
-         getAdmin();
-       }
+    //    if(isAuthenticated === true){
+    //      getAdmin();
+    //    }
        M.AutoInit();
     }, [user]);
 
