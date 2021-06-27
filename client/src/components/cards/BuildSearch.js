@@ -33,18 +33,18 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
   }
   const onChange = (e) => {
 
-    if(e.target.name === 'status'){
-      setUserFormData({
-        ...userFormData,
-        status: { $eq: e.target.value }
-      });
-    }
-    else {
-      setUserFormData({
+    // if(e.target.name === 'status'){
+    //   setUserFormData({
+    //     ...userFormData,
+    //     status: { $eq: e.target.value }
+    //   });
+    // }
+    // else {
+    setUserFormData({
         ...userFormData,
         [e.target.name]: e.target.value,
       });
-    }
+    // }
   
     console.log(e.target.value);
   };
@@ -66,11 +66,10 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
   const clearSearch = (e) => {
     setUserFormData({
       ...userFormData,
+      build_number: '',
       status: '',
       startedFrom: '',
       startedTo: '',
-      deliveredFrom: '',
-      deliveredTo: '',
       operator: '',
       project: '',
     });
@@ -144,13 +143,13 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
           </div>
 
           <div className="row">
-            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={onSubmit}>Submit
+            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn blue" type="submit" name="submit" onClick={onSubmit}>Submit
                 <i className="material-icons right" style={{fontSize: "1.2vh"}}>send</i>
             </button>
-            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn waves-effect waves-light blue" type="submit" name="copy" onClick={copyHistory}>Copy
+            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn blue" type="submit" name="copy" onClick={copyHistory}>Copy
                 <i className="material-icons right" style={{fontSize: "1.2vh"}}>content_copy</i>
             </button>
-            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearSearch}>Clear
+            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn blue" type="reset" name="clear" onClick={clearSearch}>Clear
                 <i className="material-icons right" style={{fontSize: "1.2vh"}}>clear</i>
             </button>
           </div>
