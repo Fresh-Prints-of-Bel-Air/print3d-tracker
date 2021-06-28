@@ -106,10 +106,10 @@ const RequestHistorySearch = ({ getJobs, formDimensions }) => {
             </div>
           </div>
           <div className="row" style={{marginBottom: '0px'}}>
-            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn waves-effect waves-light blue" type="submit" name="submit" onClick={requestSearchOnSubmit}>Submit
+            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn blue" type="submit" name="submit" onClick={requestSearchOnSubmit}>Submit
                 <i className="material-icons right" style={{fontSize: "1.2vh"}}>send</i>
             </button>
-            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn waves-effect waves-light blue" type="reset" name="clear" onClick={clearRequestSearch}>Clear
+            <button style={{margin: '1vh', height: formDimensions.buttonHeight, width: formDimensions.buttonWidth, fontSize: "1.3vh"}} className="btn blue" type="reset" name="clear" onClick={clearRequestSearch}>Clear
                 <i className="material-icons right" style={{fontSize: "1.2vh"}}>clear</i>
             </button>
           </div>

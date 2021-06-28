@@ -92,16 +92,16 @@ router.get(
       //Filter by project name
       if(project)
       {
-        filter.projects = {$elemMatch: {$eq: project}}
+        filter.projects = {$elemMatch: {$eq: project}};
       }
       //Filter by operator name
       if(operator)
       {
-        filter.operators = {$elemMatch : {$eq: operator}}
+        filter.operators = {$elemMatch : {$eq: operator}};
       }
       if(status)
       {
-        filter.status = status;
+        filter.status = {$eq: status};
       }
       if(build_number) 
       {
