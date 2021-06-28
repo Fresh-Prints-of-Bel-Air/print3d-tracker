@@ -10,7 +10,7 @@ const Build = require('../models/Build');
 
 const isEmpty = (object) => { for(let i in object) { return false; } return true; } //used to check if filters are empty or not
 
-//@route GET api/builds
+//@route GET api/builds/multipleBuildsById
 //@desc Get a build
 //@access Public
 

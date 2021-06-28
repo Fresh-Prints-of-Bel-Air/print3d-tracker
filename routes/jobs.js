@@ -179,12 +179,12 @@ router.get(
     //     //handle errors
     //     return res.status(400).json({ errors: errors.array() });
     //   }
-
+      
       const { projectName, dateRequested, dateNeeded, completionDate, folderLocation, 
         material, resolution, priority, deliverTo, status, lastUpdated, notes, acceptingOperators, requestedParts, builds } = req.body;
         
       const updateFields = {};
-      updateFields.lastUpdated = Date.now;
+      updateFields.lastUpdated = Date.now();
       if(projectName) updateFields.projectName = projectName;
       if(dateRequested) updateFields.dateRequested = dateRequested;
       if(dateNeeded) updateFields.dateNeeded = dateNeeded;

@@ -9,7 +9,10 @@ import {
   CLEAR_ERRORS,
   UPDATE_USER,
   SET_USER_LOADING,
-  ADMIN_AUTHENTICATED
+  ADMIN_AUTHENTICATED,
+  PASSWORD_RESET_CODE_VERIFIED,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_REQUESTED
 } from '../actions/types';
 
 const initialState = {
@@ -18,7 +21,9 @@ const initialState = {
   isAuthenticated: null,
   //passwordCanBeReset: set to true when the user enters a valid password reset code. Used to display the form fields to enter the new password. Backend still checks the password reset code again
   //upon submission. Set back to false once the password has been reset
-  passwordCanBeReset: false, 
+  passwordResetCodeIsVerified: false, 
+  providedPasswordResetCode: '',
+  passwordWasChanged: false,
   loading: true,
   user: null,
   error: null,
@@ -47,6 +52,32 @@ export default (state = initialState, action) => {
         isAuthenticated: true,
         loading: false,
       };
+    case PASSWORD_RESET_REQUESTED: 
+      return {
+        ...state,
+        passwordResetCodeIsVerified: false,
+        providedPasswordResetCode: '',
+        passwordWasChanged: false,
+        loading: false,
+        error: null,
+      }
+    case PASSWORD_RESET_CODE_VERIFIED:
+      return {
+        ...state,
+        passwordResetCodeIsVerified: true, 
+        providedPasswordResetCode: action.payload,
+        loading: false,
+        error: null
+      }
+    case PASSWORD_RESET_SUCCESS:
+      return {
+        ...state,
+        passwordResetCodeIsVerified: false,
+        providedPasswordResetCode: '',
+        passwordWasChanged: true,
+        loading: false,
+        error: null
+      }
     case REGISTER_FAIL:
       return {
         ...state,
@@ -69,6 +100,9 @@ export default (state = initialState, action) => {
         token: null,
         isAuthenticated: false,
         isAdmin: false,
+        passwordResetCodeIsVerified: false, 
+        providedPasswordResetCode: '',
+        passwordWasChanged: false,
         loading: false,
         user: null,
         error: action.payload,

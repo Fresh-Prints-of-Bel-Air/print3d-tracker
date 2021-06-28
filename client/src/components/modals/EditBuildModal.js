@@ -47,8 +47,7 @@ const EditBuildModal = ({ user: { user }, build, updateBuild, updateUser }) => {
         });
     }
 
-    const editConfirm = (e) => { 
-        
+    const editConfirm = (e) => {         
         console.log('Edit Build Submission:');
         console.log({ ...build, status: editBuildForm.status, estPrintTime: editBuildForm.estPrintTime });
         updateBuild({ ...build, status: editBuildForm.status, estPrintTime: editBuildForm.estPrintTime });
@@ -58,9 +57,6 @@ const EditBuildModal = ({ user: { user }, build, updateBuild, updateUser }) => {
         } else
             alert("Build update submitted.");
     }
-
-
-
 
     return ( 
         <div>

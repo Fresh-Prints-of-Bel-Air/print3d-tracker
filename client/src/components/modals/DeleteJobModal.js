@@ -1,22 +1,25 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../actions/authActions';
+import { updateUser, removeJobFromAcceptingOperators } from '../../actions/authActions';
 import { deleteJob } from '../../actions/jobActions';
 
-const DeleteJobModal = ({ user: { user }, jobNumber, jobID, updateUser, deleteJob }) => {
+const DeleteJobModal = ({ user: { user }, jobNumber, jobID, jobData, updateUser, deleteJob, removeJobFromAcceptingOperators }) => {
     const deleteJobHandler = () => {
         // handleCardButtonClick(jobID);
         // setSelectedJobID(jobID);
         console.log("delete button clicked");
         console.log("jobID is: ");
         console.log(jobID);
-        deleteJob(jobID);
+        
+        
         updateUser({
           ...user, 
           requestedJobs: [
             ...user.requestedJobs.filter(requestedJobID => requestedJobID != jobID)
           ]
         })
+        removeJobFromAcceptingOperators(jobData);
+        deleteJob(jobID);
       }
 
     return ( 
@@ -65,4 +68,4 @@ const mapStateToProps = (state) => ({
     user: state.user,
 });
 
-export default connect(mapStateToProps, { updateUser, deleteJob })(DeleteJobModal);
+export default connect(mapStateToProps, { updateUser, deleteJob, removeJobFromAcceptingOperators })(DeleteJobModal);

@@ -7,6 +7,9 @@ import {
   USER_LOADED,
   AUTH_ERROR,
   ADMIN_AUTHENTICATED,
+  PASSWORD_RESET_CODE_VERIFIED,
+  PASSWORD_RESET_SUCCESS,
+  PASSWORD_RESET_REQUESTED,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
@@ -34,11 +37,16 @@ export const loadUser = () => async (dispatch) => {
     setAuthToken(localStorage.token);
   }
 
+  const config = {
+    headers: {
+      'Content-Type' : 'application/json'
+    }
+  }
+
   try {
     console.log('getting logged in user...');
     const res = await axios.get('/api/auth'); // todo: make sure default route paths are set up properly
-    //const emailTest = await axios.get('/api/auth/passwordReset');
-   // console.log(emailTest);
+    
     console.log(res.data);
     dispatch({ type: USER_LOADED, payload: res.data });
     console.log("BEFORE GETADMIN");
@@ -57,7 +65,6 @@ export const getUser = () => async (dispatch) => { //primarily used to get and u
     }
   }
 
-  //TODO: CHANGE NAME TO "updateUserNotifications," add behavior to delete read notifications that are 3 or more days old
   try {
     const userRes = await axios.get('/api/auth');
     console.log("USER WITH NOTIFICATIONS:");
@@ -126,7 +133,7 @@ export const updateUser = (user) => async (dispatch) => {
 
 }
 
-export const removeCompletedJobFromAcceptingOperators = (jobToRemove) => async (dispatch) => {
+export const removeJobFromAcceptingOperators = (jobToRemove) => async (dispatch) => {
   let today = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles'}).split(',')[0]; //ex 12/28/2020, need to change to 2020-12-18
   today = today.split('/');
   today = today[2] + '-' + today[0] + '-' + today[1]; //2020-12-18
@@ -218,6 +225,82 @@ export const register = (regRequest) => async (dispatch) => {
   }
 };
 
+//Request a password reset.
+//Call an /api/auth/forgotPassword POST that checks if a user with the provided email exists, and emails a password reset key to the user if so. 
+//Then, a password reset document is created for that user. Values within the password reset document will be used to authenticate the user against the emailed key.
+
+export const requestPasswordReset = (email) => async (dispatch) => { 
+  const config = {
+    headers: {
+      'Content-Type' : 'application/json'
+    }
+  }
+    
+  try {
+    
+    const res = await axios.post('/api/auth/forgotPassword', { email }, config);
+
+    dispatch({
+      type: PASSWORD_RESET_REQUESTED,
+    });
+  
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+//Call an /api/auth/passwordReset POST that checks the provided password reset key against a hashed version stored in the database. Store the provided key in redux so the user doesn't have to enter it again.
+//Allows the user to enter in a new password
+export const verifyResetPasswordCode = (resetPasswordCode) => async (dispatch) => {
+  
+  const config = {
+    headers: {
+      'Content-Type' : 'application/json'
+    }
+  }
+  
+  try {
+    const res = await axios.post('/api/auth/checkPasswordResetCode', {resetPasswordCode}, config);
+    
+    dispatch({
+      type: PASSWORD_RESET_CODE_VERIFIED,
+      payload: resetPasswordCode,
+    });
+  
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+
+//Reset a password.
+//Call an /api/auth/passwordChange POST that checks for a second time the provided password reset key stored in redux against the hashed one stored in the database. If they match, delete the associated PasswordReset document
+//and change the password of the associated user. Then, delete the password reset key from redux.
+
+export const changePassword = (newPassword, resetPasswordCode) => async (dispatch) => {
+
+  const config = {
+    headers: {
+      'Content-Type' : 'application/json'
+    }
+  }
+
+  try {
+    const res = await axios.post('/api/auth/passwordChange', { newPassword, resetPasswordCode }, config);
+    console.log("Hello, your password was changed.");
+
+    alert("Your password has been successfully changed. You may now login using your new password.");
+
+    dispatch({
+      type: PASSWORD_RESET_SUCCESS
+    });
+
+  } catch (err) {
+    alert("Password reset attempt failed. Please try again.");
+    console.log(err);
+  }
+}
+
 // Login user
 export const login = (formData) => async (dispatch) => {
   console.log('login request');
@@ -228,6 +311,7 @@ export const login = (formData) => async (dispatch) => {
   };
   try {
     const res = await axios.post('/api/auth', formData, config);
+    
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
@@ -237,6 +321,9 @@ export const login = (formData) => async (dispatch) => {
     loadUser();
     
   } catch (err) {
+    console.log("err.response.data.msg");
+    console.log(err.response.data.msg);
+    alert(err.response.data.msg);
     dispatch({
       type: LOGIN_FAIL,
       payload: err.response.data.msg,

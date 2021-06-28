@@ -1,37 +1,44 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { verifyResetPasswordCode, changePassword } from '../../actions/authActions';
 
-//const ResetPassword = ({user: { isAuthenticated }, resetPassword, verifyResetPasswordCode ...rest}) => {
-
-const ForgotPassword = ({user: { isAuthenticated, passwordCanBeReset }, ...rest}) => {
+const ResetPassword = ({user: { isAuthenticated, passwordResetCodeIsVerified, providedPasswordResetCode, passwordWasChanged }, verifyResetPasswordCode, changePassword, ...rest}) => {
     useEffect(() => {
         if (isAuthenticated) {
           rest.history.push('/');
         }
       }, [isAuthenticated, rest.history]);
+
+      useEffect(() => {
+        if(passwordWasChanged) {
+            rest.history.push('/login');
+        }
+    }, [passwordWasChanged]);
       
-      const [userFormData, setUserFormData] = useState({
-        resetCode: '',
-        password1: '',
+      
+      const [passwordResetFormData, setPasswordResetFormData] = useState({
+        passwordResetCode: '',
+        password: '',
         password2: '',
       });
 
-      const onChange = () => {
-        setUserFormData({
-            ...userFormData,
+      const { passwordResetCode, password, password2 } = passwordResetFormData;
+
+      const onChange = (e) => {
+        setPasswordResetFormData({
+            ...passwordResetFormData,
             [e.target.name]: e.target.value,
           });
       }
 
-      const onResetCodeSubmit = () => {
-        verifyResetPasswordCode(userFormData.resetCode);
+      const onResetCodeSubmit = () => { //used to verify the password reset code provided
+        verifyResetPasswordCode(passwordResetCode);
       }
 
-      const onPasswordChangeSubmit = () => {
-        const errorString = '';
-        if(password1 === password2){
-            resetPassword(userFormData.resetCode, password1);
+      const onSubmit = () => { //used to submit the password change itself
+        if(password === password2){
+            changePassword(password, providedPasswordResetCode);
         }   
         else{
             alert('Passwords do not match');
@@ -42,8 +49,8 @@ const ForgotPassword = ({user: { isAuthenticated, passwordCanBeReset }, ...rest}
     <div>
       <h2 className='center-align'>Reset Password</h2>
 
-      <form className='center-align' onSubmit={onSubmit}>
-        {passwordCanBeReset ?
+      <form className='center-align'>
+        {passwordResetCodeIsVerified ?
             <div>
                 <div className='row'>
                     <div className='input-field col s4 offset-s4'>
@@ -69,30 +76,49 @@ const ForgotPassword = ({user: { isAuthenticated, passwordCanBeReset }, ...rest}
                         <label htmlFor='password2'>Confirm Password</label>
                     </div>
                 </div>
+                <div className="row">
+                  <div className='col s4 offset-s4'>
+                    <button
+                      className='waves-effect waves-light btn-large col s12 blue darken-1'
+                      type='button'
+                      onClick={onSubmit}
+                    >
+                      Change Password
+                    </button>
+                  </div>
+                </div>
+
             </div>
         :
-            <div className='row'>
-                <div className='input-field col s4 offset-s4'>
-                <input
-                    id='passwordResetCode'
-                    name='passwordResetCode'
-                    type='passwordResetCode'
-                    className='validate'
-                    onChange={onChange}
-                />
-                <label htmlFor='email'>Enter your password reset code here: </label>
+            <div>
+              <div className='row'>
+                  <div className='input-field col s4 offset-s4'>
+                  <input
+                      id='passwordResetCode'
+                      name='passwordResetCode'
+                      type='passwordResetCode'
+                      className='validate'
+                      onChange={onChange}
+                  />
+                  <label htmlFor='email'>Enter your password reset code here: </label>
+                  </div>
+              </div>
+              <div className="row">
+                <div className='col s4 offset-s4'>
+                  <button
+                    className='waves-effect waves-light btn-large col s12 blue darken-1'
+                    type='button'
+                    onClick={onResetCodeSubmit}
+                  >
+                    Verify Code
+                  </button>
                 </div>
+              </div>
             </div>
+              
         }
         <div className='row'>
-          <div className='col s4 offset-s4'>
-            <button
-              className='waves-effect waves-light btn-large col s12 blue darken-1'
-              type='submit'
-            >
-              Reset Password
-            </button>
-          </div>
+         
         </div>
       </form>
 
@@ -121,6 +147,6 @@ const mapStateToProps = (state) => ({
     user: state.user
 });
 
-export default connect(mapStateToProps)(ForgotPassword);
+export default connect(mapStateToProps, { verifyResetPasswordCode, changePassword })(ResetPassword);
 
-//export default connect(mapStateToProps, { resetPassword })(ForgotPassword);
+

@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { updateUser, removeCompletedJobFromAcceptingOperators } from '../../actions/authActions';
+import { updateUser, removeJobFromAcceptingOperators } from '../../actions/authActions';
 import { updateJob } from '../../actions/jobActions';
 import Select from 'react-select';
 import M from 'materialize-css';
 
-const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, updateJob, removeCompletedJobFromAcceptingOperators }) => {
+const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, updateJob, removeJobFromAcceptingOperators }) => {
     const [editJobForm, setEditJobForm] = useState({
         projectName: '',
         dateNeeded: '',
@@ -77,11 +77,12 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
             console.log("formSubmit call");
         }
 
-        const cancelJobRequest = () => updateJob({ ...editJobForm, status: 'Cancelled', id: jobID });
-        const setStatusToComplete = () => {
+        const setEndStatusAndCleanUp = (statusChange) => {
             console.log("job ID Edited");
             console.log(jobID);
-            updateJob({ ...editJobForm, status: 'Complete', id: jobID });
+            // update job status
+            updateJob({ ...editJobForm, status: statusChange, id: jobID });
+            // remove job from this user's job queue
             updateUser({ 
                 ...user, 
                 requestedJobs: user.requestedJobs.filter((requestedJobID) => (requestedJobID !== jobID)),
@@ -89,7 +90,7 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
                 jobQueue: user.jobQueue.filter((jobQueueItemID) => (jobQueueItemID !== jobID)) 
             });
             // update many users' jobQueue
-            removeCompletedJobFromAcceptingOperators(jobData);
+            removeJobFromAcceptingOperators(jobData);
         }
         
     // const editJobHandler = () => {
@@ -250,8 +251,10 @@ const EditJobModal = ({ user: { user }, jobData, jobNumber, jobID, updateUser, u
                     
                 </div>
                 <div className="modal-footer grey darken-3 center">
-                    <a href="#!" className="modal-close blue darken-2 btn-flat" onClick={setStatusToComplete}>Set Status To Complete</a>
-                    <a href="#!" className="modal-close red darken-3 btn-flat" onClick={cancelJobRequest}>Cancel Job Request</a>
+                    <a href="#!" className="modal-close blue darken-2 btn-flat" 
+                        onClick={() => setEndStatusAndCleanUp('Complete')}>Set Status To Complete</a>
+                    <a href="#!" className="modal-close red darken-3 btn-flat" 
+                        onClick={() => setEndStatusAndCleanUp('Cancelled')}>Cancel Job Request</a>
                     <a href="#!" className="modal-close green darken-1 btn-flat" onClick={editConfirm}>Confirm Edit</a>
                     <a href="#!" className="modal-close red btn-flat">Cancel Edit</a>
                 </div>
@@ -265,5 +268,5 @@ const mapStateToProps = (state) => ({
     job: state.job
 });
 
-export default connect(mapStateToProps, { updateUser, updateJob, removeCompletedJobFromAcceptingOperators })(EditJobModal);
+export default connect(mapStateToProps, { updateUser, updateJob, removeJobFromAcceptingOperators })(EditJobModal);
 

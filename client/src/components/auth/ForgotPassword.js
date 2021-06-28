@@ -1,26 +1,30 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import { requestPasswordReset } from '../../actions/authActions';
 
-//const ForgotPassword = ({user: { isAuthenticated }, requestPasswordReset, ...rest}) => {
 
-const ForgotPassword = ({user: { isAuthenticated }, ...rest}) => {
+const ForgotPassword = ({user: { isAuthenticated }, requestPasswordReset, ...rest}) => {
     useEffect(() => {
         if (isAuthenticated) {
           rest.history.push('/');
         }
       }, [isAuthenticated, rest.history]);
 
-      const [forgotPasswordFormData, setforgotPasswordFormData] = useState({
+      const [forgotPasswordFormData, setForgotPasswordFormData] = useState({
         email: '',
       });
 
-      const onChange = () => {
-
+      const onChange = (e) => {
+        setForgotPasswordFormData({
+          ...forgotPasswordFormData,
+          [e.target.name]: e.target.value,
+        });
       }
 
       const onSubmit = () => {
-
+        requestPasswordReset(forgotPasswordFormData.email);
+        alert("Your password reset request has been submitted. If there is an account associated with the email you have entered, a password reset code and link will be sent to that email address.");
       }
 
 
@@ -78,6 +82,4 @@ const mapStateToProps = (state) => ({
     user: state.user
 });
 
-export default connect(mapStateToProps)(ForgotPassword);
-
-//export default connect(mapStateToProps, { requestPasswordReset })(ForgotPassword);
+export default connect(mapStateToProps, { requestPasswordReset })(ForgotPassword);
