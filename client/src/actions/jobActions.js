@@ -230,6 +230,8 @@ export const addJob = (job, user) => async (dispatch) => { //can also update the
             payload: err.response.statusText
         });
         console.error('Job add error.');
+        console.log(err.response);
+        alert(err.response.data)
     }
     
 }

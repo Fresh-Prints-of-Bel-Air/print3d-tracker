@@ -38,9 +38,9 @@ const JobNav = ({ user: {user, loading}, job, updateUser, getUser }) => { // tod
             <ul className="left">
               <li>
               {user.preferredView === 'Engineer' ? 
-                <a href="#jobModal" className="waves-effect waves-light btn blue modal-trigger">Create Job</a> 
+                <a href="#jobModal" className="btn blue modal-trigger">Create Job</a> 
                 : 
-                <a href="#buildModal" className="waves-effect waves-light btn blue modal-trigger">Create Build</a>
+                <a href="#buildModal" className="btn blue modal-trigger">Create Build</a>
               } 
               </li>
             </ul>

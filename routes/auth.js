@@ -41,8 +41,19 @@ router.get('/', auth, async (req, res) => {
 // @desc Get a password reset email with code
 // @access Public
 // req.body is expected to have a user email
-router.post(`/forgotPassword`, async (req, res) => { 
+router.post(
+  `/forgotPassword`, 
+  [check('email', 'Please include a valid email').notEmpty().isEmail()], 
+  async (req, res) => { 
   try {
+    const errors = validationResult(req);
+    // if we have errors, we return a status 400
+    if (!errors.isEmpty()) {
+      // 400 bad request
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
     //Step 1: Find a user with matching email
     //Step 2a: If user with matching email is found, create UUID
     //Step 2b: Post a new PasswordReset document containing the user's email and the UUID
@@ -66,28 +77,29 @@ router.post(`/forgotPassword`, async (req, res) => {
           email,
           passwordResetRequestCode,
         }
+        // only want one password reset doc, if it doesn't exist it creates a new one
         const passwordResetDoc = await PasswordReset.findOneAndReplace({ email: { $eq: email }}, passwordResetObj, { upsert: true });
 
         try { //send email
 
           let transporter = nodemailer.createTransport({
-            host: "yourHostHere", //ex: smtp.gmail.com
+            host: "smtp.gmail.com", //ex: smtp.gmail.com
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-              user: 'yourUserNameHere', 
-              pass: 'yourPasswordHere', 
+              user: 'placeholder@gmail.com', 
+              pass: 'placeholder', 
             },
           });
         
           // send mail with defined transport object
           let info = await transporter.sendMail({
-            from: '"AltaVizTest" <yourUserNameHere@email.com>', // sender address
+            from: '"AltavizTest" <yourUserNameHere@email.com>', // sender address
             to: `${email}`, // list of receivers
             subject: "Password Reset Request", // Subject line
-            text: `Hello,\nThis is an automated message from AltaViz. We've received a password reset request for the account associated with your email address. ` + 
+            text: `Hello,\nThis is an automated message from Altaviz. We've received a password reset request for the account associated with your email address. ` + 
             `If this was you, please use the password reset code provided at the link below:\n\n http://localhost:3000/resetPassword \n\nYour password reset code: ${passwordResetRequestCode}\n\n Best,\nAltaViz`, // plain text body
-            html: `<b>Hello,<br>This is an automated message from AltaViz. We've received a password reset request for the account associated with your email address. ` + 
+            html: `<b>Hello,<br>This is an automated message from Altaviz. We've received a password reset request for the account associated with your email address. ` + 
             `If this was you, please use the password reset code provided at the link below:<br><br> http://localhost:3000/resetPassword <br><br>Your password reset code: <br>${passwordResetRequestCode}<br><br> Best,<br><br>AltaViz</b>`, // html body
           });
         
@@ -116,7 +128,17 @@ router.post(`/forgotPassword`, async (req, res) => {
 // @desc Get a password reset email with code
 // @access Public
 // req.body is expected to have a password reset code
-router.post(`/checkPasswordResetCode`, async (req, res) => { 
+router.post(
+  `/checkPasswordResetCode`, 
+  [check('resetPasswordCode', 'Please enter a password reset code.').notEmpty().isString()],
+  async (req, res) => { 
+  
+    const errors = validationResult(req);
+    // if we have errors, we return a status 400
+    if (!errors.isEmpty()) {
+      // 400 bad request
+      res.status(400).send(errors.array()[0].msg);
+    }
 
   // const salt = await bcrypt.genSalt(10);
   // const hashedresetPasswordCode = await bcrypt.hash(req.body.resetPasswordCode, salt);
@@ -129,7 +151,8 @@ router.post(`/checkPasswordResetCode`, async (req, res) => {
 
   } catch (err) {
     console.error(err.message);
-    return res.status(401).json({ msg: 'Password reset code invalid.' });
+    res.status(400).send('Password reset code invalid.');
+    return;
   }
   
 
@@ -141,36 +164,51 @@ router.post(`/checkPasswordResetCode`, async (req, res) => {
 // @access Public
 // req.body is expected to have both the new password and a password reset code
 
-router.post(`/passwordChange`, async (req, res) => { //implement checks to verify that both the expected fields are supplied
+router.post(
+  `/passwordChange`, 
+  [
+    check('newPassword', 'newPassword validation error').notEmpty().isString(),
+    check('resetPasswordCode', 'resetPasswordCode validation error').notEmpty().isString()
+  ],
+  async (req, res) => { //implement checks to verify that both the expected fields are supplied
 
-  const { newPassword, resetPasswordCode } = req.body;
-  console.log("Password Change request object");
-  console.log(req);
-  try { //check if the code is valid
-    const salt = await bcrypt.genSalt(10);
-    // const hashedResetPasswordCode = await bcrypt.hash(resetPasswordCode, salt);
-    // console.log(hashedResetPasswordCode);
-    const passwordResetDocument = await PasswordReset.findOneAndDelete({passwordResetRequestCode: { $eq: resetPasswordCode}});
-    
-    try {
-      const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+    const errors = validationResult(req);
+    // if we have errors, we return a status 400
+    if (!errors.isEmpty()) {
+      // 400 bad request
+      return res.status(400).json({
+        errors: errors.array(),
+      });
+    }
 
-      let updatedUser = await User.findOneAndUpdate(
-        { email: { $eq: passwordResetDocument.email }}, 
-        { $set: { password: hashedNewPassword} },
-        { new: true });
+    const { newPassword, resetPasswordCode } = req.body;
+    console.log("Password Change request object");
+    console.log(req);
+    try { //check if the code is valid
+      const salt = await bcrypt.genSalt(10);
+      // const hashedResetPasswordCode = await bcrypt.hash(resetPasswordCode, salt);
+      // console.log(hashedResetPasswordCode);
+      const passwordResetDocument = await PasswordReset.findOneAndDelete({passwordResetRequestCode: { $eq: resetPasswordCode}});
       
-      res.json({msg: "Password was changed."});
+      try {
+        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+
+        let updatedUser = await User.findOneAndUpdate(
+          { email: { $eq: passwordResetDocument.email }}, 
+          { $set: { password: hashedNewPassword} },
+          { new: true });
+        
+        res.json({msg: "Password was changed."});
+
+      } catch (err) {
+        console.error(err);
+        res.status(500).send('Server Error');
+      }
 
     } catch (err) {
       console.error(err);
-      res.status(500).send('Server Error');
+      return res.status(401).json({ msg: 'Password reset code invalid.' });
     }
-
-  } catch (err) {
-    console.error(err);
-    return res.status(401).json({ msg: 'Password reset code invalid.' });
-  }
 
 });
 

@@ -11,6 +11,7 @@ const JobQuantityForm = ({part, index, handleQuantityChange}) => {
                     <input 
                         type='number'
                         name={index} 
+                        min='1'
                         onChange={handleQuantityChange}
                         value={part.quantity}
                     />

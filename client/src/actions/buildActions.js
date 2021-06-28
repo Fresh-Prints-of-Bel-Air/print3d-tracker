@@ -38,7 +38,8 @@ export const getBuilds = (filter) => async (dispatch) => {
   catch (err) {
     dispatch({
       type: BUILDS_ERROR, 
-      payload: err});
+      payload: err
+    });
   }
     //////////////// CLIPBOARD WRITE TEST
   // try {
@@ -178,10 +179,11 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
 
   } catch (err) {
     console.log("builds error");
-    console.log(err);
+    console.log(err.response);
+    alert(err.response.data);
     dispatch({
       type: BUILDS_ERROR,
-      payload: err.response.data.msg
+      payload: err.response.data
     });
   }
 }

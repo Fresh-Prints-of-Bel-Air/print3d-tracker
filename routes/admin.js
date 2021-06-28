@@ -36,7 +36,13 @@ router.get('/',
         } 
 })
 
-router.put('/pull', auth, async (req, res) => {
+router.put('/pull',
+    [auth,
+        check('name','admin put pull name error').isEmpty().isString(),
+        check('email', 'admin put pull email error').isEmail(),
+        check('password', 'admin put pull password error').isEmpty().isString()
+    ], 
+    async (req, res) => {
     try {
         const adminRes = await Admin.updateMany({}, { $pull: { registrationRequests: req.body } });
         console.log("past await in pull");
@@ -49,14 +55,25 @@ router.put('/pull', auth, async (req, res) => {
 
 //Handles registration requests
 // occurs when somebody completes the register form to submit a registration requests
-router.put('/register', async (req, res) => { 
+router.put('/register',
+    [
+        check('name', 'Please add name').not().isEmpty().isString(),
+        check('email', 'Please include a valid email').isEmail(),
+        check('password', 'Please enter 6 or more characters').isLength({ min: 6 }).isString()
+    ],
+    async (req, res) => { 
     try {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+            res.status(400).send(errors.array()[0].msg);
+        };
+    
         console.log("admin put / route");
         console.log(req.body);
 
-        if (req.body.password.length < 6){
-            res.status(400).send('Please enter a password with a length of six characters or more');
-        }
+        // if (req.body.password.length < 6){
+        //     res.status(400).send('Please enter a password with a length of six characters or more');
+        // }
         
         userWithThisEmail = await User.findOne({ email: req.body.email });
 

@@ -13,7 +13,6 @@ const auth = require('../middleware/auth');
 router.get(
   '/multipleJobsById',
   auth,
-  [],
   async (req, res) => {
     try {
       const jobs = await Job.find({ status: { $ne: 'Complete' }}).where('_id').in(req.query.jobIdArray).exec();
@@ -33,7 +32,6 @@ router.get(
 router.get(
   '/:id', 
   auth,
-  [], 
   async (req, res) => {
   try {
       const job = await Job.findById(req.params.id);
@@ -52,8 +50,7 @@ router.get(
 // get by filter
 router.get(
     '/',
-    auth,
-    [], 
+    auth, 
     async (req, res) => {
     
     // console.log("routes jobs get");
@@ -110,16 +107,49 @@ router.get(
   //@access Public
   router.post(
     '/',
-    auth,
-    [],
+    [
+      auth,
+      check(
+        'requester', 
+        'invalid job post format: requester'
+      ).notEmpty().isString(),
+      check(
+        'projectName', 
+        'Please enter a project name.'
+      ).notEmpty().isString(),
+      check(
+        'folderLocation', 
+        'Please enter a folder location.'
+      ).notEmpty().isString(),
+      check(
+        'deliverTo', 
+        'Please enter to whom these parts are to be delivered.'
+      ).notEmpty().isString(),
+      check(
+        'requestedParts', 
+        'invalid job post format: requester'
+      ).notEmpty(),
+    ],
     async (req, res) => {
-      // const errors = validationResult(req);
-    //   if (!errors.isEmpty) {
-    //     //handle errors
-    //     return res.status(400).json({ errors: errors.array() });
-    //   }
+      const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          console.log('job post errors found');
+          //handle errors
+          res.status(400).send(errors.array()[0].msg);
+        }
+
+      let arePartQuantitiesValid = true;
+      req.body.requestedParts.forEach((requestedPart) => {
+        if (parseInt(requestedPart.quantity) <= 0) arePartQuantitiesValid = false;
+      })
+      if (!arePartQuantitiesValid) {
+        res.status(400).send('Please enter a quantity greater than zero for each of the requested parts');
+      }
+
+      // console.log("it keeps going?");
   
       try {
+        
         console.log("req.body.job_number");
         console.log(req.body.job_number);
         // TO DO: check if job_number is undefined for when e is input

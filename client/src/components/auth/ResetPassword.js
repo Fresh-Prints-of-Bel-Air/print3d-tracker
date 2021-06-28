@@ -79,7 +79,7 @@ const ResetPassword = ({user: { isAuthenticated, passwordResetCodeIsVerified, pr
                 <div className="row">
                   <div className='col s4 offset-s4'>
                     <button
-                      className='waves-effect waves-light btn-large col s12 blue darken-1'
+                      className='btn-large col s12 blue darken-1'
                       type='button'
                       onClick={onSubmit}
                     >
@@ -106,7 +106,7 @@ const ResetPassword = ({user: { isAuthenticated, passwordResetCodeIsVerified, pr
               <div className="row">
                 <div className='col s4 offset-s4'>
                   <button
-                    className='waves-effect waves-light btn-large col s12 blue darken-1'
+                    className='btn-large col s12 blue darken-1'
                     type='button'
                     onClick={onResetCodeSubmit}
                   >
