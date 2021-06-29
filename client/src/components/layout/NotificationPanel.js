@@ -60,7 +60,7 @@ const NotificationPanel = ({user: { user }, updateUser, setNotificationStatus}) 
                   </div>
                 ) 
                 : 
-                  <div className="row" style={{height: '5vh', textAlign: 'center'}}>You don't currently have any notifications...</div>
+                  <div className="row grey darken-3" style={{height: '5vh', textAlign: 'center'}}>You don't currently have any notifications...</div>
               }
             </div>
           </div>
