@@ -87,14 +87,14 @@ router.post(
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-              user: 'huculakryan@gmail.com', 
-              pass: 'ahhhpigy1A', 
+              user: `${config.get('altavizEmail')}`, 
+              pass: `${config.get('altavizPassword')}`, 
             },
           });
         
           // send mail with defined transport object
           let info = await transporter.sendMail({
-            from: '"AltavizTest" <yourUserNameHere@email.com>', // sender address
+            from: `"Altaviz" <${config.get('altavizEmail')}>`, // sender address
             to: `${email}`, // list of receivers
             subject: "Password Reset Request", // Subject line
             text: `Hello,\nThis is an automated message from Altaviz. We've received a password reset request for the account associated with your email address. ` + 
