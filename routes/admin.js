@@ -14,24 +14,24 @@ router.get('/',
             // finds "all" of them if it has no filter (there should only be one), user must be in the list of admins
 
             const adminList = await AdminList.findById('60caf69fc9c9365c28be5786');
-            console.log("Trying to get adminList");
-            console.log(adminList);
-            console.log(req.user);
+            // console.log("Trying to get adminList");
+            // console.log(adminList);
+            // console.log(req.user);
 
 
             if(adminList.admins && adminList.admins.includes(req.user.id)){
                 try {
                     const adminInfo = await Admin.find({});
-                    console.log(adminInfo);
+                    // console.log(adminInfo);
                     res.json(adminInfo);
                 } catch (error) {
-                    console.log(error.message);
+                    // console.log(error.message);
                     res.status(500).send('server error or user is not an admin');
                 }
             }
             
         } catch (error) {
-            console.log(error.message);
+            // console.log(error.message);
             res.status(500).send('server error');
         } 
 })
@@ -45,7 +45,7 @@ router.put('/pull',
     async (req, res) => {
     try {
         const adminRes = await Admin.updateMany({}, { $pull: { registrationRequests: req.body } });
-        console.log("past await in pull");
+        // console.log("past await in pull");
         res.json(adminRes);
     } catch (error) {
         console.log(error.message);
@@ -65,7 +65,7 @@ router.put('/register',
     try {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-            res.status(400).send(errors.array()[0].msg);
+            return res.status(400).send(errors.array()[0].msg);
         };
     
         console.log("admin put / route");
@@ -128,10 +128,10 @@ router.put('/register',
                 console.log(res);
             
             } else {
-                res.status(400).send('A registration request using that email already exists.');
+                return res.status(400).send('A registration request using that email already exists.');
             }
         } else {
-            res.status(400).send('A user with that email already exists.');
+            return res.status(400).send('A user with that email already exists.');
         }
     } catch (error) {
         console.log(error.message);

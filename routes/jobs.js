@@ -135,15 +135,18 @@ router.get(
         if (!errors.isEmpty()) {
           console.log('job post errors found');
           //handle errors
-          res.status(400).send(errors.array()[0].msg);
+          return res.status(400).send(errors.array()[0].msg);
+          
         }
 
       let arePartQuantitiesValid = true;
       req.body.requestedParts.forEach((requestedPart) => {
-        if (parseInt(requestedPart.quantity) <= 0) arePartQuantitiesValid = false;
+        if (requestedPart.quantity === '' || parseInt(requestedPart.quantity) <= 0){
+          arePartQuantitiesValid = false;
+        }   
       })
       if (!arePartQuantitiesValid) {
-        res.status(400).send('Please enter a quantity greater than zero for each of the requested parts');
+        return res.status(400).send('Please enter a quantity greater than zero for each of the requested parts');
       }
 
       // console.log("it keeps going?");
@@ -163,7 +166,7 @@ router.get(
         res.json(job);
       } catch (err) {
         console.error(err.message);
-        res.status(500).send('Server Error');
+        return res.status(500).send('Server Error');
       }
     }
   );

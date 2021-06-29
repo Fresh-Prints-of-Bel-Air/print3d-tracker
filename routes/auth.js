@@ -17,8 +17,8 @@ const { v4: uuidv4 } = require('uuid');
 router.get('/', auth, async (req, res) => {
   try {
     // finds user by id and doesn't return the password
-    console.log('user id is: ');
-    console.log(req.user.id);
+    // console.log('user id is: ');
+    // console.log(req.user.id);
     const user = await User.findById(req.user.id).select('-password');
     
     // user.notifications.filter((notification) => { //filter out read notifications that are more than 3 days old
@@ -87,8 +87,8 @@ router.post(
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-              user: 'your email address here', 
-              pass: 'your password here', 
+              user: 'huculakryan@gmail.com', 
+              pass: 'ahhhpigy1A', 
             },
           });
         
@@ -137,7 +137,7 @@ router.post(
     // if we have errors, we return a status 400
     if (!errors.isEmpty()) {
       // 400 bad request
-      res.status(400).send(errors.array()[0].msg);
+      return res.status(400).send(errors.array()[0].msg);
     }
 
   // const salt = await bcrypt.genSalt(10);

@@ -183,7 +183,7 @@ router.post(
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       //handle errors
-      res.status(400).send(errors.array()[0].msg);
+      return res.status(400).send(errors.array()[0].msg);
     }
 
     try {
