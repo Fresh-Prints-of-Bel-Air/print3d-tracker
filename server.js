@@ -1,10 +1,13 @@
 const express = require('express'); //old way
 //const connectDB = require('./config/db'); //commented out for heroku environment variables
+const connectDBProduction = require('./configProduction/dbProduction');
 const path = require('path');
 const app = express();
 
 
-connectDB();
+//connectDB();
+
+connectDBProduction();
 
 
 //initialize middleware
