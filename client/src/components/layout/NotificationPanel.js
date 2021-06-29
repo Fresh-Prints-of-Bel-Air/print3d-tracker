@@ -43,22 +43,24 @@ const NotificationPanel = ({user: { user }, updateUser, setNotificationStatus}) 
           </div>
           <div className="z-depth-5 grey darken-4" style={{overflowY: 'scroll', maxHeight: '40vh'}}>
             <div className= "row" style={{position: 'relative', top: '1vh', zIndex: '9'}}>
-              {(user && user.notifications) ? user.notifications.map((notification, index) =>
-                <div key={index} className="row">
-                  <div className="card grey darken-3 z-depth-5" style={{color: 'white', marginLeft: '2%', marginRight: '2%'}} key={index}>
-                    <div className="card-content">
-                      <span className="row card-title" style={{textAlign: 'right', fontSize: '90%'}}>On {notification.dateCreated.split('T')[0]}</span>
-                      <div className="row">
-                        <div className="col s7" style={notification.isRead ? {fontWeight: 'normal', lineHeight: '1.5'} : {fontWeight: 'bold', lineHeight: '1.5'}}>{notification.text}</div>
-                        <span className="col s5">
-                        {!(notification.isRead) && <a name="markRead" style={{width: '100%'}} className="waves-effect waves-light btn-small blue" onClick={markRead} id={index}>Mark Read</a>
-                        }
-                        </span>
+              {(user && user.notifications && user.notifications.length > 0) ? user.notifications.map((notification, index) =>
+                  <div key={index} className="row">
+                    <div className="card grey darken-3 z-depth-5" style={{color: 'white', marginLeft: '2%', marginRight: '2%'}} key={index}>
+                      <div className="card-content">
+                        <span className="row card-title" style={{textAlign: 'right', fontSize: '90%'}}>On {notification.dateCreated.split('T')[0]}</span>
+                        <div className="row">
+                          <div className="col s7" style={notification.isRead ? {fontWeight: 'normal', lineHeight: '1.5'} : {fontWeight: 'bold', lineHeight: '1.5'}}>{notification.text}</div>
+                          <span className="col s5">
+                          {!(notification.isRead) && <a name="markRead" style={{width: '100%'}} className="waves-effect waves-light btn-small blue" onClick={markRead} id={index}>Mark Read</a>
+                          }
+                          </span>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-                ) : <div className="row">Nothing to show...</div>
+                ) 
+                : 
+                  <div className="row" style={{height: '5vh'}}>You don't currently have any notifications...</div>
               }
             </div>
           </div>
