@@ -3,7 +3,7 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator/check');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const config = require('config');
+// const config = require('config'); //commented out for heroku environment variables
 const auth = require('../middleware/auth');
 
 const User = require('../models/User');

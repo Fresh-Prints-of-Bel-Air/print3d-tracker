@@ -1,5 +1,5 @@
 const express = require('express'); //old way
-const connectDB = require('./config/db');
+//const connectDB = require('./config/db'); //commented out for heroku environment variables
 const path = require('path');
 const app = express();
 
