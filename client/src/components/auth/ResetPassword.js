@@ -5,10 +5,10 @@ import { verifyResetPasswordCode, changePassword } from '../../actions/authActio
 
 const ResetPassword = ({user: { isAuthenticated, passwordResetCodeIsVerified, providedPasswordResetCode, passwordWasChanged }, verifyResetPasswordCode, changePassword, ...rest}) => {
     useEffect(() => {
-        if (isAuthenticated) {
-          rest.history.push('/');
-        }
-      }, [isAuthenticated, rest.history]);
+      if (isAuthenticated) {
+        rest.history.push('/');
+      }
+    }, [isAuthenticated, rest.history]);
 
       useEffect(() => {
         if(passwordWasChanged) {

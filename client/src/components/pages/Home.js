@@ -9,7 +9,11 @@ import M from 'materialize-css/dist/js/materialize.min.js';
 
 
 const Home = ({ user: {user}, loadUser }) => {
-
+  // useEffect(() => {
+  //   if (!isAuthenticated) {
+  //     rest.history.push('/');
+  //   }
+  // }, [isAuthenticated, rest.history]);
 
 
   useEffect(() => {

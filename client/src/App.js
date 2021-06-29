@@ -32,9 +32,9 @@ function App() {
           <ScrollToTop/>
           <Navbar />
           <Switch>
-            <PrivateRoute exact path='/' component={Home}/>
             <PrivateRoute exact path='/build-history' component={BuildHistory} />
             <PrivateRoute exact path='/request-history' component={RequestHistoryPage} />
+            <PrivateRoute exact path='/' component={Home}/>
             <Route exact path='/login' component={Login} />
             <Route exact path='/register' component={Register} />
             <Route exact path='/forgotPassword' component={ForgotPassword}/>
