@@ -52,42 +52,43 @@ const ResetPassword = ({user: { isAuthenticated, passwordResetCodeIsVerified, pr
       <form className='center-align'>
         {passwordResetCodeIsVerified ?
             <div>
-                <div className='row'>
-                    <div className='input-field col s4 offset-s4'>
-                        <input
-                        id='password'
-                        name='password'
-                        type='password'
-                        className='validate'
-                        onChange={onChange}
-                        />
-                        <label htmlFor='password'>Password</label>
-                    </div>
-                </div>
-                <div className='row'>
-                    <div className='input-field col s4 offset-s4'>
-                        <input
-                        id='password2'
-                        name='password2'
-                        type='password'
-                        className='validate'
-                        onChange={onChange}
-                        />
-                        <label htmlFor='password2'>Confirm Password</label>
-                    </div>
-                </div>
-                <div className="row">
-                  <div className='col s4 offset-s4'>
-                    <button
-                      className='btn-large col s12 blue darken-1'
-                      type='button'
-                      onClick={onSubmit}
-                    >
-                      Change Password
-                    </button>
+              <form autoComplete='off'>
+                  <div className='row'>
+                      <div className='input-field col s4 offset-s4'>
+                          <input
+                          id='password'
+                          name='password'
+                          type='password'
+                          className='validate'
+                          onChange={onChange}
+                          />
+                          <label htmlFor='password'>Password</label>
+                      </div>
                   </div>
+                  <div className='row'>
+                      <div className='input-field col s4 offset-s4'>
+                          <input
+                          id='password2'
+                          name='password2'
+                          type='password'
+                          className='validate'
+                          onChange={onChange}
+                          />
+                          <label htmlFor='password2'>Confirm Password</label>
+                      </div>
+                  </div>
+                  <div className="row">
+                    <div className='col s4 offset-s4'>
+                      <button
+                        className='btn-large col s12 blue darken-1'
+                        type='button'
+                        onClick={onSubmit}
+                      >
+                        Change Password
+                      </button>
+                    </div>
                 </div>
-
+              </form>
             </div>
         :
             <div>

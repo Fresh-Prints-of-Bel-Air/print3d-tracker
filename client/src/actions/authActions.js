@@ -269,7 +269,7 @@ export const verifyResetPasswordCode = (resetPasswordCode) => async (dispatch) =
   
   } catch (err) {
     console.log(err.response);
-    alert(err.response.data)
+    alert(err.response.data.msg);
   }
 }
 

@@ -87,8 +87,8 @@ router.post(
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-              user: 'placeholder@gmail.com', 
-              pass: 'placeholder', 
+              user: 'your email address here', 
+              pass: 'your password here', 
             },
           });
         
@@ -147,11 +147,15 @@ router.post(
   
   try {
     const passwordResetDocument = await PasswordReset.findOne({passwordResetRequestCode: { $eq: req.body.resetPasswordCode}});
-    res.json({msg: 'Password reset code verified.'});
+    if(!passwordResetDocument){
+      res.status(401).json({ msg: 'Password reset code not valid.' });
+    }
+    else {
+      res.json({msg: "Password reset code verified."});
+    }
 
   } catch (err) {
     console.error(err.message);
-    res.status(400).send('Password reset code invalid.');
     return;
   }
   
@@ -189,22 +193,25 @@ router.post(
       // const hashedResetPasswordCode = await bcrypt.hash(resetPasswordCode, salt);
       // console.log(hashedResetPasswordCode);
       const passwordResetDocument = await PasswordReset.findOneAndDelete({passwordResetRequestCode: { $eq: resetPasswordCode}});
-      
-      try {
-        const hashedNewPassword = await bcrypt.hash(newPassword, salt);
-
-        let updatedUser = await User.findOneAndUpdate(
-          { email: { $eq: passwordResetDocument.email }}, 
-          { $set: { password: hashedNewPassword} },
-          { new: true });
-        
-        res.json({msg: "Password was changed."});
-
-      } catch (err) {
-        console.error(err);
-        res.status(500).send('Server Error');
+      if(!passwordResetDocument){
+        return res.status(401).json({ msg: 'Matching user not found.' });
       }
-
+      else {
+        try {
+          const hashedNewPassword = await bcrypt.hash(newPassword, salt);
+  
+          let updatedUser = await User.findOneAndUpdate(
+            { email: { $eq: passwordResetDocument.email }}, 
+            { $set: { password: hashedNewPassword} },
+            { new: true });
+          
+          res.json({msg: "Password was changed."});
+  
+        } catch (err) {
+          console.error(err);
+          res.status(500).send('Server Error');
+        }
+      }
     } catch (err) {
       console.error(err);
       return res.status(401).json({ msg: 'Password reset code invalid.' });
