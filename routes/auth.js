@@ -87,8 +87,8 @@ router.post(
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-              user: 'huculakryan@gmail.com', 
-              pass: 'ahhhpigy1A', 
+              user: 'emailhere@gmail.com', 
+              pass: 'password', 
             },
           });
         
