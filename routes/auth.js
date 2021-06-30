@@ -185,9 +185,9 @@ router.post(
             to: `${email}`, // list of receivers
             subject: "Your Registration Request", // Subject line
             text: `Hello,\nThis is an automated message from Altaviz. We've received a password reset request for the account associated with your email address. ` + 
-            `If this was you, please use the password reset code provided at the link below:\n\n https://damp-ocean-95259.herokuapp.com \n\nYour password reset code: ${passwordResetRequestCode}\n\n Best,\nAltaViz`, // plain text body
+            `If this was you, please use the password reset code provided at the link below:\n\n https://damp-ocean-95259.herokuapp.com/resetPassword \n\nYour password reset code: ${passwordResetRequestCode}\n\n Best,\nAltaViz`, // plain text body
             html: `<b>Hello,<br>This is an automated message from Altaviz. We've received a password reset request for the account associated with your email address. ` + 
-            `If this was you, please use the password reset code provided at the link below:<br><br> https://damp-ocean-95259.herokuapp.com <br><br>Your password reset code: <br>${passwordResetRequestCode}<br><br> Best,<br><br>AltaViz</b>`, // html body
+            `If this was you, please use the password reset code provided at the link below:<br><br> https://damp-ocean-95259.herokuapp.com/resetPassword <br><br>Your password reset code: <br>${passwordResetRequestCode}<br><br> Best,<br><br>AltaViz</b>`, // html body
           });
         
           console.log("Message sent: %s", info.messageId);

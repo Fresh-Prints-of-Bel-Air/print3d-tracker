@@ -127,7 +127,7 @@ const BuildQuantityForm = ({job, cleanup, handleQuantityChange}) => {
   }
   return (
     <Fragment>
-    <div className="row">Parts for job# {job.job_number} from requester {job.requester}: </div>
+    <div className="row">Parts for job# <strong>{job.job_number}</strong> from requester <strong>{job.requester}</strong> at folder location: <strong>{job.folderLocation}</strong></div>
     <div className="row">
       {job.requestedParts.map((part, index) =>
           <div className="row" key={index}>
