@@ -183,7 +183,7 @@ router.post(
           let info = await transporter.sendMail({
             from: `"Altaviz" <${process.env.altavizEmail}>`, // sender address
             to: `${email}`, // list of receivers
-            subject: "Password Reset Request", // Subject line
+            subject: "Your Registration Request", // Subject line
             text: `Hello,\nThis is an automated message from Altaviz. We've received a password reset request for the account associated with your email address. ` + 
             `If this was you, please use the password reset code provided at the link below:\n\n https://damp-ocean-95259.herokuapp.com \n\nYour password reset code: ${passwordResetRequestCode}\n\n Best,\nAltaViz`, // plain text body
             html: `<b>Hello,<br>This is an automated message from Altaviz. We've received a password reset request for the account associated with your email address. ` + 
