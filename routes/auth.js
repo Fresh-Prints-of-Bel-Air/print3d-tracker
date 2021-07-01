@@ -413,12 +413,12 @@ router.post(
         },
       };
 
-      //be sure to lower the expiresIn value for production
+      
       jwt.sign(
         payload,
         process.env.jwtSecret,
         {
-          expiresIn: '8h', // 8 hours
+          expiresIn: '12h', // 12 hours
         },
         (err, token) => {
           if (err) throw err;
