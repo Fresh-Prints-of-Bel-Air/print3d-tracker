@@ -418,7 +418,7 @@ router.post(
         payload,
         process.env.jwtSecret,
         {
-          expiresIn: 36000, // 10 hours
+          expiresIn: '8h', // 8 hours
         },
         (err, token) => {
           if (err) throw err;
