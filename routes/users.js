@@ -80,9 +80,9 @@ router.post(
           to: `${email}`, // list of receivers
           subject: "Password Reset Request", // Subject line
           text: `Hello,\nThis is an automated message from Altaviz. We've accepted your registration request. You may login using your provided email address and password at  ` + 
-          `https://damp-ocean-95259.herokuapp.com.\n\n Best,\nAltaViz`, // plain text body
+          `${process.env.altavizURL}.\n\n Best,\nAltaViz`, // plain text body
           html: `<b>Hello,<br>This is an automated message from Altaviz.  We've accepted your registration request. You may login using your provided email address and password at  ` + 
-          `https://damp-ocean-95259.herokuapp.com<br><br>Best,<br><br>AltaViz</b>`, // html body
+          `${process.env.altavizURL}<br><br>Best,<br><br>AltaViz</b>`, // html body
         });
       
         console.log("Message sent: %s", info.messageId);
