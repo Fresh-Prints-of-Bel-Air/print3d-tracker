@@ -393,7 +393,7 @@ router.post(
 
     try {
       // checks if user with that email exists
-      let user = await User.findOne({ email });
+      let user = await User.findOne({ email: { $regex: `^${email}$`, $options: 'i' } }); //let user = await User.findOne({ email });
 
       if (!user) {
         return res.status(401).json({ msg: 'User not found' });
