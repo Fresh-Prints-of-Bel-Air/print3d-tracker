@@ -75,7 +75,7 @@ router.put('/register',
         //     res.status(400).send('Please enter a password with a length of six characters or more');
         // }
         
-        userWithThisEmail = await User.findOne({ email: req.body.email });
+        userWithThisEmail = await User.findOne({ email: { $regex: `^${req.body.email}$`, $options: 'i' } });
 
         if (!userWithThisEmail){
             // check if registration request for this user already exists

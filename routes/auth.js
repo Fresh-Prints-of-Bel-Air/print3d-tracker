@@ -149,7 +149,7 @@ router.post(
     
     const { email } = req.body;
      
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: { $regex: `^${email}$`, $options: 'i' } });
 
     if(user){
       let passwordResetRequestCode = uuidv4();
@@ -161,7 +161,7 @@ router.post(
       try { //post password reset document
         
         const passwordResetObj = {
-          email,
+          email: user.email,
           passwordResetRequestCode,
         }
         // only want one password reset doc, if it doesn't exist it creates a new one
@@ -393,7 +393,7 @@ router.post(
 
     try {
       // checks if user with that email exists
-      let user = await User.findOne({ email: { $regex: `^${email}$`, $options: 'i' } }); //let user = await User.findOne({ email });
+      let user = await User.findOne({ email: { $regex: `^${email}$`, $options: 'i' } }); //let user = await User.findOne({ email }), instead this is case insensitive
 
       if (!user) {
         return res.status(401).json({ msg: 'User not found' });
