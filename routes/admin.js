@@ -67,14 +67,7 @@ router.put('/register',
         if (!errors.isEmpty()) {
             return res.status(400).send(errors.array()[0].msg);
         };
-    
-        console.log("admin put / route");
-        console.log(req.body);
 
-        // if (req.body.password.length < 6){
-        //     res.status(400).send('Please enter a password with a length of six characters or more');
-        // }
-        
         userWithThisEmail = await User.findOne({ email: { $regex: `^${req.body.email}$`, $options: 'i' } });
 
         if (!userWithThisEmail){
@@ -124,9 +117,6 @@ router.put('/register',
                     { new: true },
                 );
                 res.json({message: 'Request received.'});
-                console.log("mongooseReturnVal");
-                console.log(res);
-            
             } else {
                 return res.status(400).send('A registration request using that email already exists.');
             }
@@ -134,7 +124,6 @@ router.put('/register',
             return res.status(400).send('A user with that email already exists.');
         }
     } catch (error) {
-        console.log(error.message);
         res.status(500).send('server error');
     }
 })

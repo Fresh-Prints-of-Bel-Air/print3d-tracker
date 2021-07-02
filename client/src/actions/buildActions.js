@@ -20,20 +20,13 @@ import {
 //Get builds from server that match filter (if any) and save to local state
 //"filter" param will be a json object with filters
 export const getBuilds = (filter) => async (dispatch) => {
-
   setLoading();
-  console.log("getBuilds called");
-  //console.log("filter.status passed into getBuilds:" + filter.status);
-  console.log("filter.startedFrom passed into getBuilds:" + filter.startedFrom);
+  
   try {
-    console.log(filter);
-    
     const res = await axios.get('/api/builds/', { params: filter }); // "params" really means the QUERY PARAMS
     dispatch({
       type: GET_BUILDS, 
       payload: res.data});
-    console.log("GET_BUILDS dispatched");
-    console.log(res.data);
   }
   catch (err) {
     dispatch({
@@ -41,14 +34,6 @@ export const getBuilds = (filter) => async (dispatch) => {
       payload: err
     });
   }
-    //////////////// CLIPBOARD WRITE TEST
-  // try {
-  //   await navigator.clipboard.writeText("Clipboard Test");
-  //   console.log("clipboard tested");
-  // } catch (error) {
-  //   console.log("clipboard test failed");
-  // }
-  ////////////////
 }
 
 // get multiple builds according to an array of IDs as input
@@ -57,10 +42,7 @@ export const getBuildsByIdArray = (buildIdArray) => async (dispatch) => {
   setLoading();
   try {
     const res = await axios.get('/api/builds/multipleBuildsById', { params: { buildIdArray } });
-    console.log("BuildIdArray in getBuildsByIdArray action");
-    console.log(buildIdArray);
-    console.log("getBuildByIdArray res");
-    console.log(res);
+  
     dispatch({
         type: GET_USER_BUILD_LIST,
         payload: res.data,
@@ -88,15 +70,12 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
       }
     }
     setLoading();
-    console.log("addBuild action build argument");
-    console.log(build);
+
     const projectSet = new Set();
     associatedJobs.forEach((job) => projectSet.add(job.projectName));
     const projectArray = Array.from(projectSet);
     const buildRes = await axios.post('/api/builds', {...build, projects: [...projectArray]} , config);
-    console.log("buildRes");
-    console.log(buildRes);
-
+  
     dispatch({
       type: ADD_BUILD,
       payload: buildRes.data,
@@ -104,36 +83,27 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
 
     try { //update the user with the newly created build
           // including adding the build to the user's build list
-      console.log([...user.buildList, buildRes.data._id]);
       const updateUserRes = await axios.put(
         `/api/users/${user._id}`, 
         { ...user, buildList: [...user.buildList, buildRes.data._id] }, 
         config
       );
-      console.log("updated user with new build");
-      console.log(updateUserRes.data);
+
       dispatch({type: UPDATE_USER, payload: updateUserRes.data});
 
       try {
-        console.log('associatedJobs');
-        console.log(associatedJobs);
-        
         //update each associated job to include the ID of the newly added Build
         associatedJobs.forEach(async (job) => {
           let updatedJob = {...job, builds: [...job.builds, buildRes.data._id]};
           const jobUpdateRes = await axios.put(`/api/jobs/${job._id}`, updatedJob, config);
         });
         
-  
         //"Get" the updated jobs from the database to update jobs in Redux
         try {
           setLoading();
           let jobIdArray = associatedJobs.map((job) => job._id);
           const jobRes = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray: [...jobIdArray] } });
-          console.log("associatedJobs in getJobsByIdArray (addBuild)");
-          console.log(associatedJobs);
-          console.log("getJobByIdArray res (addBuild)");
-          console.log(jobRes);
+
           dispatch({
               type: UPDATE_JOBS,
               payload: jobRes.data,
@@ -141,6 +111,7 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
 
           try { //also update the userJobQueue
             setLoading();
+            
             const userJobRes = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray: [...user.jobQueue] } });
             dispatch({
               type: GET_USER_JOB_QUEUE,
@@ -154,32 +125,23 @@ export const addBuild = (build, associatedJobs, user) => async (dispatch) => {
             console.error('getJobsByIdArray error for userJobQueue.');
           }
 
-        }  catch (err) {
+        } catch (err) {
             dispatch({
                 type: JOBS_ERROR,
                 payload: err.response.statusText,
             });
             console.error('getJobsByIdArray error.');
         }
-  
       } catch (err) {
-        console.log("update jobs error");
-        console.log(err);
         dispatch({
           type: JOBS_ERROR,
           payload: err.response.data.msg
         });
       }
-      
     } catch (err) {
-      console.log("Update user error in addBuild");
-      console.log(err);
       dispatch({type: AUTH_ERROR});
     }
-
   } catch (err) {
-    console.log("builds error");
-    console.log(err.response);
     alert(err.response.data);
     dispatch({
       type: BUILDS_ERROR,
