@@ -172,23 +172,17 @@ export const deleteBuild = (id, user) => async (dispatch) => {
   setLoading();
   
   try {
-    console.log("deleteBuild action");
-    console.log("ID to delete:");
-    console.log(id);
     const deletedBuild = await axios.delete(`/api/builds/${id}`); //delete the build
-    console.log("DISPATCHING TO DELETE BUILD");
-    console.log(deletedBuild);
     dispatch({type: DELETE_BUILD, payload: id});
     
       try { //delete the build from each associated job, decrementing parts building for each
             //Steps: get jobs by ID array, filter out build from each, decrement parts building based on the build deleted for each
         let IDs = deletedBuild.data.associatedJobs.map((job) => job._id);
         let jobsToUpdate =  new Map(); //to hold jobs that need to be updated with new part quantities based on the deleted build. (Key = Job Number, Value = Job)
-        console.log(IDs);
+      
         for(const ID of IDs){
           let jobRes = await axios.get(`/api/jobs/${ID}`);
-          console.log("JobRes");
-          console.log(jobRes);
+
           //remove the deleted build's ID from each associated job
           jobRes.data.builds = jobRes.data.builds.filter((buildID) => buildID !== id);
           jobsToUpdate.set(jobRes.data.job_number, jobRes.data);
@@ -214,17 +208,8 @@ export const deleteBuild = (id, user) => async (dispatch) => {
 
         //!!!!NOTE!!! USE FOR...OF LOOPS INSTEAD OF FOREACH FOR ASYNCHRONOUS SEQUENTIAL OPERATIONS
         deletedBuild.data.partsBuilding.forEach((partBuilding) => { //for each part in the deleted build, decrement the parts building (and extra parts if necessary) for the associated job
-          console.log("Trying to get associated job for job number:");
-          console.log(partBuilding.jobNumber);
-          console.log("JobsToUpdate:");
-          console.log(jobsToUpdate);
-          console.log("Typeof partBuilding.jobNumber:");
-          console.log(typeof((parseInt(partBuilding.jobNumber))));
-          console.log("Does the jobsToUpdate map have the desired value?");
-          console.log(jobsToUpdate.has(parseInt(partBuilding.jobNumber)));
           let associatedJob = jobsToUpdate.get(parseInt(partBuilding.jobNumber)); //get the associated job reference from the job map
-          console.log("Associated Job:");
-          console.log(associatedJob);
+
           associatedJob.requestedParts.forEach((requestedPart) => {
             if(requestedPart.name === partBuilding.name){
               requestedPart.building -= partBuilding.quantity; //first decrement the amount building by the quantity specified in the deleted build
@@ -257,15 +242,13 @@ export const deleteBuild = (id, user) => async (dispatch) => {
             payload: Array.from(jobsToUpdate.values()),
           });
         } catch(err){
-          console.log("good luck debugging this");
+          console.error(err);
         }
       } catch (err) {
-        console.log(err);
-        //dispatch({type: JOBS_ERROR, payload: err.response.data.msg});
+        console.error(err);
       }
   } catch (err) {
-    console.log(err);
-    //dispatch({type: BUILDS_ERROR, payload: err.response.data.msg});
+    console.error(err);
   }
 }
 
@@ -297,12 +280,3 @@ export const setLoading = () => async (dispatch) => {
       type: SET_LOADING,
     });
 };
-
-
-
-// let action = {
-//   filter: { _id: { $in: IDs } },
-//   updateToApply: { $pull: { builds: deletedBuild.data._id } }
-// }
-// const updatedJobs = await axios.put(`/api/jobs/updateMany`, action, config);
-// dispatch({ type: REMOVE_DELETED_BUILD_FROM_JOBS, payload: deletedBuild.data._id });

@@ -1,19 +1,17 @@
-//
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator/check');
-// const config = require('config'); //commented out for heroku environment variables
 const auth = require('../middleware/auth');
 const Build = require('../models/Build');
 
-const isEmpty = (object) => { for(let i in object) { return false; } return true; } //used to check if filters are empty or not
+//used to check if filters are empty or not
+const isEmpty = (object) => { for(let i in object) { return false; } return true; } 
 
 //@route GET api/builds/multipleBuildsById
 //@desc Get a build
 //@access Public
-
 router.get(
   '/multipleBuildsById',
   auth,
@@ -21,11 +19,6 @@ router.get(
   async (req, res) => {
     try {
       const buildList = await Build.find().where('_id').in(req.query.buildIdArray).exec();
-      // console.log(req);
-      // console.log("req.query.buildIdArray");
-      // console.log(req.query.buildIdArray);
-      // console.log("multipleBuildsById jobs");
-      // console.log(buildList);
       res.json(buildList);
     } catch (err) {
       console.error(err.message);
@@ -39,14 +32,9 @@ router.get(
   async (req, res) => {
   try {
       // Filtering options: dateStarted, dateDelivered, projects (name:[string]), operators (name: [string])
-      
-      // console.log("routes builds get");
-
       const filter = {};
 
       const { build_number, status, startedFrom, startedTo, deliveredFrom, deliveredTo, project, operator } = req.query; // filters
-      // console.log(req.query);
-      // console.log("req.query.startedFrom: " + req.query.startedFrom);
       // Filter date build was started
       if(startedFrom && startedTo)
       {
@@ -57,7 +45,6 @@ router.get(
       }
       else if(startedFrom)
       {
-        // console.log("startedFrom: " + startedFrom);
         filter.dateStarted = {
           $gte: startedFrom
         }
@@ -68,7 +55,7 @@ router.get(
           $lte: startedTo
         }
       }
-      // NOTE: THIS SET OF IFs IS NOT CONNECTED, DEFAULT FILTER WON'T WORK AS EXPECTED
+
       //Filter date of delivery
       if(deliveredFrom && deliveredTo)
       {
@@ -108,38 +95,17 @@ router.get(
         filter.build_number = { $gte: build_number };
       }
 
-      // if(isEmpty(filter))
-      // {
-      //   console.log("filter is empty, do default stuff");
-      //   let dateStr = new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"});
-      //   dateStr = dateStr[0]
-
-      //   filter.$or = [
-      //     { dateStarted: { $gte: new Date().toISOString().split('T')[0] } }, 
-      //     { dateDelivered: { $gte: new Date().toISOString().split('T')[0] } } 
-      //   ];
-      // }
-
-      if(isEmpty(filter))
-      {
-        // console.log("filter is empty, do default stuff");
+      if (isEmpty(filter)) {
         let today = new Date().toLocaleString('en-US', { timeZone: 'America/Los_Angeles'}).split(',')[0]; //ex 12/28/2020, need to change to 2020-12-18
         today = today.split('/');
         today = today[2] + '-' + today[0] + '-' + today[1]; //2020-12-18
-        
         
         filter.$or = [
           { dateStarted: { $gte: today } }, 
           { dateDelivered: { $gte: today } } 
         ];
       }
-      console.log("Build Filter");
-      console.log(filter);
       const builds = await Build.find(filter);
-      //const build = await Build.findById(req.params.id);
-      // console.log(new Date().toISOString().split('T')[0]);
-      // console.log(new Date().toISOString().split('T')[0].toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
-      // console.log(new Date().toLocaleString("en-US", {timeZone: "America/Los_Angeles"}));
       res.json(builds);
   } catch (err) {
       console.error(err.message);
@@ -187,10 +153,7 @@ router.post(
     }
 
     try {
-      const newBuild = new Build({
-        ...req.body,
-      });
-
+      const newBuild = new Build({ ...req.body });
       const build = await newBuild.save();
       res.json(build);
     } catch (err) {
@@ -199,6 +162,7 @@ router.post(
     }
   }
 );
+
 //@route PUT api/builds
 //@desc Update a build. Frontend prefills fields with existing values. User may update certain values (not empty).
 //@access Public
@@ -305,6 +269,7 @@ router.put(
       res.status(500).send('Server Error');
     }
   });
+  
 //@route PUT api/builds
 //@desc Delete a build. Only operators associated with the build can delete the build.
 //@access Public
@@ -312,21 +277,10 @@ router.delete('/:id',
 auth,
 async (req, res) => {
   try {
-    console.log("delete route");
     let build = await Build.findById(req.params.id);
     if(!build) return res.status(404).json({msg: 'Build not found'});
-    console.log(req.user);
-    console.log(build.operators);
-    // let authorized = false;
-    // build.operators.forEach((operator) => {
-    //   if(operator === req.user)
-    //     authorized = true;
-    // });
-    // if(authorized === false)
-    //   return res.status(401).json({msg: 'Not authorized'});
     const deletedBuild = await Build.findByIdAndRemove(req.params.id);
     res.json(deletedBuild);
-
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server Error');
@@ -334,5 +288,3 @@ async (req, res) => {
 });
 
 module.exports = router;
-
-

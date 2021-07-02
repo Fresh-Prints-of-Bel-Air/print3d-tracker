@@ -54,11 +54,6 @@ router.post(
                   // when the user created the registration request
       });
 
-      // // generates salt for hashing function
-      // const salt = await bcrypt.genSalt(10);
-      // // password is saved only as a hash code
-      // user.password = await bcrypt.hash(password, salt);
-
       // saves user to the database
       await user.save();
 
@@ -84,13 +79,8 @@ router.post(
           html: `<b>Hello,<br>This is an automated message from Altaviz.  We've accepted your registration request. You may login using your provided email address and password at  ` + 
           `${process.env.altavizURL}<br><br>Best,<br><br>AltaViz</b>`, // html body
         });
-      
-        console.log("Message sent: %s", info.messageId);
-        // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-      
+          
         res.json({'msg': `Email sent to ${email}`});
-      
-
       } catch (err) {
         console.error(err.message);
       }
@@ -101,14 +91,12 @@ router.post(
   }
 );
 
-//TODO: UPDATEMANY
 router.put(
   '/updateMany',
   [
     auth,
   ],
   async (req, res) => {
-
     try{
       // The method collection.updateMany returns a document that contains:
 
@@ -119,17 +107,12 @@ router.put(
 
       const userRes = await User.updateMany(req.body.filter, req.body.updateToApply);
       res.json(userRes);
-    
     } catch (err) {
-      
       console.error(err.message);
       res.status(500).send('Server Error');
-    
     }
-    
   }
 );
-
 
 // @route   PUT api/users
 // @desc    Update a user
@@ -137,24 +120,15 @@ router.put(
 router.put(
   '/:id', 
   [ 
-    //auth,
-    //add checks?
+    auth
   ],
   async (req, res) => {
-    //const errors = validationResult(req);
-    // if (!errors.isEmpty) {
-    //   //handle errors
-    //   return res.status(400).json({ errors: errors.array() });
-    // }
-
     try {
       //check if build is in the database
       const user = await User.findById(req.params.id);
       if(!user) return res.status(404).json({msg: 'User not found'});
-      console.log("updating user with the object: ");
-      console.log(req.body);
       const {name, preferredView, email, password, jobQueue, requestedJobs, lastJobRequest, lastBuild, notifications, buildList} = req.body;
-      
+
       const userFields = {};
       if(name) userFields.name = name;
       if(preferredView) userFields.preferredView = preferredView;

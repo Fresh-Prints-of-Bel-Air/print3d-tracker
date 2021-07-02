@@ -12,26 +12,17 @@ router.get('/',
     async (req, res) => {
         try {
             // finds "all" of them if it has no filter (there should only be one), user must be in the list of admins
-
             const adminList = await AdminList.findById('60caf69fc9c9365c28be5786');
-            // console.log("Trying to get adminList");
-            // console.log(adminList);
-            // console.log(req.user);
-
 
             if(adminList.admins && adminList.admins.includes(req.user.id)){
                 try {
                     const adminInfo = await Admin.find({});
-                    // console.log(adminInfo);
                     res.json(adminInfo);
                 } catch (error) {
-                    // console.log(error.message);
                     res.status(500).send('server error or user is not an admin');
                 }
             }
-            
         } catch (error) {
-            // console.log(error.message);
             res.status(500).send('server error');
         } 
 })
@@ -45,10 +36,8 @@ router.put('/pull',
     async (req, res) => {
     try {
         const adminRes = await Admin.updateMany({}, { $pull: { registrationRequests: req.body } });
-        // console.log("past await in pull");
         res.json(adminRes);
     } catch (error) {
-        console.log(error.message);
         res.status(500).send('server error: admin put /pull error');
     }
 })
@@ -67,15 +56,13 @@ router.put('/register',
         if (!errors.isEmpty()) {
             return res.status(400).send(errors.array()[0].msg);
         };
-
+        
         userWithThisEmail = await User.findOne({ email: { $regex: `^${req.body.email}$`, $options: 'i' } });
 
         if (!userWithThisEmail){
             // check if registration request for this user already exists
             const adminInfo = await Admin.find({});
             let userRequestAlreadyExists = false;
-            console.log("ADMIN INFO");
-            console.log(adminInfo);
             adminInfo[0].registrationRequests.forEach((regReq) => {
             if (regReq.email === req.body.email){
                 userRequestAlreadyExists = true;
@@ -117,6 +104,7 @@ router.put('/register',
                     { new: true },
                 );
                 res.json({message: 'Request received.'});
+            
             } else {
                 return res.status(400).send('A registration request using that email already exists.');
             }

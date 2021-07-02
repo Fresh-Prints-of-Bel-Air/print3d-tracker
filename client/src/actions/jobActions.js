@@ -32,10 +32,7 @@ export const getJobsByIdArray = (jobIdArray, dispatchType) => async (dispatch) =
     setLoading();
     try {
         const res = await axios.get('/api/jobs/multipleJobsById', { params: { jobIdArray } });
-        console.log("JobIdArray in getJobsByIdArray action");
-        console.log(jobIdArray);
-        console.log("getJobByIdArray res");
-        console.log(res);
+        
         if (dispatchType === 'GET_USER_JOB_QUEUE'){
             dispatch({
                 type: GET_USER_JOB_QUEUE,
@@ -50,7 +47,6 @@ export const getJobsByIdArray = (jobIdArray, dispatchType) => async (dispatch) =
             console.log("forgot to add second parameter to getJobsByIdArray");
         }
     }  catch (err) {
-        console.log(err);
         dispatch({
             type: JOBS_ERROR,
             payload: err.response.statusText,
@@ -64,7 +60,7 @@ export const getJobs = (filter) => async (dispatch) => {
     setLoading();
     try {
         const res = await axios.get('/api/jobs', { params: filter });
-        console.log(res);
+    
         dispatch({
             type: GET_JOBS,
             payload: res.data
@@ -95,13 +91,10 @@ export const deleteJob = (id, userID) => async (dispatch) => { //also send notif
           'Content-Type' : 'application/json',
         }
     }
-    console.log("deleting id:");
-    console.log(id);
+    
     try{
         const res = await axios.delete(`/api/jobs/${id}`);
-        console.log("delete response: ");
-        console.log(res);
-        console.log("dispatching DELETE_JOB?");
+
         dispatch({
             type: DELETE_JOB,
             payload: id
@@ -201,9 +194,6 @@ export const addJob = (job, user) => async (dispatch) => { //can also update the
     let jobResponse;
     try{
         jobResponse = await axios.post('/api/jobs', job, config);
-        // console.log(jobResponse.data._id);
-        // console.log('user is: ');
-        // console.log(user);
         dispatch({
             type: ADD_JOB,
             payload: jobResponse.data,
@@ -215,7 +205,7 @@ export const addJob = (job, user) => async (dispatch) => { //can also update the
                 type: UPDATE_USER,
                 payload: res.data
             });
-            console.log(res.data);
+            
         } catch (err){
             dispatch({
                 type: AUTH_ERROR,
@@ -230,7 +220,6 @@ export const addJob = (job, user) => async (dispatch) => { //can also update the
             payload: err.response.statusText
         });
         console.error('Job add error.');
-        console.log(err.response);
         alert(err.response.data)
     }
     
