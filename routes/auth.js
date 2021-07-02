@@ -244,7 +244,8 @@ router.post(
         }
       );
     } catch (err) {
-      console.error(err.message);
+      console.err("api auth post");
+      console.error(err);
       res.status(500).send('Server Error');
     }
   }
