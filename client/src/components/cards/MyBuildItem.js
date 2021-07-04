@@ -81,7 +81,7 @@ const MyBuildItem = ({user: { user }, build, updateUser }) => {
                 {buildFilePath}\ {buildFileName}
               </div>
               <div className="col s3 center">
-                ETA: {estPrintTime} min
+                ETA: {estPrintTime} hours
               </div>
             </div>
 
