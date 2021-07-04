@@ -378,146 +378,151 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
           :
           <div>
             {/* create a select dropdown with all of the jobs that have yet to be completed */}
-              {( !userJobQueue || userJobQueue.length === 0 )? <div>Please accept jobs to start a build!</div> : userJobQueue.map((job, index) => (
-                <BuildQuantityForm job={job} key={index} cleanup={cleanup} handleQuantityChange={handleQuantityChange}/>)
-            )} 
-            <div className="row">
-            <div className='col s6'>
-              <div className="file-field input-field">
-                  <div className="btn blue" name="Select Files">
-                      <span>Select Build File</span>
-                      <input type="file" name="buildFileName"
-                          onChange={onChange}/>
+              {( !userJobQueue || userJobQueue.length === 0 ) ? 
+              
+                <div style={{ textAlign: 'center' }}>Please accept jobs to start a build!</div> 
+              :
+                <div>
+                  {userJobQueue.map((job, index) => (<BuildQuantityForm job={job} key={index} cleanup={cleanup} handleQuantityChange={handleQuantityChange}/>))}
+                  <div className="row">
+                    <div className='col s6'>
+                      <div className="file-field input-field">
+                          <div className="btn blue" name="Select Files">
+                              <span>Select Build File</span>
+                              <input type="file" name="buildFileName"
+                                  onChange={onChange}/>
+                          </div>
+                          <div className="file-path-wrapper">
+                              <input 
+                                  className="file-path validate"
+                                  type="text"
+                                  placeholder="Upload a build file"
+                                  value={buildFileName} 
+                                  readOnly
+                              />
+                          </div>
+                      </div>
+                      </div>
+                      <div className="col s6">
+                        <div className="input-field">
+                          <input 
+                          type="text" 
+                          name="buildFilePath" 
+                          value={buildForm.buildFilePath} 
+                          onChange={onChange}
+                          />
+                          <label htmlFor="buildFilePath" className="active">
+                            Build File Path:
+                          </label>
+                        </div>
+                      </div>
                   </div>
-                  <div className="file-path-wrapper">
-                      <input 
-                          className="file-path validate"
-                          type="text"
-                          placeholder="Upload a build file"
-                          value={buildFileName} 
-                          readOnly
-                      />
+                  <div className="row">
+                    <div className="col s6">
+                      <div className="input-field">
+                        <input 
+                          type="text" 
+                          name="material"
+                          value={material}
+                          onChange={onChange}
+                        />
+                        <label htmlFor="material" className="active">
+                            Material:
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col s6">
+                      <div className="input-field">
+                        <input 
+                          type="text" 
+                          name="resolution"
+                          value={resolution}
+                          onChange={onChange}
+                        />
+                      <label htmlFor="resolution" className="active">
+                          Resolution:
+                      </label>
+                      </div>
+                    </div>
                   </div>
-              </div>
-              </div>
-              <div className="col s6">
-                <div className="input-field">
-                  <input 
-                  type="text" 
-                  name="buildFilePath" 
-                  value={buildForm.buildFilePath} 
-                  onChange={onChange}
-                  />
-                  <label htmlFor="buildFilePath" className="active">
-                    Build File Path:
-                  </label>
+                  <div className="row">
+                    <div className="col s6">
+                      <div className="input-field">
+                        <input 
+                        type="date" 
+                        name="dateStarted"
+                        value={dateStarted}
+                        onChange={onChange} 
+                        />
+                        <label htmlFor="dateStarted" className="active">
+                          Date Started:
+                        </label>
+                      </div>
+                    </div>
+                    <div className="col s6">
+                      <div className="input-field">
+                        <input 
+                        type="text" 
+                        name="estPrintTime" 
+                        value={estPrintTime}
+                        onChange={onChange}
+                        />
+                        <label htmlFor="estPrintTime" className="active">
+                          Estimated Print Time(Hours):
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="row">
+                    Input up to two additional operators: 
+                  </div>
+                  <div className="row">
+                    <div className="col s6">
+                      <div className="input-field">
+                        <input 
+                        type="text" 
+                        name="addOperator1" 
+                        value={buildForm.operators[1]} 
+                        onChange={onChange}
+                        />
+                      <label htmlFor="addOperator1" className="active">
+                          Additional Operator 1:
+                      </label>
+                      </div>
+                    </div>
+                    <div className="col s6">
+                      <div className="input-field">
+                        <input 
+                        type="text" 
+                        name="addOperator2" 
+                        value={buildForm.operators[2]} 
+                        onChange={onChange}
+                        />
+                      <label htmlFor="addOperator2" className="active">
+                          Additional Operator 2:
+                      </label>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col s6">
-                <div className="input-field">
-                  <input 
-                    type="text" 
-                    name="material"
-                    value={material}
-                    onChange={onChange}
-                  />
-                  <label htmlFor="material" className="active">
-                      Material:
-                  </label>
-                </div>
-              </div>
-              <div className="col s6">
-                <div className="input-field">
-                  <input 
-                    type="text" 
-                    name="resolution"
-                    value={resolution}
-                    onChange={onChange}
-                  />
-                <label htmlFor="resolution" className="active">
-                    Resolution:
-                </label>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col s6">
-                <div className="input-field">
-                  <input 
-                  type="date" 
-                  name="dateStarted"
-                  value={dateStarted}
-                  onChange={onChange} 
-                  />
-                  <label htmlFor="dateStarted" className="active">
-                    Date Started:
-                  </label>
-                </div>
-              </div>
-              <div className="col s6">
-                <div className="input-field">
-                  <input 
-                  type="text" 
-                  name="estPrintTime" 
-                  value={estPrintTime}
-                  onChange={onChange}
-                  />
-                  <label htmlFor="estPrintTime" className="active">
-                    Estimated Print Time(Hours):
-                  </label>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              Input up to two additional operators: 
-            </div>
-            <div className="row">
-              <div className="col s6">
-                <div className="input-field">
-                  <input 
-                  type="text" 
-                  name="addOperator1" 
-                  value={buildForm.operators[1]} 
-                  onChange={onChange}
-                  />
-                <label htmlFor="addOperator1" className="active">
-                    Additional Operator 1:
-                </label>
-                </div>
-              </div>
-              <div className="col s6">
-                <div className="input-field">
-                  <input 
-                  type="text" 
-                  name="addOperator2" 
-                  value={buildForm.operators[2]} 
-                  onChange={onChange}
-                  />
-                <label htmlFor="addOperator2" className="active">
-                    Additional Operator 2:
-                </label>
-                </div>
-              </div>
-            </div>
+              } 
           </div>
         }
       </div>
-    {buildState.upToDate === true &&
-      <div className="modal-footer">
-          <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={clearForm}>Clear<i className="material-icons right">clear</i>
-          </button>
-          {user.lastBuild && 
-            <button style={{margin: '10px'}} className="btn blue" 
-                    onClick={() => {  setBuildForm({jobMap: buildForm.jobMap, jobPartQuantityMap: buildForm.jobPartQuantityMap, ...user.lastBuild}) }}>
-                Refill<i className="material-icons right">format_color_fill</i>
+      {buildState.upToDate === true && userJobQueue.length !== 0 &&
+        <div className="modal-footer">
+            <button style={{margin: '10px'}} className="btn blue" type="reset" name="clear" onClick={clearForm}>Clear<i className="material-icons right">clear</i>
             </button>
-          }
-          <button type='submit' style={{margin: '10px'}} className="btn blue modal-close" onClick={onSubmit}>Submit<i className="material-icons right">send</i>
-          </button>
-      </div>
-    }
+            {user.lastBuild && 
+              <button style={{margin: '10px'}} className="btn blue" 
+                      onClick={() => {  setBuildForm({jobMap: buildForm.jobMap, jobPartQuantityMap: buildForm.jobPartQuantityMap, ...user.lastBuild}) }}>
+                  Refill<i className="material-icons right">format_color_fill</i>
+              </button>
+            }
+            <button type='submit' style={{margin: '10px'}} className="btn blue modal-close" onClick={onSubmit}>Submit<i className="material-icons right">send</i>
+            </button>
+        </div>
+      }
     </div>  
   )
 }

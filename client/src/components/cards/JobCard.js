@@ -19,7 +19,7 @@ const JobCard = ({user: { user }, job, updateUser, acceptJob }) => {
       setAcceptedState({...acceptedState, accepted: true});
       updateUser({...user, jobQueue: [...user.jobQueue, job._id]});
       //updatejob, adding the user to the job's operators list
-      acceptJob({...job, acceptingOperators: [...job.acceptingOperators, user._id]});
+      acceptJob({...job, acceptingOperators: [...job.acceptingOperators, user._id], status: 'Accepted'});
     }
 
     const colors = {

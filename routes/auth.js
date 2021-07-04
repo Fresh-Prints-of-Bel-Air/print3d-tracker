@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator/check');
-const config = require('config');
+//const config = require('config'); //commented out for heroku environment variables
 const auth = require('../middleware/auth');
 const User = require('../models/User');
 const PasswordReset = require('../models/PasswordReset');
@@ -17,25 +17,14 @@ const { v4: uuidv4 } = require('uuid');
 router.get('/', auth, async (req, res) => {
   try {
     // finds user by id and doesn't return the password
-    // console.log('user id is: ');
-    // console.log(req.user.id);
     const user = await User.findById(req.user.id).select('-password');
     
-    // user.notifications.filter((notification) => { //filter out read notifications that are more than 3 days old
-    //   notification.isRead == false && notification.dateCreated
-    // })
     // returns a user JSON object
     res.json(user);
   } catch (err) {
-    console.error(err.message);
     res.status(500).send('Server Error');
   }
 });
-
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//!!!!!NOTE: PLEASE ADD CHECKS FOR ALL PASSWORD RESET-RELATED ROUTES!!!!!
-//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
 
 // @route POST /api/auth/forgotPassword
 // @desc Get a password reset email with code
@@ -62,19 +51,14 @@ router.post(
     
     const { email } = req.body;
      
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email: { $regex: `^${email}$`, $options: 'i' } });
 
     if(user){
       let passwordResetRequestCode = uuidv4();
-      //Hash the password reset request code for storage
-      //const salt = await bcrypt.genSalt(10);
-      //let hashedResetRequestCode = await bcrypt.hash(passwordResetRequestCode, salt);
-      
-
       try { //post password reset document
         
         const passwordResetObj = {
-          email,
+          email: user.email,
           passwordResetRequestCode,
         }
         // only want one password reset doc, if it doesn't exist it creates a new one
@@ -87,28 +71,22 @@ router.post(
             port: 587,
             secure: false, // true for 465, false for other ports
             auth: {
-              user: 'emailhere@gmail.com', 
-              pass: 'password', 
+              user: `${process.env.altavizEmail}`, 
+              pass: `${process.env.altavizPassword}`, 
             },
           });
         
           // send mail with defined transport object
           let info = await transporter.sendMail({
-            from: '"AltavizTest" <yourUserNameHere@email.com>', // sender address
+            from: `"Altaviz" <${process.env.altavizEmail}>`, // sender address
             to: `${email}`, // list of receivers
-            subject: "Password Reset Request", // Subject line
+            subject: "Your Registration Request", // Subject line
             text: `Hello,\nThis is an automated message from Altaviz. We've received a password reset request for the account associated with your email address. ` + 
-            `If this was you, please use the password reset code provided at the link below:\n\n http://localhost:3000/resetPassword \n\nYour password reset code: ${passwordResetRequestCode}\n\n Best,\nAltaViz`, // plain text body
+            `If this was you, please use the password reset code provided at the link below:\n\n ${process.env.altavizURL}/resetPassword \n\nYour password reset code: ${passwordResetRequestCode}\n\n Best,\nAltaViz`, // plain text body
             html: `<b>Hello,<br>This is an automated message from Altaviz. We've received a password reset request for the account associated with your email address. ` + 
-            `If this was you, please use the password reset code provided at the link below:<br><br> http://localhost:3000/resetPassword <br><br>Your password reset code: <br>${passwordResetRequestCode}<br><br> Best,<br><br>AltaViz</b>`, // html body
-          });
-        
-          console.log("Message sent: %s", info.messageId);
-          // Message sent: <b658f8ca-6296-ccf4-8306-87d57a0b4321@example.com>
-        
+            `If this was you, please use the password reset code provided at the link below:<br><br> ${process.env.altavizURL}/resetPassword <br><br>Your password reset code: <br>${passwordResetRequestCode}<br><br> Best,<br><br>AltaViz</b>`, // html body
+          });      
           res.json({'msg': `Email sent to ${email}`});
-        
-
         } catch (err) {
           console.error(err.message);
         }
@@ -139,11 +117,6 @@ router.post(
       // 400 bad request
       return res.status(400).send(errors.array()[0].msg);
     }
-
-  // const salt = await bcrypt.genSalt(10);
-  // const hashedresetPasswordCode = await bcrypt.hash(req.body.resetPasswordCode, salt);
-  // console.log("Hashed Code:");
-  // console.log(hashedresetPasswordCode);
   
   try {
     const passwordResetDocument = await PasswordReset.findOne({passwordResetRequestCode: { $eq: req.body.resetPasswordCode}});
@@ -186,12 +159,9 @@ router.post(
     }
 
     const { newPassword, resetPasswordCode } = req.body;
-    console.log("Password Change request object");
-    console.log(req);
+
     try { //check if the code is valid
       const salt = await bcrypt.genSalt(10);
-      // const hashedResetPasswordCode = await bcrypt.hash(resetPasswordCode, salt);
-      // console.log(hashedResetPasswordCode);
       const passwordResetDocument = await PasswordReset.findOneAndDelete({passwordResetRequestCode: { $eq: resetPasswordCode}});
       if(!passwordResetDocument){
         return res.status(401).json({ msg: 'Matching user not found.' });
@@ -216,9 +186,7 @@ router.post(
       console.error(err);
       return res.status(401).json({ msg: 'Password reset code invalid.' });
     }
-
 });
-
 
 //@route  POST api/auth
 //@desc   Auth user & get token
@@ -232,7 +200,6 @@ router.post(
   ],
 
   async (req, res) => {
-    console.log('auth: post request');
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
@@ -243,7 +210,7 @@ router.post(
 
     try {
       // checks if user with that email exists
-      let user = await User.findOne({ email });
+      let user = await User.findOne({ email: { $regex: `^${email}$`, $options: 'i' } }); //let user = await User.findOne({ email }), instead this is case insensitive
 
       if (!user) {
         return res.status(401).json({ msg: 'User not found' });
@@ -263,12 +230,12 @@ router.post(
         },
       };
 
-      //be sure to lower the expiresIn value for production
+      
       jwt.sign(
         payload,
-        config.get('jwtSecret'),
+        process.env.jwtSecret,
         {
-          expiresIn: 36000, // 10 hours
+          expiresIn: '12h', // 12 hours
         },
         (err, token) => {
           if (err) throw err;
