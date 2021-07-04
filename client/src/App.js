@@ -23,7 +23,6 @@ function App() {
   useEffect(() => {
     M.AutoInit();
     
-    //console.log(store.getState());
   }, []);
   return (
     <Provider store={store}>

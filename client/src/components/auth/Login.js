@@ -30,7 +30,6 @@ export const Login = ({ user, login, ...rest }) => {
   const onSubmit = (e) => {
     e.preventDefault();
     if (email !== '' && password !== '') {
-      console.log('submit called:' + email + ' ' + password);
       login({
         email,
         password,
