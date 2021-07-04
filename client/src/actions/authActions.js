@@ -41,7 +41,7 @@ export const loadUser = () => async (dispatch) => {
       'Content-Type' : 'application/json'
     }
   }
-  
+  setLoading();
   try {
     const res = await axios.get('/api/auth'); // todo: make sure default route paths are set up properly
     dispatch({ type: USER_LOADED, payload: res.data });
