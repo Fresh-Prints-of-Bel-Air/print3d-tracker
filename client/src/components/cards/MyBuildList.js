@@ -8,22 +8,9 @@ import MyBuildItem from './MyBuildItem';
 
 export const MyBuildList = ({ build: { userBuildList }, user: { user }, getBuildsByIdArray }) => {
     useEffect(() => {
-        // console.log("user is: ");
-        // console.log(user);
-        // console.log("User's buildList:");
-        // console.log(userBuildList);
-        // // getBuilds({ operators: [user.name] });
-        getBuildsByIdArray(user.buildList);
-        // console.log(userBuildList);
-        //getJobsByIdArray(user.jobQueue);
+       getBuildsByIdArray(user.buildList);
     }, [user]);
 
-    useEffect(() => {
-        console.log('userBuildList change');
-        console.log(userBuildList);
-    }, [userBuildList]);
-
-   
     return (
         userBuildList && userBuildList.map((build) => <MyBuildItem build={build} key={build._id} />)
     )

@@ -12,15 +12,11 @@ const AdminModal = ({ user: { user, isAuthenticated }, admin: { registrationRequ
     }, [user]);
 
     const acceptRegistrationOnClick = (regReq) => {
-        console.log("Registration accepted clicked");
-        console.log("e.target");
-        console.log(regReq);
         register(regReq);
         pullRegistrationRequest(regReq);
     }
 
     const denyRegistrationOnClick = (regReq) => {
-        console.log("Registration denied clicked");
         pullRegistrationRequest(regReq);
     }
 

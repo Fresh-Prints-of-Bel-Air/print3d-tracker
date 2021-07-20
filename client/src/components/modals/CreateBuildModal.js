@@ -268,16 +268,18 @@ const CreateBuildModal = ({user: {user}, job: {userJobQueue}, addBuild, getJobsB
         // console.log(compDate.getTime());
         // console.log(dbDate.getTime());
         if(dbDate.getTime() !== compDate.getTime()){
-          alert("One or more jobs is not up to date with our records. Please try again.");
           upToDate = false;
-          setBuildState({ 
-            ...buildState,
-            upToDate: false,
-          });
         }
       }
     });
-    if(upToDate === true && buildState.upToDate === false)
+    if(upToDate === false){
+      alert("One or more jobs is not up to date with our records. Please try again.");
+      setBuildState({ 
+        ...buildState,
+        upToDate: false,
+      });
+    }
+    else if(upToDate === true && buildState.upToDate === false)
       setBuildState({
         ...buildState,
         upToDate: true,

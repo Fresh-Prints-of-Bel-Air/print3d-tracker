@@ -11,32 +11,10 @@ import JobQueueItem from './JobQueueItem';
 // in Engineer view, shows all jobs except the user's requested jobs
 
 export const JobList = ({ job: { jobs }, user: { user }, getJobs }) => {
-    
-    //getJobs({});
 
-    // const checkIfJobAccepted = (jobID) => {
-    //   let isAccepted = false;
-    //   user.jobQueue.forEach((jobQueueItemID) => { 
-    //     // console.log("jobQueueItemID");
-    //     // console.log(jobQueueItemID);
-    //     // console.log("jobID");
-    //     // console.log(jobID);
-    //     if (jobQueueItemID == jobID) {
-    //       // console.log("true");
-    //       // console.log(`end check for ${jobID}`);
-    //       isAccepted = true;
-    //     } else {
-    //       //console.log("false");
-    //     }
-    //   });
-    //   //console.log(`end check for ${jobID} (FALSE)`);
-    //   return isAccepted;
-    // }
 
     useEffect(() => {
         getJobs({ filterType: "jobList" }); // meaning we want the jobs with the Accepted and Requested status
-        console.log("Jobqueue useEffect called");
-        //jobs.forEach((job) => console.log(job));
     }, [user]);
     return ( // in Operator view, shows all jobs that haven't been accepted by the user
                 //... those job cards have accept job buttons

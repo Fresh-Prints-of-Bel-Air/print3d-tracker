@@ -21,12 +21,6 @@ const BuildQuantityForm = ({job, cleanup, handleQuantityChange}) => {
     currentIndex: ''
   });
 
-  useEffect(() => {
-    // console.log("job requestedParts inside QuantityForm");
-    // console.log(job.requestedParts);
-    // console.log("SelectValues values inside QuantityForm");
-    // console.log(selectValues.values);
-  })
 
   /*
     When the job prop is changed, i.e when the entire buildQuantityModal form is successfully submitted, we need this form to be treated as a new form - reset the form fields via 
@@ -34,9 +28,7 @@ const BuildQuantityForm = ({job, cleanup, handleQuantityChange}) => {
     to the parent component - those should only happen when setSelectValues is triggered by form field changes by the user in onChange.
   */
   useEffect(() => {
-    console.log("PROBLEM AREA");
     if(!firstRender){
-      console.log("JOB STATE CHANGED OR FIRST RENDER FOR QUANTITY FORM");
       setPartQuantities({
         quantities: job.requestedParts.map((part) => 0),
         partName: "",
@@ -60,7 +52,6 @@ const BuildQuantityForm = ({job, cleanup, handleQuantityChange}) => {
   */
   useEffect(() => {
     if(firstRender){ 
-      console.log("first Render of buildquantityform for job#" + job.job_number);
       setFirstRender(false);
     }
   },[firstRender]);
@@ -79,16 +70,11 @@ const BuildQuantityForm = ({job, cleanup, handleQuantityChange}) => {
   */
   useEffect(() => {
     if(!firstRender){
-      console.log("selectValues useEffect called. Values are:");
-      console.log(selectValues);
-      console.log("PartQuantities is: ");
-      console.log(partQuantities);
+   
       
 
       const {option, partName} = selectValues.values[selectValues.currentIndex];
       let quantityChange = option.value - partQuantities.quantities[selectValues.currentIndex]; // new value minus old
-      console.log('...and the quantityChange being requested is:');
-      console.log(quantityChange);
       let quantityArr = [...partQuantities.quantities];
       quantityArr[selectValues.currentIndex] = option.value;
       setPartQuantities({ quantities: quantityArr, partName: partName, quantityChange: quantityChange });

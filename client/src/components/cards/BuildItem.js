@@ -4,7 +4,6 @@ import M from 'materialize-css';
 export const BuildItem = ( { build } ) => {
     useEffect(() => {
         M.AutoInit();
-        //console.log("useEffect log " + collapseState.activeClass);
     });
 
     const { build_number, buildFileName, dateStarted, status, projects, associatedJobs, material, resolution, estPrintTime, operators, buildFilePath, dateDelivered, partsBuilding } = build;
@@ -19,8 +18,6 @@ export const BuildItem = ( { build } ) => {
     projectsString = projectsString.substring(0, projectsString.length-2);
 
     const collapsibleClicked = (e) => {
-        console.log("collapsible clicked");
-        console.log("activeClass was " + collapseState.activeClass);
         if (collapseState.activeClass === ""){
             setCollapseState({ activeClass: "active" });
             M.Dropdown.init([e.target]);

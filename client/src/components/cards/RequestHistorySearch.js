@@ -22,7 +22,6 @@ const RequestHistorySearch = ({ getJobs, formDimensions }) => {
 
   useEffect(() => {
     M.AutoInit();
-    console.log("UseEffect called, state is: ");
     //pull builds from API with current filter values
   },[jobStatus]);
 

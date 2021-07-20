@@ -10,7 +10,7 @@ const BuildList = ({build: {builds}, formDimensions}) => {
   // buttonWidth: '7vw',
   // listSize: '73.2vh'
 
-  console.log("build IDs in the list:");
+  
   builds.forEach((build) => console.log(build._id));
   return (
     <div style={{backgroundImage: builds.length !== 0 && "url(/images/mountain_low_contrast.jpg)", maxHeight: formDimensions.listSize, overflow: 'auto'}}>

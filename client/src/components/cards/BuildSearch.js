@@ -19,34 +19,21 @@ const BuildSearch= ({build: {builds}, getBuilds, formDimensions}) => {
 
   useEffect(() => {
     M.AutoInit();
-    console.log("UseEffect called, state is: ");
-    console.log("Screen Dimensions: ");
+   
     
     //pull builds from API with current filter values
   },[status]);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    //console.log("onSubmit called");
-    //console.log(userFormData);
+    
     getBuilds(userFormData);
   }
   const onChange = (e) => {
-
-    // if(e.target.name === 'status'){
-    //   setUserFormData({
-    //     ...userFormData,
-    //     status: { $eq: e.target.value }
-    //   });
-    // }
-    // else {
     setUserFormData({
         ...userFormData,
         [e.target.name]: e.target.value,
       });
-    // }
-  
-    console.log(e.target.value);
   };
 
   // copies the contents of the builds state into a table on the clipboard

@@ -7,10 +7,6 @@ import JobQueueItem from './JobQueueItem';
 
 export const JobQueue = ({ job: { userJobQueue }, user: { user }, getJobsByIdArray }) => {
     useEffect(() => {
-        console.log("user is: ");
-        console.log(user);
-        console.log("User's requested-job IDs:");
-        console.log(user.jobQueue);
         getJobsByIdArray(user.jobQueue, 'GET_USER_JOB_QUEUE'); // put into the CreateBuildModal useEffect
     }, [user]);
 

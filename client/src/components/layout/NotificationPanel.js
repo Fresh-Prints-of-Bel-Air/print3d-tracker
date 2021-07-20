@@ -14,19 +14,12 @@ const NotificationPanel = ({user: { user }, updateUser, setNotificationStatus}) 
   }, [user]);
 
   const markRead = (e) => { //mark a notification as read, updating the user
-      
-      console.log("Marked as read");
-      console.log(user.notifications.map(
-        (notification, index) => (index == e.target.id ? {...notification, isRead: true} : notification)
-      ));
-      
       updateUser({
         ...user,
         notifications: user.notifications.map(
           (notification, index) => (index == e.target.id ? {...notification, isRead: true} : notification)
         )
       });  
-    
   }
 
   const handleClickOutside = (e) => {

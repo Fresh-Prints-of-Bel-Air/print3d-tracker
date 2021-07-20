@@ -7,7 +7,6 @@ export const Login = ({ user, login, loadUser, ...rest }) => {
   const { isAuthenticated } = user;
   useEffect(() => {
     if (isAuthenticated) {
-      console.log("?????");
       rest.history.push('/');
     }
     // if(error === 'Invalid Credentials') {

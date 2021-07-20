@@ -21,20 +21,10 @@ export const Navbar = ({ user: {user, isAuthenticated, isAdmin}, admin: { regist
     M.AutoInit();
   }, [user]);
   
-  useEffect(() => {
-    if(registrationRequests){
-      console.log("ADMIN USEEFFECT");
-      console.log("REGISTRATION REQUESTS");
-      console.log(registrationRequests);
-    }
-  }, [registrationRequests]);
+ 
   
   useEffect(() => {
     M.AutoInit();
-    console.log(window.screen.height);
-    console.log(window.devicePixelRatio);
-    console.log("navbar token");
-    console.log(localStorage.getItem("token"));
     if(user){
       let i;
       setNotificationStatus({...notificationStatus, unread: false});
@@ -60,8 +50,6 @@ export const Navbar = ({ user: {user, isAuthenticated, isAdmin}, admin: { regist
 
   //${ (admin && admin.registrationRequests.length > 0) ? "pulse" : ""}`}
   const showNotifications = () => {
-    console.log("Show notifications button");
-    console.log(user.notifications);
     setNotificationStatus({
       ...notificationStatus,
       showNotifications: true,

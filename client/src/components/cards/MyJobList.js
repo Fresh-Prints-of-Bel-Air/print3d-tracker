@@ -7,33 +7,10 @@ import MyJobListItem from './MyJobListItem';
 import M from 'materialize-css/dist/js/materialize.min.js';
 
 export const MyJobList = ({ job: { userRequestedJobs }, user: { user }, getJobsByIdArray }) => {
-    // useEffect(() => {
-    //     M.AutoInit();
-    //     console.log("user is: ");
-    //     console.log(user);
-    //     console.log("User's requested-job IDs:");
-    //     console.log(user.requestedJobs);
-    //     // getJobsByIdArray(user.requestedJobs);
-    //     //getJobs({});
-    //     console.log("jobs contains: ");
-    //     console.log(jobs);
-    // }, [jobs]);
-
     useEffect(() => {
         M.AutoInit();
         getJobsByIdArray(user.requestedJobs, 'GET_USER_REQUESTED_JOBS');
     }, [user]);
-
-    useEffect(() => {
-        console.log('userRequestedJobs change');
-        console.log(userRequestedJobs);
-    }, [userRequestedJobs]);
-
-    // const [jobIdForModal, setJobIdForModal] = useState(0);
-
-    // const handleCardButtonClick = (cardJobId) => {
-    //     setJobIdForModal(cardJobId);
-    // }
 
     return (
         <div>

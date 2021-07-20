@@ -28,7 +28,6 @@ export const Register = ({ user, register, requestRegistration, ...rest }) => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log('onSubmit called');
     if (
       name !== '' &&
       email !== '' &&
@@ -36,7 +35,7 @@ export const Register = ({ user, register, requestRegistration, ...rest }) => {
       password2 !== '' &&
       password === password2
     ) {
-      console.log('form data valid');
+      
       // register({ name, email, password });
       requestRegistration({ name, email, password });
     } else {
