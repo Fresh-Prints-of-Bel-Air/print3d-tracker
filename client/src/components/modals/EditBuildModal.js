@@ -22,7 +22,7 @@ const EditBuildModal = ({ user: { user }, build, updateBuild, updateUser }) => {
         { value: 'Build File Ready', label: 'Build File Ready' },
         { value: 'Build Started', label: 'Build Started' },
         { value: 'Build Complete', label: 'Build Complete' },
-        { value: 'Build Post-Processed', label: 'Build Post-Processed' },
+        // { value: 'Build Post-Processed', label: 'Build Post-Processed' },
         { value: 'Build Delivered', label: 'Build Delivered' },
     ]   
 
