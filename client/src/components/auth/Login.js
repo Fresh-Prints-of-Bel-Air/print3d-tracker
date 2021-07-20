@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { login } from '../../actions/authActions';
+import { login, loadUser } from '../../actions/authActions';
 
-export const Login = ({ user, login, ...rest }) => {
+export const Login = ({ user, login, loadUser, ...rest }) => {
   const { isAuthenticated } = user;
   useEffect(() => {
     if (isAuthenticated) {
+      console.log("?????");
       rest.history.push('/');
     }
     // if(error === 'Invalid Credentials') {
@@ -14,6 +15,7 @@ export const Login = ({ user, login, ...rest }) => {
     //   clearErrors();
     // }
   }, [isAuthenticated, rest.history]);
+
   const [userFormData, setUserFormData] = useState({
     email: '',
     password: '',
@@ -107,4 +109,4 @@ const mapStateToProps = (state) => ({
   login: state.login
 });
 
-export default connect(mapStateToProps, { login })(Login);
+export default connect(mapStateToProps, { login, loadUser })(Login);

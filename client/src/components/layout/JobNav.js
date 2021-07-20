@@ -48,14 +48,14 @@ const JobNav = ({ user: {user, loading}, job, updateUser, getUser }) => { // tod
               <li style={{marginRight: '1vw', fontWeight: user.preferredView === 'Engineer' && 'bold'}}>Engineer View</li>
               <li style={{marginTop: '0.4vh'}}>
                 {user === null || loading || job.loading ?
-                    <div class="preloader-wrapper small active">
-                      <div class="spinner-layer spinner-green-only">
-                        <div class="circle-clipper left">
-                          <div class="circle"></div>
-                        </div><div class="gap-patch">
-                          <div class="circle"></div>
-                        </div><div class="circle-clipper right">
-                          <div class="circle"></div>
+                    <div className="preloader-wrapper small active">
+                      <div className="spinner-layer spinner-green-only">
+                        <div className="circle-clipper left">
+                          <div className="circle"></div>
+                        </div><div className="gap-patch">
+                          <div className="circle"></div>
+                        </div><div className="circle-clipper right">
+                          <div className="circle"></div>
                         </div>
                       </div>
                     </div>
